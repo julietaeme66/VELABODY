@@ -18,12 +18,14 @@ Lo que muestran los [ejemplos aprobados](../04_ejemplos/README.md) (Videos 1 a 4
 
 - **Siempre en MAYÚSCULAS**: títulos, pastillas y nombres de producto, sin excepción. Los subtítulos no: esos van como se habla.
 - **Siempre con margen justificado**, como en los ejemplos: todas las líneas tienen el mismo ancho, y la más larga toca los dos bordes de la guía. La línea corta se agranda (Video 2: "ANÁLISIS / FACIAL").
+- **Siempre dos palabras, en dos líneas** (paquetito). Nunca una palabra sola ("RECOMENDACIÓN" → "RECOMENDACIÓN / CONCRETA", tomando la palabra que sigue en lo que dice) y nunca dos palabras en una sola línea ("ANALIZADOR FACIAL" → "ANALIZADOR / FACIAL", "PROTECTOR / SOLAR", "REPORTE / POR QR"). La palabra más corta se agranda hasta el mismo ancho. *(pedido del 30/10, revisión del ADS14)*
+- **El título nunca toca la cabeza de la presentadora.** Si la toca, se sube el bloque (sin salir de la zona segura); si aun así no entra, se achica entero. *(pedido del 30/10)*
 - **Cada gráfico entra con un click** (`Mouse Click.mp3`): títulos, pastillas, cada línea y cada vez que aparece, también si se reutiliza.
 - **Fondo cargado** (cartelería, logos o texto detrás que dificultan la lectura). Se usa una de estas dos opciones:
   1. Una **sombra paralela leve** en el gráfico. Para empezar: opacidad ~40 %, distancia 4–6 px y suavidad 15–20, en negro o en violeta oscuro. Tiene que notarse que se lee mejor, no que tiene sombra.
   2. **Desenfocar un poco el fondo solo en la zona donde va el gráfico**, de forma orgánica: *Desenfoque gaussiano* (~15–25) con una máscara de calado grande, para que no se vea el borde del recorte.
 
-  Los valores son un punto de partida y se ajustan a ojo hasta que se lea.
+  Los valores son un punto de partida y se ajustan a ojo hasta que se lea. Sobre el cartel "velabody" de la pared se prefiere el **desenfoque** detrás de las palabras. *(pedido del 30/10)*
 
 ## Título "paquetito"
 

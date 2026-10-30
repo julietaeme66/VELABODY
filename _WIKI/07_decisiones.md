@@ -2,6 +2,14 @@
 
 Lo más nuevo va arriba. Formato: **fecha · decisión** · por qué · fuente.
 
+- **30/10/2026** · Criterios de la revisión del ADS14 armado en Remotion (H1, H2 y H3):
+  - **gráficos**: siempre dos palabras en dos líneas justificadas (nunca una sola ni dos en una línea); nunca tocan la cabeza; desenfoque detrás cuando caen sobre el cartel "velabody"; la pastilla sale por detrás de la cabeza (sándwich);
+  - **ritmo**: sin silencios muertos; la presentadora a cámara 3 s o más o nada (si no, sigue el B-roll con la voz en off); nunca volver a cámara un segundo entre dos B-roll; B-roll en planos cortos; zooms y punch-ins como en el Video 1 FINAL; cola final de 1 s;
+  - **subtítulos**: 2 o 3 palabras como máximo;
+  - **Pan Left**: siempre la misma, medida en el Video 1 FINAL.
+
+  Para todos los gráficos manda la [guía de gráficos](_guia/Guia_graficos_Velabody.pdf) ("la biblia"). En el builder, el ritmo se activa por plan (`"corte": {"modo": "dinamico"}` y `"ritmo"`); sin esas claves sigue igual que antes · pedido en la revisión del piloto.
+
 - **30/10/2026** · **Piloto de compositor sin Premiere (Remotion)**, en la rama `piloto-remotion`: arma ADS14 Hook 2 + bloque 1 desde el mismo `armado.json`, con los gráficos medidos sobre el Video 1 FINAL. **El flujo oficial sigue siendo Premiere** y ninguna regla de estilo cambia. Hallazgo para el flujo actual: `Mouse Click.mp3` arranca con 0,26 s de silencio, así que el click del builder suena ~8 cuadros tarde. Ver `_COMPOSITOR/LEEME.md` · pedido del equipo.
 - **30/10/2026** · El proyecto se sube a GitHub (repo privado `julietaeme66/VELABODY`) para trabajar de a varios. Va solo lo liviano: la wiki, las herramientas, y el guion y el plan de cada video. La guía de gráficos se copió a `_WIKI/_guia` para que Obsidian muestre sus imágenes · Juli.
 - **30/10/2026** · **Builder 2.1**: aplica solo los nombres del brief y la bandeja por video, los cortes largos con cola final, los subtítulos de fondo de 18 caracteres, la voz pareja con la música 22 dB abajo y los títulos siempre justificados. Los −14 LUFS finales salen de la normalización del export · Juli pidió actualizarlo.

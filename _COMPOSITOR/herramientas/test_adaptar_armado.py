@@ -113,7 +113,26 @@ class TestAdaptador(unittest.TestCase):
         with self.assertRaises(ad.ArmadoNoSoportado):    # A-roll superpuesto
             self.adaptar({"aroll": [ARMADO["aroll"][0], {**ARMADO["aroll"][1], "t": 1.0}]})
         with self.assertRaises(ad.ArmadoNoSoportado):
-            self.adaptar({"graficos": [{**ARMADO["graficos"][0], "fondo_cargado": "desenfoque"}]})
+            self.adaptar({"graficos": [{**ARMADO["graficos"][0], "fondo_cargado": "neon"}]})
+
+    def test_desenfoque_una_zona_por_titulo(self):
+        # dos líneas del mismo título (mismo bloque y mismo final) comparten una sola zona desenfocada
+        l1 = {**ARMADO["graficos"][0], "texto": "PROTECTOR", "fondo_cargado": "desenfoque"}
+        l2 = {**l1, "texto": "SOLAR", "t": 2.3, "pos": [540, 520.0], "escala": 140.0}
+        tl = self.adaptar({"graficos": [l1, l2]})
+        self.assertEqual(len(tl["desenfoques"]), 1)
+        z = tl["desenfoques"][0]
+        self.assertEqual((z["desde"], z["hasta"]), (60, 90))
+        bases = [g["base"] for g in tl["graficos"]]
+        self.assertLess(z["y"], min(bases) - 100)          # abarca las dos líneas con margen
+        self.assertGreater(z["y"] + z["h"], max(bases))
+
+    def test_sin_carpeta_publica_no_mueve_graficos(self):
+        # sin cuadros para mirar (pruebas), ni títulos ni pastillas se mueven por la cabeza
+        g = self.adaptar({"graficos": [{"tipo": "pastilla", "t": 2.0, "fin": 3.0, "texto": "DERMA SCAN", "escala": 86,
+                                        "pos": [545, 440], "bloque": 1}]})["graficos"][0]
+        self.assertEqual(g["cy"], 440)
+        self.assertNotIn("detras", g)
 
     def test_pastilla_medida_en_el_aprobado(self):
         # DERMA SCAN a escala 92 midió 873 x 166 px en el Video 1 FINAL

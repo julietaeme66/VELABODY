@@ -4,9 +4,28 @@
   "codigo": "ADS14",
   "estilo": "v2",
   "origen": "Video 8 — ADS14 · Derma Scan las funciones de Derma Scan/_EDICION/plan_v2.json",
-  "_nota": "Diferencias con plan_v2: sin solo_hook_desde (cada hook se arma completo); carpeta y música relativas a la raíz; C3835 bajada a la carpeta de este video (el plan la tomaba del Video 7); sombra leve en RECOMENDACIÓN por el logo de la pared.",
+  "_nota": "Diferencias con plan_v2: sin solo_hook_desde (cada hook se arma completo); carpeta y música relativas a la raíz; C3835 bajada a la carpeta de este video (el plan la tomaba del Video 7); títulos de dos palabras en dos líneas (paquetito) y desenfoque del fondo detrás de cada título (caen sobre el cartel velabody), pedidos del 30/10; corte dinámico (pedido del 30/10: menos silencios).",
   "carpeta": "_MEDIOS_PILOTO/ADS14",
   "musica": "_RECURSOS/musica/fashion-2026-08-30-17-11-41-utc/The Fashion Elegance Short 2.wav",
+  "corte": {
+    "modo": "dinamico",
+    "voz_pad_inicio": 0.06,
+    "voz_pad_fin": 0.15,
+    "voz_pausa_max": 0.3,
+    "umbral_db": -30,
+    "cola_final": 1.0
+  },
+  "ritmo": {
+    "_medido": "Video 1 FINAL: planos a cámara de 1,3–2,6 s, zoom lento ±4–9 %/s, saltos de escala ×1,25–1,4",
+    "min_plano_s": 3.0,
+    "plano_s": 2.4,
+    "plano_min_s": 1.8,
+    "plano_max_s": 3.2,
+    "punch": 1.3,
+    "zoom_lento_por_s": 0.05,
+    "min_plano_entre_broll_s": 3.0,
+    "_pedido": "30/10: la presentadora a cámara 3 s o más, o nada (va directo el B-roll); cola final de 1 s"
+  },
   "aroll": [],
   "caras": {
     "PRESENTADORA/BH1_Clip_C3862": [
@@ -62,7 +81,8 @@
           "lineas": [
             "Cinco cosas",
             "que no sabías"
-          ]
+          ],
+          "fondo_cargado": "desenfoque"
         }
       ],
       "zooms": [
@@ -108,8 +128,10 @@
           "en": "analizador",
           "hasta": "fin",
           "lineas": [
-            "Analizador facial"
-          ]
+            "Analizador",
+            "facial"
+          ],
+          "fondo_cargado": "desenfoque"
         }
       ],
       "zooms": [
@@ -132,9 +154,10 @@
           "en": "recomendación",
           "hasta": "concreta",
           "lineas": [
-            "Recomendación"
+            "Recomendación",
+            "concreta"
           ],
-          "fondo_cargado": "sombra"
+          "fondo_cargado": "desenfoque"
         }
       ],
       "zooms": [
@@ -173,7 +196,8 @@
             "Compara",
             "el progreso"
           ],
-          "y": 345
+          "y": 345,
+          "fondo_cargado": "desenfoque"
         }
       ],
       "zooms": [
@@ -208,8 +232,10 @@
           "en": "para que puedas",
           "hasta": "ejemplo",
           "lineas": [
-            "Corte 3D"
-          ]
+            "Corte",
+            "3D"
+          ],
+          "fondo_cargado": "desenfoque"
         }
       ],
       "zooms": [
@@ -244,8 +270,10 @@
           "en": "protector solar",
           "hasta": "colocado",
           "lineas": [
-            "Protector solar"
-          ]
+            "Protector",
+            "solar"
+          ],
+          "fondo_cargado": "desenfoque"
         }
       ],
       "zooms": [
@@ -287,8 +315,10 @@
           "en": "por QR",
           "hasta": "fin",
           "lineas": [
-            "Reporte por QR"
-          ]
+            "Reporte",
+            "por QR"
+          ],
+          "fondo_cargado": "desenfoque"
         }
       ],
       "broll": [

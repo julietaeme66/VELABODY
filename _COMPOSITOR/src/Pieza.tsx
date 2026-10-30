@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { AbsoluteFill, Sequence, continueRender, delayRender, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { ClipEnLinea } from "./componentes/ClipVideo";
 import { GraficoEnLinea } from "./componentes/Graficos";
+import { Desenfoques } from "./componentes/Desenfoque";
 import { ConPanLeft } from "./componentes/PanLeft";
 import { Subtitulos } from "./componentes/Subtitulos";
 import { cargarFuentes } from "./estilo";
@@ -18,7 +19,7 @@ const Pista: React.FC<{ a: PistaAudio }> = ({ a }) => {
   return <Audio src={staticFile(a.src)} trimBefore={a.trim} volume={volumen} />;
 };
 
-// Orden de capas, como la secuencia v2 de Premiere: A-roll, B-roll, pastilla, (persona recortada para el
+// Orden de capas, como la secuencia v2 de Premiere: A-roll, B-roll, (fondo desenfocado detrás de gráficos), pastilla, (persona recortada para el
 // sándwich), títulos; todo eso pasa por el Pan Left. Arriba, los subtítulos. La zona segura solo se ve en
 // Studio (prop zonaSegura), nunca en el render.
 export const Pieza: React.FC<PiezaProps> = ({ timeline, zonaSegura }) => {
@@ -36,6 +37,7 @@ export const Pieza: React.FC<PiezaProps> = ({ timeline, zonaSegura }) => {
       <ConPanLeft trs={timeline.transiciones}>
         {timeline.videos.filter((v) => v.capa === "aroll").map((v, i) => <ClipEnLinea key={`a${i}`} {...v} muted />)}
         {timeline.videos.filter((v) => v.capa === "broll").map((v, i) => <ClipEnLinea key={`b${i}`} {...v} muted />)}
+        <Desenfoques zonas={timeline.desenfoques ?? []} />
         {pastillas.map((g, i) => <GraficoEnLinea key={`p${i}`} g={g} terminaEnCorte={terminaEnCorte(g.hasta)} />)}
         {timeline.sandwich.map((s, i) => <ClipEnLinea key={`s${i}`} {...s} muted alfa />)}
         {titulos.map((g, i) => <GraficoEnLinea key={`t${i}`} g={g} terminaEnCorte={terminaEnCorte(g.hasta)} />)}

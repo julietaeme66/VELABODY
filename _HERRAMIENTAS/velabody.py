@@ -125,6 +125,73 @@ def loudness(path: pathlib.Path, ini: float = 0.0, fin: float = 10 ** 6) -> tupl
     return float(d["input_i"]), float(d["input_tp"])
 
 
+VENTANA_ENV = 0.01
+_envolventes: dict[str, list[float]] = {}
+
+
+def envolvente(path: pathlib.Path) -> list[float]:
+    """Nivel RMS en dB de la toma, en ventanas de 10 ms (se calcula una vez por toma)."""
+    clave_env = str(path)
+    if clave_env not in _envolventes:
+        import numpy as np
+        pcm = subprocess.run(["ffmpeg", "-v", "error", "-i", str(path), "-vn", "-ac", "1", "-ar", "16000",
+                              "-af", "highpass=f=80", "-f", "s16le", "-"], capture_output=True, check=True).stdout
+        x = np.frombuffer(pcm, np.int16).astype(np.float64) / 32768
+        n = int(16000 * VENTANA_ENV)
+        x = x[: len(x) // n * n].reshape(-1, n)
+        _envolventes[clave_env] = (20 * np.log10(np.sqrt((x ** 2).mean(1)) + 1e-9)).tolist()
+    return _envolventes[clave_env]
+
+
+def recorte_dinamico(tramos: list[list[float]], env: list[float], cc: dict) -> list[list[float]]:
+    """Modo "dinamico" (plan › corte): achica cada tramo hasta donde de verdad hay voz y saca las pausas
+    internas largas. El umbral es relativo a la voz de la toma (percentil 95 + umbral_db), no al pico: en
+    tomas muy bajas el umbral por pico queda pegado al ruido de sala y deja segundos muertos. Solo achica
+    o parte tramos, nunca los agranda: no puede meter habla nueva. Deja voz_pad_inicio antes de la voz y
+    voz_pad_fin después (para las colas: "s" finales, vocales que se arrastran). Los tramos de entrada
+    salen de la búsqueda de siempre, con los márgenes generosos de la regla general: así un inicio que
+    Whisper marcó tarde no queda afuera antes de llegar acá."""
+    import numpy as np
+    e = np.array(env)
+    v = VENTANA_ENV
+    todos = np.concatenate([e[int(a / v):int(b / v)] for a, b in tramos])
+    if not len(todos):
+        return tramos
+    umbral = max(np.percentile(todos, 95) + cc.get("umbral_db", -30), np.percentile(todos, 10) + 6)
+    min_voz = 3                                     # 30 ms seguidos sobre el umbral cuentan como voz
+    salida = []
+    for a, b in tramos:
+        i0, i1 = int(a / v), int(b / v)
+        voz = e[i0:i1] >= umbral
+        # corridas de voz (descarta chasquidos de menos de 30 ms)
+        corridas, k = [], 0
+        while k < len(voz):
+            if voz[k]:
+                j = k
+                while j < len(voz) and voz[j]:
+                    j += 1
+                if j - k >= min_voz:
+                    corridas.append([k, j])
+                k = j
+            else:
+                k += 1
+        if not corridas:
+            salida.append([a, b])
+            continue
+        # se unen las corridas separadas por pausas cortas; las pausas largas se cortan
+        unidas = [corridas[0]]
+        for c in corridas[1:]:
+            if (c[0] - unidas[-1][1]) * v <= cc["voz_pausa_max"]:
+                unidas[-1][1] = c[1]
+            else:
+                unidas.append(c)
+        for c0, c1 in unidas:
+            ini = max(a, (i0 + c0) * v - cc["voz_pad_inicio"])
+            fin = min(b, (i0 + c1) * v + cc["voz_pad_fin"])
+            salida.append([round(ini, 4), round(fin, 4)])
+    return salida
+
+
 def borde_habla(sil: list[tuple[float, float]], t: float, final: bool, limite: float | None) -> float:
     """Lleva un borde de Whisper hasta donde la forma de onda dice que empieza/termina la voz.
     Whisper suele cerrar las palabras antes de su cola ("s" finales, vocales arrastradas): el corte
@@ -408,6 +475,119 @@ def aplicar_zooms(aroll: list[dict], zooms: list[dict], medio, caras: dict, fps:
     return partes
 
 
+def ritmo_automatico(rt: dict, aroll: list[dict], broll: list[dict], palabras: list[dict], zooms: list[dict],
+                     duracion: float, medio, fps: int, notas: list[str]) -> list[dict]:
+    """Ritmo de edición del Video 1 FINAL (plan › "ritmo"), medido plano a plano en el aprobado:
+    1. Sin planos de la presentadora pegados a un B-roll que duren menos de min_plano_s o en los que diga
+       una sola palabra o nada (p. ej. "Primero" y enseguida el insert, o quedarse callada antes de la
+       transición): el B-roll se estira para cubrirlos y la voz sigue en off. El arranque del hook y la
+       cola final a cámara del último bloque no se tocan. Los inserts que quedan largos se parten.
+    2. Los tramos largos a cámara se parten en planos de plano_min_s a plano_max_s, en límites de palabra
+       (mejor después de una coma o una pausa), alternando encuadre normal y punch-in, cada uno con un
+       zoom lento que va hacia adentro o hacia afuera. Reemplaza los zooms del plan."""
+    cuadro = lambda v: round(round(v * fps) / fps, 4)
+    min_plano = rt.get("min_plano_s", 1.2)
+    fin_de = lambda x: x["t"] + x["out"] - x["in"]
+    # un tramo a cámara pegado a un B-roll sobra si es corto o si la presentadora no dice más de una palabra
+    # (o nada: queda en silencio antes de la transición)
+    palabras_en = lambda a0, a1: sum(1 for p in palabras if a0 <= (p["i"] + p["f"]) / 2 <= a1)
+    sobra = lambda a0, a1, minimo=min_plano: 0 < a1 - a0 and (a1 - a0 < minimo or palabras_en(a0, a1) <= 1)
+    # volver a cámara entre dos inserts es lo más brusco: ahí se pide un plano más largo para quedarse
+    entre_broll = rt.get("min_plano_entre_broll_s", 2.0)
+    def cubrir(x: dict, t0: float, t1: float) -> None:
+        """El B-roll x pasa a ocupar [t0, t1] de la línea de tiempo. Mantiene su material alineado y, si al
+        archivo no le alcanza hacia atrás o hacia adelante, corre la ventana (así no queda un pedacito a cámara)."""
+        dur = cuadro(t1 - t0)
+        largo = medio(x["clip"])["duracion"]
+        ini = min(max(0.0, x["in"] - (x["t"] - t0)), max(0.0, largo - dur))
+        if ini + dur > largo:
+            notas.append(f"- ⚠️ Ritmo: {x['clip']} dura menos que el tramo a cubrir ({dur:.2f} s).")
+            dur = largo - ini
+        x["t"], x["in"], x["out"] = cuadro(t0), round(ini, 3), round(ini + dur, 3)
+
+    bloques = sorted({a["bloque"] for a in aroll})
+    for nb in bloques:
+        b0 = min(a["t"] for a in aroll if a["bloque"] == nb)
+        b1 = max(fin_de(a) for a in aroll if a["bloque"] == nb)
+        bs = sorted((b for b in broll if b["bloque"] == nb), key=lambda b: b["t"])
+        if not bs:
+            continue
+        # el hook abre siempre con la presentadora (y el primer gráfico en el primer segundo)
+        if nb != bloques[0] and sobra(b0, bs[0]["t"]):
+            notas.append(f"- Ritmo: el B-roll {bs[0]['clip']} arranca {bs[0]['t'] - b0:.2f} s antes (cubre el inicio del bloque {nb}).")
+            cubrir(bs[0], b0, fin_de(bs[0]))
+        for x, y in zip(bs, bs[1:]):
+            if sobra(fin_de(x), y["t"], entre_broll):
+                notas.append(f"- Ritmo: se unen {x['clip']} y {y['clip']} (quedaban {y['t'] - fin_de(x):.2f} s a cámara en el medio).")
+                cubrir(x, x["t"], y["t"])
+        if nb != bloques[-1] and sobra(fin_de(bs[-1]), b1):
+            notas.append(f"- Ritmo: el B-roll {bs[-1]['clip']} sigue {b1 - fin_de(bs[-1]):.2f} s más (cubre el final del bloque {nb}).")
+            cubrir(bs[-1], bs[-1]["t"], b1)
+
+    # inserts largos (sobre todo los que se estiraron) se parten en planos de ~broll_plano_s tomando otros
+    # momentos de la misma toma: en el aprobado ningún B-roll pasa de 2,2 s
+    bmax, bplano, salto = rt.get("broll_max_s", 2.5), rt.get("broll_plano_s", 2.0), rt.get("broll_salto_s", 0.5)
+    partidos = []
+    for b in sorted(broll, key=lambda b: b["t"]):
+        dur = b["out"] - b["in"]
+        n = max(2, round(dur / bplano)) if dur > bmax else 1
+        if n <= 1:
+            partidos.append(b)
+            continue
+        largo, pieza = medio(b["clip"])["duracion"], cuadro(dur / n)
+        paso = pieza + salto
+        # momentos de la toma: hacia adelante desde el in original y, si no alcanza, hacia atrás
+        adelante = [b["in"] + k * paso for k in range(n) if b["in"] + k * paso + pieza + 0.05 <= largo]
+        atras = [b["in"] - k * paso for k in range(1, n + 1) if b["in"] - k * paso >= 0]
+        momentos = (adelante + atras)[:n]
+        if len(momentos) < n:                       # toma corta: se deja entera
+            partidos.append(b)
+            continue
+        t0 = b["t"]
+        for k, ini in enumerate(momentos):
+            d = pieza if k < n - 1 else cuadro(b["t"] + dur - t0)
+            partidos.append({**b, "t": cuadro(t0), "in": round(ini, 3), "out": round(min(largo, ini + d), 3)})
+            t0 += d
+        notas.append(f"- Ritmo: {b['clip']} ({dur:.1f} s) se parte en {n} planos de ~{pieza:.1f} s.")
+    broll[:] = partidos
+
+    # tramos a cámara: lo que no tapa ningún B-roll
+    tapados = sorted((b["t"], fin_de(b)) for b in broll)
+    tramos, cursor = [], 0.0
+    for a0, a1 in tapados + [(duracion, duracion)]:
+        if a0 - cursor > 0.05:
+            tramos.append((cursor, a0))
+        cursor = max(cursor, a1)
+    objetivo, pmin, pmax = rt.get("plano_s", 1.8), rt.get("plano_min_s", 1.2), rt.get("plano_max_s", 2.6)
+    punch, vel = rt.get("punch", 1.3), rt.get("zoom_lento_por_s", 0.05)
+    pal = sorted(palabras, key=lambda p: p["i"])
+    nuevos = []
+    for p0, p1 in tramos:
+        limites = []
+        for w, nx in zip(pal, pal[1:]):
+            m = (w["f"] + nx["i"]) / 2
+            if p0 + pmin <= m <= p1 - pmin:
+                pausa = nx["i"] - w["f"] > 0.12 or re.search(r"[,.;:?!]$", w["w"])
+                limites.append((m, bool(pausa)))
+        cortes, cur = [], p0
+        while p1 - cur > pmax:
+            cand = [(m, pz) for m, pz in limites if cur + pmin <= m <= min(cur + pmax, p1 - pmin)]
+            if not cand:
+                break
+            m = min(cand, key=lambda c: abs(c[0] - (cur + objetivo)) - (0.4 if c[1] else 0))[0]
+            cortes.append(cuadro(m))
+            cur = m
+        bordes = [cuadro(p0)] + cortes + [cuadro(p1)]
+        for k, (s0, s1) in enumerate(zip(bordes, bordes[1:])):
+            z0 = 1.0 if k % 2 == 0 else punch
+            z1 = z0 * (1 + vel * (s1 - s0)) if k % 2 == 0 else max(1.0, z0 * (1 - vel * (s1 - s0)))
+            nuevos.append({"tipo": "lento", "de": round(z0, 3), "a": round(z1, 3), "t": s0, "fin": s1, "auto": True})
+    if nuevos:
+        notas.append(f"- Ritmo: {len(nuevos)} planos a cámara con encuadre alternado (normal / ×{punch}) y zoom lento "
+                     f"(los zooms del plan se reemplazan).")
+    return nuevos
+
+
 # ------------------------------------------------------------------ armado
 
 def titulo_video(plan: dict) -> str:
@@ -451,8 +631,11 @@ def armar_pieza(plan: dict, sufijo: str) -> None:
     salida.mkdir(exist_ok=True)
     trans_dir = salida / "transcripciones"
     fps = CONFIG["secuencia"]["fps"]
-    cc = CONFIG["corte"]
+    # el plan puede ajustar el corte (p. ej. {"modo": "dinamico", "pausa_max": 0.3}); si no, la regla general
+    cc = {**CONFIG["corte"], **plan.get("corte", {})}
     notas = [f"# Notas de revisión — {plan['nombre']}", ""]
+    if plan.get("corte"):
+        notas.append(f"- Corte con ajustes propios del plan: {plan['corte']}")
 
     medios: dict[str, dict] = {}
 
@@ -527,6 +710,24 @@ def armar_pieza(plan: dict, sufijo: str) -> None:
             if x < corte_a and corte_b < y:
                 tramos[-1] = [x, corte_a]
                 tramos.append([corte_b, y])
+        if cc.get("modo") == "dinamico":
+            tramos = recorte_dinamico(tramos, envolvente(pathlib.Path(medio(clip)["ruta"])), cc)
+            # control: ninguna palabra del guion puede dejar voz afuera. Se mira la energía dentro del intervalo
+            # de Whisper (que a veces estira una palabra sobre el silencio) con un umbral 10 dB más bajo que el
+            # del recorte, para que una sílaba suave tampoco pase
+            import numpy as np
+            env = np.array(envolvente(pathlib.Path(medio(clip)["ruta"])))
+            usados = np.concatenate([env[int(a / VENTANA_ENV):int(b / VENTANA_ENV)] for a, b in tramos])
+            umbral = max(np.percentile(usados, 95) + cc.get("umbral_db", -30) - 10, np.percentile(usados, 10) + 6)
+            for ci in mapa:
+                if ci is None:
+                    continue
+                k0, k1 = int(pal[ci]["i"] / VENTANA_ENV), int(pal[ci]["f"] / VENTANA_ENV)
+                fuera = [k for k in range(k0, k1) if env[k] >= umbral
+                         and not any(a <= k * VENTANA_ENV <= b for a, b in tramos)]
+                if len(fuera) >= 5:
+                    notas.append(f"- ⚠️ Bloque {nb}: la palabra «{pal[ci]['w']}» deja {len(fuera) * 10} ms de voz fuera del corte "
+                                 f"dinámico ({fuera[0] * VENTANA_ENV:.2f} s de {clip}).")
         # tramos sin ninguna palabra del guion (respiraciones, ruidos) se descartan
         medios_palabras = [(pal[ci]["i"] + pal[ci]["f"]) / 2 for ci in mapa
                            if ci is not None and pal[ci]["f"] - pal[ci]["i"] >= 0.04]
@@ -638,7 +839,14 @@ def armar_pieza(plan: dict, sufijo: str) -> None:
                 graficos.append({"tipo": "pastilla", "t": ini, "fin": fin, "texto": g["pastilla"].upper(),
                                  "escala": g.get("escala", cp["escala"]), "pos": g.get("pos", cp["pos"]), "bloque": nb, **extra})
                 continue
-            for n, capa in enumerate(maquetar_titulo_v2(g["lineas"], g.get("y"))):
+            # un gráfico va siempre en dos líneas justificadas (paquetito): ni una línea de varias palabras ni
+            # una palabra sola (pedidos del 30/10: "ANALIZADOR / FACIAL", "PROTECTOR / SOLAR", "REPORTE / POR QR")
+            lineas = g["lineas"]
+            if len(lineas) == 1 and len(lineas[0].split()) >= 2:
+                lineas = lineas[0].split(maxsplit=1)
+            elif len(lineas) == 1:
+                notas.append(f"- ⚠️ Gráfico «{lineas[0]}» de una sola palabra: siempre van dos, en dos líneas (agregar la segunda en el plan).")
+            for n, capa in enumerate(maquetar_titulo_v2(lineas, g.get("y"))):
                 graficos.append({"tipo": "titulo", "t": round(ini + n * CONFIG["titulos_v2"]["escalon"], 4), "fin": fin,
                                  **capa, "bloque": nb, **extra})
         for z in bloque.get("zooms", []):
@@ -668,6 +876,8 @@ def armar_pieza(plan: dict, sufijo: str) -> None:
     duracion = t
     if plan.get("solo_hook") and plan["bloques"][0].get("pan_left_al_final", True):
         transiciones.append({"t": round(t, 4), "tipo": "Pan Left"})   # corte hook → body pegado a mano
+    if plan.get("ritmo"):
+        zooms = ritmo_automatico(plan["ritmo"], aroll, broll, palabras_tl, zooms, duracion, medio, fps, notas)
     aroll = aplicar_zooms(aroll, zooms, medio, plan.get("caras", {}), fps)
 
     # ---- subtítulos: bloques de 2-3 palabras, una sola línea
@@ -705,9 +915,11 @@ def armar_pieza(plan: dict, sufijo: str) -> None:
         else:
             cur.append(p)
     # sin palabras sueltas: un bloque de una sola palabra se une al siguiente (o al anterior)
-    # mientras siga entrando en una línea (los de fondo nunca pasan el máximo)
+    # mientras siga entrando en una línea (los de fondo nunca pasan el máximo) y sin pasar de 2 o 3
+    # palabras (guía de gráficos: "una sola línea de 2 o 3 palabras"; "Derma Scan" cuenta como una)
     tope = lambda fondo: cs["caracteres_max_fondo"] if fondo else cs["caracteres_max"] + 8
     largo = lambda ch: len(" ".join(x["w"] for x in ch))
+    entra = lambda ch: largo(ch) <= tope(ch[0]["fondo"]) and len(ch) <= cs["palabras_max"]
     k = 0
     while k < len(chunks):
         ch = chunks[k]
@@ -715,12 +927,12 @@ def armar_pieza(plan: dict, sufijo: str) -> None:
             sig = chunks[k + 1] if k + 1 < len(chunks) else None
             ant = chunks[k - 1] if k > 0 else None
             if sig and sig[0]["bloque"] == ch[0]["bloque"] and sig[0]["fondo"] == ch[0]["fondo"] \
-                    and largo(ch + sig) <= tope(ch[0]["fondo"]) and not re.search(r"[.?!]$", ch[-1]["w"]):
+                    and entra(ch + sig) and not re.search(r"[.?!]$", ch[-1]["w"]):
                 chunks[k + 1] = ch + sig
                 del chunks[k]
                 continue
             if ant and ant[-1]["bloque"] == ch[0]["bloque"] and ant[-1]["fondo"] == ch[0]["fondo"] \
-                    and largo(ant + ch) <= tope(ch[0]["fondo"]):
+                    and entra(ant + ch):
                 ant.extend(ch)
                 del chunks[k]
                 continue

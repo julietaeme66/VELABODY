@@ -6,6 +6,7 @@
 - Cada una lleva el SFX **`Transition Complex 14.wav`** **0,1 s antes** del corte, a −12 dB.
 - **No usamos light leaks** (desde el feedback del 27/10, que pidió algo más tranquilo).
 - La clienta pidió que en los videos ORG sean sutiles y en los ADS un poco más juguetonas.
+- **Siempre la misma Pan Left**, con el mismo aspecto en todos los cortes *(pedido del 30/10)*. Medida en el Video 1 FINAL: la toma que sale apenas se corre a la izquierda en los 3 cuadros previos; la que entra aparece ~500 px a la derecha y frena en 9 cuadros, con desenfoque horizontal. Nunca se ve la imagen duplicada.
 
 ## A-roll (presentadora)
 

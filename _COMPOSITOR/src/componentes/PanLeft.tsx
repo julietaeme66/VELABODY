@@ -2,27 +2,22 @@ import { useCurrentFrame } from "remotion";
 import { COMP } from "../estilo";
 import type { Transicion } from "../tipos";
 
-// Equivalente del Pan Left de Mister Horse, medido en el aprobado: ~5 cuadros antes y 5 después del
-// corte, la imagen se desliza a la izquierda con desenfoque horizontal (máximo en el corte) y bordes en
-// espejo. Afecta video y gráficos, no los subtítulos (que en Premiere van en su propia pista, arriba).
-const easeInOutCubic = (x: number) => (x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2);
+// Equivalente del Pan Left de Mister Horse, medido cuadro a cuadro en los dos cortes del Video 1 FINAL
+// (config › compositor.pan_left): la toma que sale apenas se corre a la izquierda en los 3 cuadros previos
+// al corte; la que entra aparece ~500 px a la derecha y frena en 9 cuadros. El desenfoque es solo
+// horizontal y sigue la velocidad. El hueco que deja el desplazamiento se rellena en espejo. Afecta video
+// y gráficos, no los subtítulos (que en Premiere van en su propia pista, arriba).
+const DESPLAZAMIENTO: Record<string, number> = COMP.pan_left.desplazamiento_px;
+const DESENFOQUE: Record<string, number> = COMP.pan_left.desenfoque_px;
 
 export const estadoPanLeft = (frame: number, trs: Transicion[]) => {
-  const { cuadros_antes: antes, cuadros_despues: despues, desenfoque_max_px: blurMax } = COMP.pan_left;
   for (const tr of trs) {
-    if (frame < tr.cuadro - antes || frame >= tr.cuadro + despues) continue;
-    const total = antes + despues;
-    const x = (frame - (tr.cuadro - antes) + 0.5) / total;
-    const p = easeInOutCubic(x);
-    const velocidad = 1 - Math.abs(2 * x - 1);              // 0 en los bordes, 1 en el corte
-    const desplazamiento = frame < tr.cuadro ? -p * 1080 : (1 - p) * 1080;
-    return { desplazamiento, blur: blurMax * velocidad ** 1.5 };
+    const k = String(frame - tr.cuadro);
+    if (k in DESPLAZAMIENTO) return { desplazamiento: DESPLAZAMIENTO[k], blur: DESENFOQUE[k] ?? 0 };
   }
   return null;
 };
 
-// Envuelve la capa de imagen: fuera de la transición la deja igual; durante, la desplaza con copias
-// en espejo a los costados y le aplica desenfoque solo horizontal (filtro SVG con desvío en x).
 export const ConPanLeft: React.FC<{ trs: Transicion[]; children: React.ReactNode }> = ({ trs, children }) => {
   const frame = useCurrentFrame();
   const e = estadoPanLeft(frame, trs);
@@ -37,10 +32,11 @@ export const ConPanLeft: React.FC<{ trs: Transicion[]; children: React.ReactNode
           <feGaussianBlur stdDeviation={`${e.blur} 0`} edgeMode="duplicate" />
         </filter>
       </svg>
-      <div style={{ position: "absolute", inset: 0, filter: "url(#pan-left-blur)" }}>
-        {copia(e.desplazamiento - 1080, true)}
+      <div style={{ position: "absolute", inset: 0, filter: e.blur > 0 ? "url(#pan-left-blur)" : undefined }}>
+        {/* espejo solo del lado que queda vacío */}
+        {e.desplazamiento > 0 ? copia(e.desplazamiento - 1080, true) : null}
         {copia(e.desplazamiento, false)}
-        {copia(e.desplazamiento + 1080, true)}
+        {e.desplazamiento < 0 ? copia(e.desplazamiento + 1080, true) : null}
       </div>
     </div>
   );

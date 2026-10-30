@@ -181,10 +181,13 @@
       "fondo": {"fuente": "Montserrat-Medium.otf", "px": 58, "tracking_em": -0.009, "base_dy": 17, "alto_caja": 112, "margen_x": 28, "radio": 16},
       "camara": {"fuente": "Gotham Book.otf", "px": 49, "tracking_em": -0.022, "base_dy": 11, "brillo": [{"desvio_px": 22, "opacidad": 1}, {"desvio_px": 12, "opacidad": 1}, {"desvio_px": 3, "opacidad": 0.6}]}
     },
-    "pan_left": {"cuadros_antes": 5, "cuadros_despues": 5, "desenfoque_max_px": 70},
+    "pan_left": {"_medido": "Video 1 FINAL, cortes de 1,5 y 6,6 s: desplazamiento horizontal por cuadro respecto del corte (px, negativo = a la izquierda)",
+      "desplazamiento_px": {"-3": -10, "-2": -28, "-1": -76, "0": 496, "1": 320, "2": 192, "3": 112, "4": 66, "5": 40, "6": 22, "7": 12, "8": 6},
+      "desenfoque_px": {"-3": 3, "-2": 8, "-1": 14, "0": 90, "1": 60, "2": 30, "3": 18, "4": 11, "5": 7, "6": 4, "7": 2, "8": 1}},
     "color": {"lut": "AlexaV3_K1S1_LogC2Video_Rec709_EE.cube", "exposicion_pasos": 0.3, "contraste_s": 0.5},
     "sandwich": {"halo_px": 6, "calado_px": 6},
     "sombra_fondo_cargado": {"opacidad": 0.4, "dy": 5, "desenfoque": 8, "color": "#000000"},
+    "desenfoque_fondo": {"px": 22, "margen_px": 70, "entrada_cuadros": 6},
     "proxy": {"ancho": 1440, "alto": 2560, "crf": 14}
   }
 }

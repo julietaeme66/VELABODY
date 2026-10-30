@@ -105,6 +105,9 @@ def main() -> None:
         nombre_tl = f"timeline{sufijo or ''}.json"
         correr([PY, "-I", str(AQUI / "adaptar_armado.py"), str(armado), str(publico), nombre_tl])
         tl = json.loads((publico / nombre_tl).read_text(encoding="utf-8"))
+        if any(g.get("detras") for g in tl["graficos"]):     # sándwich: pastilla detrás de la cabeza
+            correr([PY, "-I", str(AQUI / "mascara_persona.py"), str(publico), str(publico / nombre_tl), str(publico / nombre_tl), "--detras"])
+            tl = json.loads((publico / nombre_tl).read_text(encoding="utf-8"))
         props = a.props
         if not props:
             props = str(velabody.RAIZ / "_COMPOSITOR_CACHE" / f"props{sufijo}.json")

@@ -27,6 +27,7 @@ Fuentes confirmadas en Premiere el 30/10/2026 sobre `ADS13_Hook3`: "sugiere" (C1
 
 - Pista de subtítulos **nativa** de Premiere.
 - **Siempre una sola línea**, a **altura fija**. No van a mitad de cuadro ni tapan el equipo.
+- **2 o 3 palabras como máximo** (guía de gráficos), también cuando se une una palabra suelta al subtítulo de al lado. "Derma Scan" cuenta como una.
 - El texto va **como se habla**, en minúsculas y con mayúscula solo al inicio de oración o en nombres propios. **No** se pasa todo a mayúsculas como en los títulos.
 - Nunca se parten los nombres de producto: *Derma Scan*, *Diode Laser 4D*, *Infinity DPL*, *RF Cavi Pro*.
 - Reemplazos automáticos: "láser" → "laser" y "Dermascan" → "Derma Scan".

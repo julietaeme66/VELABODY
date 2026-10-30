@@ -62,8 +62,10 @@ Cada corrida guarda `_COMPOSITOR_SALIDAS/<nombre>_HN_vNNN.mp4` (render) y `_vNNN
 | MOGRT *Ease Position & Mask Y - Bottom* | `Titulo` (SVG): sube desde una máscara con borde en la línea de base; ease-out *quint*, 30 cuadros. |
 | MOGRT *1-Line Fill Text Box - Up* | `Pastilla` (SVG): la caja crece desde abajo y el texto sube con el borde superior; ease-out cúbica, 19 cuadros. |
 | Estilos de pista `VELABODY SUBS C FONDO` / `CAMARA` | `Subtitulos` quemados: caja `#6F04BA` con Montserrat Medium 58, o Gotham Book 49 con halo violeta. |
-| Pan Left (Mister Horse) | `ConPanLeft`: 5 cuadros antes y 5 después del corte, deslizamiento con desenfoque horizontal y bordes en espejo. No toca los subtítulos. |
-| Objeto máscara (sándwich) | `mascara_persona.py`: mate de RobustVideoMatting + halo y calado, como video con alfa encima de la pastilla. |
+| Pan Left (Mister Horse) | `ConPanLeft`: tabla de desplazamiento medida cuadro a cuadro en los dos cortes del Video 1 FINAL (−3 a +8 cuadros: la toma que sale apenas se corre y la que entra llega ~500 px desde la derecha y frena), con desenfoque horizontal según la velocidad y espejo solo del lado que queda vacío. Se verifica con `medir_transicion.py`. No toca los subtítulos. |
+| Objeto máscara (sándwich) | `mascara_persona.py --detras`: mate de RobustVideoMatting + halo y calado, como video con alfa encima de la pastilla. El adaptador ubica cada pastilla sobre la presentadora para que el pelo le tape ~25 % del alto (sale "por detrás de la cabeza", como en el Video 1). |
+| Desenfoque gaussiano con máscara de calado (fondo cargado) | `Desenfoques`: `backdrop-filter` solo en la zona del título, con borde elíptico suave; entra y sale con el gráfico. |
+| Mover el título a mano si toca la cabeza | El adaptador mide el borde del pelo (máscara de persona) bajo cada título y lo sube; si no entra bajo la zona segura, achica el bloque entero. |
 | Normalización de sonoridad del export | `loudnorm` de ffmpeg en dos pasadas (−14 LUFS, −1 dBTP). |
 | B-roll en una pista con `overwriteClip` | Si dos insertos se cruzan, el que se puso después pisa la cola del anterior (igual que en Premiere). |
 | Volumen de la voz en el clip | Pista de voz aparte (WAV por toma y ganancia), así cada hook puede llevar su nivel. |
@@ -101,21 +103,37 @@ Las medidas están en `config_velabody.json › compositor` y se pueden repetir:
 
 ## ADS14 completo: H1, H2 y H3
 
-Las tres piezas salen del mismo plan (`pilotos/ads14/plan.json`, copiado de `plan_v2.json`; las diferencias están en su `_nota`) y comparten el mismo cuerpo de 6 bloques.
+Las tres piezas salen del mismo plan (`pilotos/ads14/plan.json`, copiado de `plan_v2.json`; las diferencias están en su `_nota`) y comparten el mismo cuerpo de 6 bloques. Esta versión aplica los criterios de la revisión del 30/10, que quedaron en la wiki (`07_decisiones.md`):
 
-| Pieza | Duración | Sonoridad | Clicks (antes de verse) | Cortes entre tomas |
+- **Títulos:** siempre dos palabras en dos líneas justificadas, nunca tocando la cabeza, con desenfoque detrás.
+- **Pastilla:** sale por detrás de la cabeza.
+- **Ritmo:** sin silencios; a cámara 3 s o más o nada; B-roll partido en planos cortos; zooms alternados; cola final de 1 s.
+- **Pan Left:** medida en el aprobado.
+- **Subtítulos:** de 2 o 3 palabras.
+
+| Pieza | Duración | Sonoridad | Tramos a cámara | Avisos de palabras cortadas |
 |---|---|---|---|---|
-| `ADS14_H1_v002_norm.mp4` (Cinco cosas…) | 62,5 s · 1875 cuadros | −14,0 LUFS · −1,0 dBTP · L/R iguales | 2–5 cuadros | 7, todos ≥ 11 dB por debajo de la voz |
-| `ADS14_H2_v001_norm.mp4` (Esto es lo que hace diferente…) | 61,1 s · 1832 cuadros | −14,0 LUFS · −1,0 dBTP · L/R iguales | 2–5 cuadros | 7, todos ≥ 11 dB por debajo de la voz |
-| `ADS14_H3_v001_norm.mp4` (¿Sabés todo lo que un analizador…?) | 61,9 s · 1858 cuadros | −14,0 LUFS · −1,0 dBTP · L/R iguales | 2–5 cuadros | 7, todos ≥ 11 dB por debajo de la voz |
+| `ADS14_H1_v004_norm.mp4` (Cinco cosas…) | 58,1 s · 1742 cuadros | −14,0 LUFS · −1,0 dBTP · L/R iguales | hook, 3,7 s en el bloque 4, cierre | ninguno |
+| `ADS14_H2_v003_norm.mp4` (Esto es lo que hace diferente…) | 56,3 s · 1689 cuadros | −14,0 LUFS · −1,0 dBTP · L/R iguales | hook, 3,7 s en el bloque 4, cierre | ninguno |
+| `ADS14_H3_v003_norm.mp4` (¿Sabés todo lo que un analizador…?) | 57,2 s · 1717 cuadros | −14,0 LUFS · −1,0 dBTP · L/R iguales | hook, 3,7 s en el bloque 4, cierre | ninguno |
 
-Las tres en H.264 BT.709, con la música ≥ 20 dB por debajo de la voz y nada fuera de la zona segura aproximada. El contenido de cada toma se comprobó con su transcripción contra el guion del plan (coincidencia 0,82–1,00). En B07, después de la frase, la presentadora dice "Dije cualquier cosa": el corte lo deja afuera, porque la voz termina en 12,65 s, el corte cae en 13,06 s y el comentario empieza en 13,84 s.
+Las versiones anteriores quedan en `_COMPOSITOR_SALIDAS` (no se pisan). El contenido de cada toma se comprobó con su transcripción contra el guion del plan (coincidencia 0,82–1,00). En B07, el "Dije cualquier cosa" de la presentadora queda afuera del corte.
 
-**Para revisar con Juli (decisiones creativas, no se tocaron):**
+**Comparación con el aprobado** (`analizar_edicion.py`, en `_COMPOSITOR_CACHE/analisis/`):
+
+| | Video 1 FINAL | ADS14 H1 v004 |
+|---|---|---|
+| Plano mediano | 1,33 s | 2,30 s |
+| Plano mediano de B-roll | 0,95 s | 2,17 s |
+| Tiempo a cámara | 54 % | 21 % (regla de 3 s) |
+| Silencio en los cortes | 0,0 s | 0,0 s |
+
+**Para revisar (decisiones creativas):**
 
 - El plan trae **7 u 8 gráficos por pieza**; la wiki dice **2 a 4** por video.
-- **CORTE 3D** y **REPORTE POR QR** quedan encima de las letras del logo "velabody" de la pared, y **CINCO COSAS** también lo cruza. La wiki pide sombra leve o desenfoque cuando el fondo dificulta la lectura; hoy solo RECOMENDACIÓN la tiene (como en el piloto).
-- **COMPARA / EL PROGRESO** (y = 345) cae sobre la pantalla oscura de la tablet: violeta sobre negro, que no se arregla con sombra. Habría que moverlo o cambiar el B-roll de ese tramo.
+- Los inserts siguen siendo el doble de largos que en el aprobado. Se ajusta con `ritmo.broll_plano_s` / `broll_max_s`.
+- En H3, ANALIZADOR / FACIAL sube 48 px para no tocar la cabeza.
+- La pastilla reutilizada del cierre queda más abajo que la guía (545/350), porque se ubica detrás de la cabeza.
 
 ## Hallazgos que también afectan al flujo de Premiere
 
@@ -130,12 +148,11 @@ Las tres en H.264 BT.709, con la música ≥ 20 dB por debajo de la voz y nada f
 - **Montserrat:** se usó la versión oficial (OFL). En la pastilla, las letras D, M, R y N del aprobado son 6–7 px más angostas, y el acento de la Ó está corrido. Se compensa con tracking para que la caja mida lo mismo. Hace falta la `.otf` de la clienta.
 - **SFX del Pan Left** (`Transition Complex 14.wav`): no estaba entre los recursos, así que el piloto no lo tiene.
 - **Zona segura:** se verificó con una zona aproximada; falta el PNG de la clienta.
-- **Pan Left:** está medido y hecho a ojo cuadro a cuadro, sin comparación numérica (en el aprobado no hay dos cortes iguales para medir).
+- **Pan Left:** el desplazamiento de la toma que entra coincide con el aprobado a ±20 px por cuadro (`medir_transicion.py`). El desenfoque se calibró con la nitidez cuadro a cuadro.
 - **Halo del subtítulo de cámara:** ajustado visualmente.
-- **Sándwich:** funciona (ver `stills/sandwich_cmp.png` en la caché), pero en el ADS14 la cabeza nunca llega a la pastilla, así que no se usa. El halo se comparó a ojo con el aprobado.
+- **Sándwich:** el halo se comparó a ojo con el aprobado; no hay comparación numérica.
 - **Descendentes en los títulos:** la máscara del MOGRT corta en la línea de base. En el compositor el borde baja con la entrada para no cortar la cola de la Q ("QUE", "QR"). En el aprobado no había letras con descendente para comparar.
-- **Fondo cargado:** solo está hecha la "sombra"; el "desenfoque" de zona falla con un mensaje claro.
-- **Arranque del hook:** `velabody.py` deja 0,5 s de casi silencio antes de "Esto". Es el comportamiento del builder y no se tocó.
+- **Desenfoque de fondo:** se ajustó a ojo (22 px, elipse con borde suave); no hay un desenfoque del aprobado con el que comparar.
 - **Versión 1080x1080:** no está hecha. Según la wiki, se arma después de validar.
 
 ## Licencias

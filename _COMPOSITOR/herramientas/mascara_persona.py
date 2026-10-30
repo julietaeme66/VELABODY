@@ -13,6 +13,7 @@ Modelo: rvm_mobilenetv3_fp32.onnx (github.com/PeterL1n/RobustVideoMatting, GPL-3
 herramienta local, no se redistribuye).
 
 Uso:
+    python mascara_persona.py <carpeta_publica> <timeline.json> <timeline_salida.json> --detras
     python mascara_persona.py <carpeta_publica> <timeline.json> <props_salida.json> [--pastilla N] [--cy Y]
       --pastilla N : índice de la pastilla entre los gráficos (por defecto, la primera)
       --cy Y       : prueba: mueve la pastilla a esa altura (para ver el efecto cuando la cabeza no la toca)
@@ -58,6 +59,39 @@ def mates(frames, modelo: pathlib.Path, ratio: float = 0.2):
         yield pha[0, 0]
 
 
+def recortar(v: dict, ini: int, fin: int, publico: pathlib.Path, modelo: pathlib.Path) -> dict:
+    """Persona recortada (video con alfa) del A-roll v entre los cuadros ini y fin, con el mismo encuadre."""
+    # px de la secuencia → px del proxy (el mate se procesa a la resolución del proxy)
+    pc = velabody.CONFIG["compositor"]["proxy"]
+    caja = v.get("caja") or v["kf"][0]
+    escala = pc["ancho"] / caja["w"]
+    halo = max(1, round(SANDWICH["halo_px"] * escala))
+    calado = SANDWICH["calado_px"] * escala
+    trim_ini = v["trim"] + (ini - v["desde"])
+    previo = min(CALENTAR, trim_ini)
+    n = fin - ini
+    destino = publico / "medios" / f"sandwich_{pathlib.Path(v['src']).stem}_{ini}_{fin}.webm"
+    print(f"máscara {v['clip']} cuadros {ini}–{fin} (halo {halo}px, calado {calado:.1f}px a resolución de proxy)")
+    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgba", "-s", f"{pc['ancho']}x{pc['alto']}",
+                            "-r", "30", "-i", "-", "-c:v", "libvpx-vp9", "-pix_fmt", "yuva420p", "-auto-alt-ref", "0",
+                            "-b:v", "0", "-crf", "18", "-row-mt", "1", str(destino)], stdin=subprocess.PIPE)
+    frames = list(cuadros_proxy(publico / v["src"], trim_ini - previo, previo + n))
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * halo + 1, 2 * halo + 1))
+    for k, (f, m) in enumerate(zip(frames, mates(frames, modelo))):
+        if k < previo:
+            continue
+        m = cv2.GaussianBlur(cv2.dilate(m, kernel), (0, 0), calado)
+        enc.stdin.write(np.dstack([f, (np.clip(m, 0, 1) * 255).astype(np.uint8)]).tobytes())
+    enc.stdin.close()
+    enc.wait()
+    entrada = {"src": f"medios/{destino.name}", "desde": ini, "dur": n, "trim": 0}
+    if v.get("kf"):
+        entrada["kf"] = v["kf"]
+    else:
+        entrada["caja"] = v["caja"]
+    return entrada
+
+
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
@@ -66,54 +100,30 @@ def main() -> None:
     ap.add_argument("props")
     ap.add_argument("--pastilla", type=int, default=0)
     ap.add_argument("--cy", type=float)
+    ap.add_argument("--detras", action="store_true",
+                    help="todas las pastillas marcadas 'detras' por adaptar_armado.py; escribe el timeline (sin envolver en props)")
     a = ap.parse_args()
     publico = pathlib.Path(a.publico)
     tl = json.loads(pathlib.Path(a.timeline).read_text(encoding="utf-8"))
     pastillas = [g for g in tl["graficos"] if g["tipo"] == "pastilla"]
-    p = pastillas[a.pastilla]
-    if a.cy is not None:
-        p["cy"] = a.cy
+    if a.detras:
+        elegidas = [g for g in pastillas if g.get("detras")]
+    else:
+        elegidas = [pastillas[a.pastilla]]
+        if a.cy is not None:
+            elegidas[0]["cy"] = a.cy
     modelo = velabody.RAIZ / "_COMPOSITOR_CACHE" / "modelos" / "rvm_mobilenetv3_fp32.onnx"
     tl["sandwich"] = []
-    for v in tl["videos"]:
-        if v["capa"] != "aroll":
-            continue
-        ini, fin = max(v["desde"], p["desde"]), min(v["desde"] + v["dur"], p["hasta"])
-        if ini >= fin:
-            continue
-        # px de la secuencia → px del proxy (el mate se procesa a la resolución del proxy)
-        caja = v.get("caja") or v["kf"][0]
-        escala = velabody.CONFIG["compositor"]["proxy"]["ancho"] / caja["w"]
-        halo = max(1, round(SANDWICH["halo_px"] * escala))
-        calado = SANDWICH["calado_px"] * escala
-        trim_ini = v["trim"] + (ini - v["desde"])
-        previo = min(CALENTAR, trim_ini)
-        n = fin - ini
-        proxy = publico / v["src"]
-        destino = publico / "medios" / f"sandwich_{pathlib.Path(v['src']).stem}_{ini}_{fin}.webm"
-        print(f"máscara {v['clip']} cuadros {ini}–{fin} (halo {halo}px, calado {calado:.1f}px a resolución de proxy)")
-        enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgba",
-                                "-s", f"{velabody.CONFIG['compositor']['proxy']['ancho']}x{velabody.CONFIG['compositor']['proxy']['alto']}",
-                                "-r", "30", "-i", "-", "-c:v", "libvpx-vp9", "-pix_fmt", "yuva420p", "-auto-alt-ref", "0",
-                                "-b:v", "0", "-crf", "18", "-row-mt", "1", str(destino)], stdin=subprocess.PIPE)
-        frames = list(cuadros_proxy(proxy, trim_ini - previo, previo + n))
-        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * halo + 1, 2 * halo + 1))
-        for k, (f, m) in enumerate(zip(frames, mates(frames, modelo))):
-            if k < previo:
+    for p in elegidas:
+        for v in tl["videos"]:
+            if v["capa"] != "aroll":
                 continue
-            m = cv2.dilate(m, kernel)
-            m = cv2.GaussianBlur(m, (0, 0), calado)
-            alfa = (np.clip(m, 0, 1) * 255).astype(np.uint8)
-            enc.stdin.write(np.dstack([f, alfa]).tobytes())
-        enc.stdin.close()
-        enc.wait()
-        entrada = {"src": f"medios/{destino.name}", "desde": ini, "dur": n, "trim": 0}
-        if v.get("kf"):
-            entrada["kf"] = v["kf"]
-        else:
-            entrada["caja"] = v["caja"]
-        tl["sandwich"].append(entrada)
-    pathlib.Path(a.props).write_text(json.dumps({"timeline": tl}, ensure_ascii=False), encoding="utf-8")
+            ini, fin = max(v["desde"], p["desde"]), min(v["desde"] + v["dur"], p["hasta"])
+            if ini >= fin:
+                continue
+            tl["sandwich"].append(recortar(v, ini, fin, publico, modelo))
+    salida = tl if a.detras else {"timeline": tl}
+    pathlib.Path(a.props).write_text(json.dumps(salida, ensure_ascii=False, indent=1 if a.detras else None), encoding="utf-8")
     print(f"{a.props} · {len(tl['sandwich'])} tramos de sándwich")
 
 

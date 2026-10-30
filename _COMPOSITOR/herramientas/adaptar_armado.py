@@ -76,6 +76,118 @@ def caja_encuadrar(medio: dict, W: int, H: int, foco_x=0.5, zoom=1.0, foco_y=0.5
     return {"x": round(cx - w / 2, 3), "y": round(cy - h / 2, 3), "w": round(w, 3), "h": round(h, 3)}
 
 
+MARGEN_CABEZA_PX = 30        # aire mínimo entre el título y la cabeza
+TECHO_TITULO_PX = 260        # no subir más allá: arriba está la interfaz de Instagram (zona segura)
+_publico: pathlib.Path | None = None
+
+
+def cabeza_arriba(v: dict, cuadro_tl: int) -> float | None:
+    """Altura (px de la secuencia) del borde de arriba del pelo en el A-roll de ese cuadro, con el encuadre
+    aplicado. Se mide con la máscara de persona de RobustVideoMatting (la misma del sándwich), en la franja
+    central donde está la cabeza: estimarlo desde la cara se equivocaba por decenas de px."""
+    import subprocess
+    import numpy as np
+    import onnxruntime as ort
+    ses = cabeza_arriba.__dict__.get("ses")
+    if ses is None:
+        modelo = velabody.RAIZ / "_COMPOSITOR_CACHE" / "modelos" / "rvm_mobilenetv3_fp32.onnx"
+        if not modelo.exists():
+            return None
+        ses = cabeza_arriba.ses = ort.InferenceSession(str(modelo), providers=["CPUExecutionProvider"])
+    W, H = 720, 1280
+    t = (v["trim"] + cuadro_tl - v["desde"] + 0.5) / 30
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t:.4f}", "-i", str(_publico / v["src"]), "-frames:v", "1",
+                          "-vf", f"scale={W}:{H}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True).stdout
+    if len(raw) < W * H * 3:
+        return None
+    src = (np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(np.float32) / 255).transpose(2, 0, 1)[None]
+    cero = np.zeros([1, 1, 1, 1], np.float32)
+    pha = ses.run(None, {"src": src, "r1i": cero, "r2i": cero, "r3i": cero, "r4i": cero,
+                         "downsample_ratio": np.array([0.4], np.float32)})[1][0, 0]
+    filas = np.nonzero((pha[:, W // 5: 4 * W // 5] > 0.5).sum(1) > 6)[0]
+    if not len(filas):
+        return None
+    if v.get("kf"):
+        k0, k1 = v["kf"][0], v["kf"][-1]
+        r = min(1, max(0, (cuadro_tl - k0["cuadro"]) / max(1, k1["cuadro"] - k0["cuadro"])))
+        caja = {c: k0[c] + (k1[c] - k0[c]) * r for c in ("x", "y", "w", "h")}
+    else:
+        caja = v["caja"]
+    return float(caja["y"] + filas[0] / H * caja["h"])
+
+
+def subir_titulos_sobre_cabeza(graficos: list[dict], originales: list[dict], videos: list[dict], medios: dict, fps: int) -> None:
+    """Un título nunca toca la cabeza de la presentadora (pedido del 30/10): si el bloque de un título
+    queda a menos de MARGEN_CABEZA_PX de la cabeza en algún momento (inicio, medio o final), se sube
+    entero, sin pasar TECHO_TITULO_PX. Sobre B-roll no se mueve."""
+    if _publico is None:
+        return
+    grupos: dict[tuple, list[dict]] = {}
+    for g, o in zip(graficos, originales):
+        if g["tipo"] == "titulo":
+            grupos.setdefault((o["bloque"], g["hasta"]), []).append(g)
+    for lineas in grupos.values():
+        desde, hasta = min(l["desde"] for l in lineas), max(l["hasta"] for l in lineas)
+        abajo = max(l["base"] + 0.05 * l["fontPx"] for l in lineas)
+        arriba = min(l["base"] - 0.95 * l["fontPx"] for l in lineas)
+        cabezas = []
+        for f in (desde + 3, (desde + hasta) // 2, hasta - 2):
+            if any(v["capa"] == "broll" and v["desde"] <= f < v["desde"] + v["dur"] for v in videos):
+                continue
+            v = next((v for v in videos if v["capa"] == "aroll" and v["desde"] <= f < v["desde"] + v["dur"]), None)
+            c = cabeza_arriba(v, f) if v else None
+            if c is not None:
+                cabezas.append(c)
+        if not cabezas:
+            continue
+        sobra = abajo + MARGEN_CABEZA_PX - min(cabezas)
+        if sobra <= 0:
+            continue
+        nombre = " / ".join(l["texto"] for l in lineas)
+        dy = min(sobra, max(0.0, arriba - TECHO_TITULO_PX))
+        for l in lineas:
+            l["base"] = round(l["base"] - dy, 2)
+        if dy >= sobra:
+            print(f"  Título {nombre}: sube {dy:.0f} px para no tocar la cabeza")
+            continue
+        # no entra entre el techo y la cabeza: se achica el bloque entero (sigue justificado y centrado)
+        disponible = min(cabezas) - MARGEN_CABEZA_PX - TECHO_TITULO_PX
+        f = disponible / (abajo - arriba)
+        tope = arriba - dy
+        for l in lineas:
+            l["base"] = round(TECHO_TITULO_PX + (l["base"] - tope) * f, 2)
+            l["fontPx"] = round(l["fontPx"] * f, 2)
+        print(f"  Título {nombre}: sube {dy:.0f} px y se achica al {f:.0%} para no tocar la cabeza")
+
+
+SOLAPE_PASTILLA = 0.25        # parte del alto de la pastilla que queda detrás del pelo (Video 1: ~0,2–0,3)
+PISO_PASTILLA_CY = 620
+
+
+def pastillas_detras_de_la_cabeza(graficos: list[dict], videos: list[dict]) -> None:
+    """La pastilla sale por detrás de la cabeza (sándwich, como en el Video 1 FINAL; pedido del 30/10): se
+    ubica para que el pelo le tape el borde inferior y se marca "detras" para que mascara_persona.py recorte
+    a la presentadora por encima. Sobre B-roll, o si no se encuentra la cara, queda donde estaba."""
+    if _publico is None:
+        return
+    for g in graficos:
+        if g["tipo"] != "pastilla":
+            continue
+        cabezas = []
+        for f in (g["desde"] + 3, (g["desde"] + g["hasta"]) // 2):
+            if any(v["capa"] == "broll" and v["desde"] <= f < v["desde"] + v["dur"] for v in videos):
+                continue
+            v = next((v for v in videos if v["capa"] == "aroll" and v["desde"] <= f < v["desde"] + v["dur"]), None)
+            c = cabeza_arriba(v, f) if v else None
+            if c is not None:
+                cabezas.append(c)
+        if not cabezas:
+            continue
+        cy = min(PISO_PASTILLA_CY, min(cabezas) + SOLAPE_PASTILLA * g["h"] - g["h"] / 2)
+        print(f"  Pastilla {g['texto']} (cuadro {g['desde']}): detrás de la cabeza, centro y {g['cy']:.0f} → {cy:.0f}")
+        g["cy"], g["detras"] = round(float(cy), 1), True
+
+
 def desconocidos(x: dict, permitidos: set, que: str) -> None:
     extra = set(x) - permitidos
     if extra:
@@ -168,9 +280,35 @@ def adaptar(a: dict, medios: dict) -> dict:
         else:
             raise ArmadoNoSoportado(f"Gráfico {k}: tipo {g['tipo']!r} desconocido")
         if g.get("fondo_cargado"):
-            if g["fondo_cargado"] != "sombra":
-                raise ArmadoNoSoportado(f"Gráfico {k}: fondo_cargado {g['fondo_cargado']!r} todavía no está hecho (solo 'sombra')")
-            graficos[-1]["sombra"] = True
+            if g["fondo_cargado"] not in ("sombra", "desenfoque"):
+                raise ArmadoNoSoportado(f"Gráfico {k}: fondo_cargado {g['fondo_cargado']!r} desconocido (sombra o desenfoque)")
+            graficos[-1][g["fondo_cargado"]] = True
+
+    subir_titulos_sobre_cabeza(graficos, a["graficos"], videos, medios, fps)
+    pastillas_detras_de_la_cabeza(graficos, videos)
+
+    # desenfoque del fondo (wiki › títulos, fondo cargado): una zona por gráfico, que abarca todas sus líneas
+    # (las líneas de un mismo título comparten bloque y final) más un margen, con borde suave
+    df = comp["desenfoque_fondo"]
+    zonas = []
+    for g, orig in zip(graficos, a["graficos"]):
+        if not g.get("desenfoque"):
+            continue
+        if g["tipo"] == "titulo":
+            caja = [g["x"] - tv["ancho_guia"] / 2, g["base"] - 0.95 * g["fontPx"], g["x"] + tv["ancho_guia"] / 2, g["base"] + 0.25 * g["fontPx"]]
+        else:
+            caja = [g["cx"] - g["w"] / 2, g["cy"] - g["h"] / 2, g["cx"] + g["w"] / 2, g["cy"] + g["h"] / 2]
+        previa = zonas[-1] if zonas else None
+        if previa and previa["bloque"] == orig["bloque"] and previa["hasta"] == g["hasta"]:
+            previa["caja"] = [min(previa["caja"][0], caja[0]), min(previa["caja"][1], caja[1]),
+                              max(previa["caja"][2], caja[2]), max(previa["caja"][3], caja[3])]
+            previa["desde"] = min(previa["desde"], g["desde"])
+        else:
+            zonas.append({"desde": g["desde"], "hasta": g["hasta"], "bloque": orig["bloque"], "caja": caja})
+    desenfoques = [{"desde": z["desde"], "hasta": z["hasta"],
+                    "x": round(z["caja"][0] - df["margen_px"], 1), "y": round(z["caja"][1] - df["margen_px"], 1),
+                    "w": round(z["caja"][2] - z["caja"][0] + 2 * df["margen_px"], 1),
+                    "h": round(z["caja"][3] - z["caja"][1] + 2 * df["margen_px"], 1)} for z in zonas]
 
     cs = comp["subtitulos"]
     subtitulos = []
@@ -203,7 +341,7 @@ def adaptar(a: dict, medios: dict) -> dict:
                       "fadeFinal": fade})
     return {"version": 1, "nombre": a["nombre"], "fps": fps, "ancho": W, "alto": H, "duracion": total,
             "videos": videos, "voces": voces, "graficos": graficos, "subtitulos": subtitulos,
-            "transiciones": transiciones, "audio": audio, "sandwich": []}
+            "transiciones": transiciones, "audio": audio, "sandwich": [], "desenfoques": desenfoques}
 
 
 def main() -> None:
@@ -211,6 +349,8 @@ def main() -> None:
     armado, publico = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
     nombre = sys.argv[3] if len(sys.argv) > 3 else "timeline.json"     # una por pieza: timeline_H1.json…
     medios = json.loads((publico / "medios.json").read_text(encoding="utf-8"))
+    global _publico
+    _publico = publico                  # para mirar los cuadros del A-roll (títulos que tocan la cabeza)
     tl = adaptar(json.loads(armado.read_text(encoding="utf-8")), medios)
     (publico / nombre).write_text(json.dumps(tl, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"{nombre} · {tl['duracion']} cuadros · {len(tl['videos'])} videos · {len(tl['graficos'])} gráficos · "
