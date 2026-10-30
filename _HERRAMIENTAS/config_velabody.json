@@ -156,5 +156,35 @@
       "a_click": 4
     },
     "musica_fade": 2.0
+  },
+  "compositor": {
+    "_fuente": "Medido cuadro a cuadro en el export del Video 1 FINAL (piloto Remotion, 30/10/2026). Ver _COMPOSITOR/LEEME.md.",
+    "titulo": {
+      "fuente": "Montserrat-Medium.otf",
+      "tracking_em": -0.004,
+      "recorrido_em": 0.916,
+      "entrada": {"curva": "quint", "retraso_cuadros": 1.25, "cuadros": 30}
+    },
+    "pastilla": {
+      "fuente": "Montserrat-ExtraBold.otf",
+      "peso": 800,
+      "tracking_em": -0.062,
+      "fuente_px_por_escala": 1.242,
+      "alto_caja_por_escala": 1.805,
+      "margen_x_por_alto_caja": 0.33,
+      "texto_dy_px": 2,
+      "entrada": {"curva": "cubic", "retraso_cuadros": 0.5, "cuadros": 19},
+      "salida_fundido_cuadros": 6
+    },
+    "subtitulos": {
+      "centro_y": 1181,
+      "fondo": {"fuente": "Montserrat-Medium.otf", "px": 58, "tracking_em": -0.009, "base_dy": 17, "alto_caja": 112, "margen_x": 28, "radio": 16},
+      "camara": {"fuente": "Gotham Book.otf", "px": 49, "tracking_em": -0.022, "base_dy": 11, "brillo": [{"desvio_px": 22, "opacidad": 1}, {"desvio_px": 12, "opacidad": 1}, {"desvio_px": 3, "opacidad": 0.6}]}
+    },
+    "pan_left": {"cuadros_antes": 5, "cuadros_despues": 5, "desenfoque_max_px": 70},
+    "color": {"lut": "AlexaV3_K1S1_LogC2Video_Rec709_EE.cube", "exposicion_pasos": 0.3, "contraste_s": 0.5},
+    "sandwich": {"halo_px": 6, "calado_px": 6},
+    "sombra_fondo_cargado": {"opacidad": 0.4, "dy": 5, "desenfoque": 8, "color": "#000000"},
+    "proxy": {"ancho": 1440, "alto": 2560, "crf": 14}
   }
 }

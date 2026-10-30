@@ -1,0 +1,13 @@
+{
+  "_leeme": "Copiar como config_local.json (no se versiona) y ajustar a esta compu. Pisa lo que haga falta de config_velabody.json.",
+  "raiz": "D:/VELABODY",
+  "carpetas_fuentes": ["D:/VELABODY/_RECURSOS/fuentes"],
+  "recursos": {
+    "click": "D:/VELABODY/_RECURSOS/sonidos/Mouse Click.mp3",
+    "zona_segura": "D:/VELABODY/_RECURSOS/zona-segura-reels-ig_v1-copia.png",
+    "lut_lumetri": "D:/VELABODY/_RECURSOS/AlexaV3_K1S1_LogC2Video_Rec709_EE.cube"
+  },
+  "estilo_v2": {
+    "sfx_transicion": "D:/VELABODY/_RECURSOS/sonidos/Transition Complex 14.wav"
+  }
+}

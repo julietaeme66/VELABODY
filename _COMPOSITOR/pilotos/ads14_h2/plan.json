@@ -1,0 +1,39 @@
+{
+  "nombre": "ADS14 · piloto Remotion (Hook 2 + bloque 1)",
+  "titulo": "PILOTO_REMOTION_ADS14_H2",
+  "codigo": "ADS14",
+  "estilo": "v2",
+  "origen": "Video 8 — ADS14 · Derma Scan las funciones de Derma Scan/_EDICION/plan_v2.json (hooks[1] + bloques[0])",
+  "_nota": "Única diferencia con plan_v2: sombra leve en RECOMENDACIÓN, que cae sobre el logo de la pared (wiki › títulos, fondo cargado).",
+  "carpeta": "_MEDIOS_PILOTO/ADS14_H2",
+  "musica": "_RECURSOS/musica/fashion-2026-08-30-17-11-41-utc/The Fashion Elegance Short 2.wav",
+  "aroll": [],
+  "caras": {
+    "PRESENTADORA/BH2_Clip_C3864": [0.34, 0.41],
+    "PRESENTADORA/B02_Clip_C3866": [0.35, 0.42]
+  },
+  "bloques": [
+    {
+      "texto": "Esto es lo que hace diferente a Derma Scan.",
+      "clip": "PRESENTADORA/BH2_Clip_C3864",
+      "graficos": [
+        {"en": "lo que hace", "hasta": "fin", "pastilla": "Derma Scan", "escala": 86}
+      ],
+      "zooms": [{"tipo": "lento", "de": 1.0, "a": 1.12}]
+    },
+    {
+      "texto": "Primero, no solo diagnostica, brinda una recomendación concreta a partir del análisis de la piel de tu paciente.",
+      "clip": "PRESENTADORA/B02_Clip_C3866",
+      "desde_seg": 7.5,
+      "pan_left": true,
+      "graficos": [
+        {"en": "recomendación", "hasta": "concreta", "lineas": ["Recomendación"], "fondo_cargado": "sombra"}
+      ],
+      "zooms": [{"tipo": "lento", "en": "brinda", "hasta": "concreta", "de": 1.0, "a": 1.12}],
+      "broll": [
+        {"clip": "B-ROLL/B02_Insert_C3831", "desde": "no solo", "hasta": "diagnostica", "in": 2.5},
+        {"clip": "B-ROLL/B05_Insert_C3838", "desde": "a partir", "hasta": "paciente", "in": 7.0}
+      ]
+    }
+  ]
+}

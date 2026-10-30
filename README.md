@@ -25,4 +25,4 @@ Reels verticales para la marca **Velabody** (1080x1920, Premiere Pro). Este repo
 
 ## Rutas
 
-Las herramientas y la wiki asumen que el proyecto está en **`E:\VELABODY`**. Algunos recursos (MOGRT de Mister Horse, el click de títulos) apuntan a rutas de la compu de Juli. Si trabajás en otra ubicación, ajustá `_HERRAMIENTAS/config_velabody.json`.
+Las herramientas y la wiki asumen que el proyecto está en **`E:\VELABODY`**. Algunos recursos (MOGRT de Mister Horse, el click de títulos) apuntan a rutas de la compu de Juli. Si trabajás en otra ubicación, copiá `_HERRAMIENTAS/config_local.ejemplo.json` como `config_local.json` (no se versiona) y poné ahí tu raíz y tus recursos. Los planes pueden usar `"carpeta"` relativa a esa raíz.

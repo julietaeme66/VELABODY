@@ -1,0 +1,129 @@
+[
+ {
+  "que": "Toma Hook 2 (A-roll)",
+  "archivo_origen": "C3864.MP4",
+  "drive_id": "1_er7EGnP0UBUzDlG17df1kRztE7zHJ77",
+  "origen": "Drive del brief (tadetranche), link en el brief p. 4",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14_H2\\PRESENTADORA\\BH2_Clip_C3864.MP4",
+  "bytes": 201472475,
+  "sha256": "a75f51dd49defdcabf648da686a69c0503c9ae7b31c34ec915fff395b62808b7",
+  "duracion_s": 9.6,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90",
+  "audio": "pcm_s16be 48000 Hz 2 canales"
+ },
+ {
+  "que": "Toma Bloque 1 (A-roll)",
+  "archivo_origen": "C3866.MP4",
+  "drive_id": "149MCa_4fKJ4wpdsiN6OaezQ2e7S8QKmK",
+  "origen": "Drive del brief (tadetranche), link en el brief p. 5",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14_H2\\PRESENTADORA\\B02_Clip_C3866.MP4",
+  "bytes": 335692095,
+  "sha256": "d3f8f3f609b57b42ed58e94ae98b378728f72ad0432b311ca63130dc5ec9b3fc",
+  "duracion_s": 16.8,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90",
+  "audio": "pcm_s16be 48000 Hz 2 canales"
+ },
+ {
+  "que": "Insert B-roll",
+  "archivo_origen": "C3831.MP4",
+  "drive_id": "1koIuSC-UrPs_SZ1di3g9xsV5ZbIYqPBJ",
+  "origen": "Drive del brief (tadetranche), link en el brief p. 5",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14_H2\\B-ROLL\\B02_Insert_C3831.MP4",
+  "bytes": 939684878,
+  "sha256": "59600cb6a2071ba6db752f4004d7f35f5f72127cc855141172da38d7f5366a49",
+  "duracion_s": 35.04,
+  "video": "h264 3840x2160 50/1 yuv422p10le rot 90",
+  "audio": "pcm_s16be 48000 Hz 2 canales"
+ },
+ {
+  "que": "Insert B-roll",
+  "archivo_origen": "C3838.MP4",
+  "drive_id": "1p7JH_AqVFIqyIEmjd70r4UJYnDhMeHvI",
+  "origen": "Drive del brief (tadetranche), link en el brief p. 4–5",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14_H2\\B-ROLL\\B05_Insert_C3838.MP4",
+  "bytes": 671240993,
+  "sha256": "7badbd37f23bbe7e60aa484b7ff47a843c453db3aadadecba8bdffeaf2baff1f",
+  "duracion_s": 34.08,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90",
+  "audio": "pcm_s16be 48000 Hz 2 canales"
+ },
+ {
+  "que": "Video aprobado (referencia)",
+  "archivo_origen": "VIDEO APROBADO.mp4",
+  "drive_id": null,
+  "origen": "context/ (subido por el usuario)",
+  "ruta_local": "D:\\VELABODY\\_RECURSOS\\referencias\\video1_org12_FINAL.mp4",
+  "bytes": 67711357,
+  "sha256": "0cc630f691388a922a5edfd2f670b523fc8a822fb3aa25db06b7acf3c35f61a8",
+  "duracion_s": 27.667,
+  "video": "h264 1080x1920 30/1 yuv420p rot 0",
+  "audio": "aac 48000 Hz 2 canales"
+ },
+ {
+  "que": "Música",
+  "archivo_origen": "The Fashion Elegance Short 2.wav",
+  "drive_id": null,
+  "origen": "context/MUSICA/fashion-2026-08-30-17-11-41-utc",
+  "ruta_local": "D:\\VELABODY\\_RECURSOS\\musica\\fashion-2026-08-30-17-11-41-utc\\The Fashion Elegance Short 2.wav",
+  "bytes": 15351454,
+  "sha256": "f74f76feb57366fc2dfa87bf14044424fc89fba17ea739fbb93cf3ad9a08ffe5",
+  "duracion_s": 87.022,
+  "audio": "pcm_s16le 44100 Hz 2 canales"
+ },
+ {
+  "que": "Click de gráficos",
+  "archivo_origen": "Mouse Click.mp3",
+  "drive_id": null,
+  "origen": "context/",
+  "ruta_local": "D:\\VELABODY\\_RECURSOS\\sonidos\\Mouse Click.mp3",
+  "bytes": 79481,
+  "sha256": "407450f5d6aba3bdb6e5249d0269e03bc1e41e33cff1b6a423eab81fc6c0101d",
+  "duracion_s": 1.985,
+  "audio": "mp3 44100 Hz 2 canales"
+ },
+ {
+  "que": "Fuente subtítulos a cámara",
+  "archivo_origen": "Gotham Book.otf",
+  "drive_id": null,
+  "origen": "context/gotham-book.zip (licenciada, no va a Git)",
+  "ruta_local": "D:\\VELABODY\\_RECURSOS\\fuentes\\Gotham Book.otf",
+  "bytes": 128020,
+  "sha256": "d3c79bd7ec9e3b465f0b821cf931be66542bff3694f7c70e0aeae0f6d7036756"
+ },
+ {
+  "que": "Fuente títulos y subtítulos",
+  "archivo_origen": "Montserrat-Medium.otf",
+  "drive_id": null,
+  "origen": "github.com/JulietaUla/Montserrat fonts/otf (OFL; no es la .otf de la clienta)",
+  "ruta_local": "D:\\VELABODY\\_RECURSOS\\fuentes\\Montserrat-Medium.otf",
+  "bytes": 317844,
+  "sha256": "f67081ad026955c8187bebe7dede147a09ddf0cc4d830c138fe2d08bf7b3d5ce"
+ },
+ {
+  "que": "Fuente pastilla",
+  "archivo_origen": "Montserrat-ExtraBold.otf",
+  "drive_id": null,
+  "origen": "github.com/JulietaUla/Montserrat fonts/otf (OFL; no es la .otf de la clienta)",
+  "ruta_local": "D:\\VELABODY\\_RECURSOS\\fuentes\\Montserrat-ExtraBold.otf",
+  "bytes": 325756,
+  "sha256": "3752dd62a0b6c77d3f0e975ac8a7265787b822bd1162d116098037c421570e20"
+ },
+ {
+  "que": "LUT Lumetri",
+  "archivo_origen": "AlexaV3_K1S1_LogC2Video_Rec709_EE.cube",
+  "drive_id": null,
+  "origen": "Premiere Pro 2026 › Lumetri/LUTs/Technical",
+  "ruta_local": "D:\\VELABODY\\_RECURSOS\\AlexaV3_K1S1_LogC2Video_Rec709_EE.cube",
+  "bytes": 110703,
+  "sha256": "ad07150b7d68257ecdb4f538b1e4a40bb16b44012957db3453292a07406dd968"
+ },
+ {
+  "que": "Modelo de máscara",
+  "archivo_origen": "rvm_mobilenetv3_fp32.onnx",
+  "drive_id": null,
+  "origen": "github.com/PeterL1n/RobustVideoMatting release v1.0.0 (GPL-3.0)",
+  "ruta_local": "D:\\VELABODY\\_COMPOSITOR_CACHE\\modelos\\rvm_mobilenetv3_fp32.onnx",
+  "bytes": 14975696,
+  "sha256": "88d4531297118f595bf2fd60f6f566aec2e559393802d1f436c380f0cbbd2828"
+ }
+]

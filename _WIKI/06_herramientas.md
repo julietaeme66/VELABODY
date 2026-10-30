@@ -24,6 +24,10 @@ Todo está en `E:\VELABODY\_HERRAMIENTAS\`. Hay más detalle en `LEEME.md` dentr
 
 **Probado** el 30/10 en seco con el plan del Video 8 (sin Premiere): cortes 0,2–0,5 s más largos, cola final de 1,4 s y ningún subtítulo con fondo de más de 18 caracteres. **No se probó todavía dentro de Premiere.**
 
+## Compositor sin Premiere (piloto, rama `piloto-remotion`)
+
+`_COMPOSITOR/` arma el MP4 directamente desde el `armado.json` de `velabody.py`, con Remotion. Las medidas de los gráficos, subtítulos, Pan Left y color están en `config_velabody.json › compositor`, calibradas contra el Video 1 FINAL. Comandos, resultados y diferencias pendientes: `_COMPOSITOR/LEEME.md`. Las rutas de cada compu van en `_HERRAMIENTAS/config_local.json` (no se versiona).
+
 ## Avisos técnicos
 
 - **No renderizar** para verificar: alcanza con crear y guardar las secuencias (Juli, 29 y 30/10).

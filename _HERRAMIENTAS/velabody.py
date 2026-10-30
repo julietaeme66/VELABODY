@@ -15,6 +15,7 @@ Uso:
 import difflib
 import json
 import math
+import os
 import pathlib
 import re
 import subprocess
@@ -25,8 +26,31 @@ from xml.sax.saxutils import escape
 
 AQUI = pathlib.Path(__file__).resolve().parent
 CONFIG = json.loads((AQUI / "config_velabody.json").read_text(encoding="utf-8"))
-CARPETAS_FUENTES = [pathlib.Path(r"C:\Windows\Fonts"),
-                    pathlib.Path.home() / r"AppData\Local\Microsoft\Windows\Fonts"]
+
+
+def _fusionar(base: dict, extra: dict) -> None:
+    for k, v in extra.items():
+        if isinstance(v, dict) and isinstance(base.get(k), dict):
+            _fusionar(base[k], v)
+        else:
+            base[k] = v
+
+
+# config_local.json (no se versiona) pisa las rutas de cada compu: "raiz" del proyecto, "recursos.*" y
+# "carpetas_fuentes". Sin ese archivo (ni VELABODY_RAIZ) todo sigue apuntando a E:\VELABODY
+CONFIG_LOCAL = AQUI / "config_local.json"
+if CONFIG_LOCAL.exists():
+    _fusionar(CONFIG, json.loads(CONFIG_LOCAL.read_text(encoding="utf-8")))
+RAIZ = pathlib.Path(os.environ.get("VELABODY_RAIZ") or CONFIG.get("raiz") or r"E:\VELABODY")
+CARPETAS_FUENTES = [pathlib.Path(c) for c in CONFIG.get("carpetas_fuentes", [])] + [
+    RAIZ / "_RECURSOS" / "fuentes", pathlib.Path(r"C:\Windows\Fonts"),
+    pathlib.Path.home() / r"AppData\Local\Microsoft\Windows\Fonts"]
+
+
+def carpeta_plan(plan: dict) -> pathlib.Path:
+    """Carpeta del video: absoluta como siempre, o relativa a la raíz del proyecto (portable)."""
+    c = pathlib.Path(plan["carpeta"])
+    return c if c.is_absolute() else RAIZ / c
 
 
 # ---------------------------------------------------------------- utilidades
@@ -392,8 +416,8 @@ def titulo_video(plan: dict) -> str:
     el mismo nombre sin ":" (no válido en Windows), así que se busca en el brief por esa carpeta."""
     if plan.get("titulo"):
         return plan["titulo"]
-    carpeta = pathlib.Path(plan["carpeta"]).name
-    for brief in (pathlib.Path(r"E:\VELABODY\_MATERIAL_BRUTO\brief.json"), AQUI / "brief" / "brief.json"):
+    carpeta = carpeta_plan(plan).name
+    for brief in (RAIZ / "_MATERIAL_BRUTO" / "brief.json", AQUI / "brief" / "brief.json"):
         if brief.exists():
             for v in json.loads(brief.read_text(encoding="utf-8")):
                 if re.sub(r'[:<>"/\\|?*]', "", v["titulo"]).strip() == carpeta:
@@ -422,7 +446,7 @@ def armar(plan_path: pathlib.Path) -> None:
 
 
 def armar_pieza(plan: dict, sufijo: str) -> None:
-    carpeta = pathlib.Path(plan["carpeta"])
+    carpeta = carpeta_plan(plan)
     salida = carpeta / "_EDICION"
     salida.mkdir(exist_ok=True)
     trans_dir = salida / "transcripciones"
@@ -607,14 +631,16 @@ def armar_pieza(plan: dict, sufijo: str) -> None:
 
         for g in bloque.get("graficos", []):
             ini, fin = tramo(g)
+            # fondo cargado (wiki › títulos): "sombra" o "desenfoque"; el panel de Premiere lo ignora
+            extra = {"fondo_cargado": g["fondo_cargado"]} if g.get("fondo_cargado") else {}
             if g.get("pastilla"):
                 cp = CONFIG["pastilla_v2"]
                 graficos.append({"tipo": "pastilla", "t": ini, "fin": fin, "texto": g["pastilla"].upper(),
-                                 "escala": g.get("escala", cp["escala"]), "pos": g.get("pos", cp["pos"]), "bloque": nb})
+                                 "escala": g.get("escala", cp["escala"]), "pos": g.get("pos", cp["pos"]), "bloque": nb, **extra})
                 continue
             for n, capa in enumerate(maquetar_titulo_v2(g["lineas"], g.get("y"))):
                 graficos.append({"tipo": "titulo", "t": round(ini + n * CONFIG["titulos_v2"]["escalon"], 4), "fin": fin,
-                                 **capa, "bloque": nb})
+                                 **capa, "bloque": nb, **extra})
         for z in bloque.get("zooms", []):
             ini, fin = tramo({**z, "hasta": z.get("hasta", "fin")})
             zooms.append({**z, "t": ini, "fin": fin})
@@ -745,6 +771,8 @@ def armar_pieza(plan: dict, sufijo: str) -> None:
         medios[lk["ruta"]] = {"ruta": lk["ruta"], **ffprobe(pathlib.Path(lk["ruta"]))}
 
     musica, musica_db = plan.get("musica"), None
+    if musica and not pathlib.Path(musica).is_absolute():
+        musica = str(RAIZ / musica)
     if musica:
         medios[musica] = {"ruta": musica, **ffprobe(pathlib.Path(musica))}
         # la música queda "musica_bajo_voz_db" por debajo de la voz: solo de fondo
@@ -878,6 +906,7 @@ def fcp_xml(a: dict) -> str:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")   # las notas llevan "→" y "⚠": sin esto falla en consolas cp1252
     if len(sys.argv) != 2:
         print(__doc__)
         sys.exit(1)

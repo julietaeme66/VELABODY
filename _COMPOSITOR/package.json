@@ -1,0 +1,24 @@
+{
+  "name": "velabody-compositor",
+  "private": true,
+  "description": "Compositor Remotion de VELABODY: arma el reel desde el armado.json de velabody.py, sin Premiere.",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "piloto": ".venv\\Scripts\\python -I herramientas/piloto.py pilotos/ads14_h2/plan.json --nombre ADS14_H2_piloto",
+    "verificar": ".venv\\Scripts\\python -I herramientas/verificar_entrega.py",
+    "pruebas": ".venv\\Scripts\\python -I herramientas/test_adaptar_armado.py && tsc --noEmit",
+    "tipos": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.535",
+    "@remotion/fonts": "4.0.535",
+    "@remotion/media": "4.0.535",
+    "react": "19.2.9",
+    "react-dom": "19.2.9",
+    "remotion": "4.0.535"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.18",
+    "typescript": "5.9.3"
+  }
+}

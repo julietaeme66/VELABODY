@@ -7,6 +7,7 @@
 !/_WIKI/
 !/_HERRAMIENTAS/
 !/Video */
+!/_COMPOSITOR/
 /Video */*
 !/Video */guion.md
 !/Video */_EDICION/
@@ -19,6 +20,8 @@ _WIKI/.obsidian/workspace*.json
 # Cachés y salidas pesadas de las herramientas
 _HERRAMIENTAS/cache_leaks/
 _HERRAMIENTAS/revision/
+# Rutas de cada compu (ver _HERRAMIENTAS/config_local.ejemplo.json)
+_HERRAMIENTAS/config_local.json
 __pycache__/
 
 # Por las dudas, ningún archivo de media
