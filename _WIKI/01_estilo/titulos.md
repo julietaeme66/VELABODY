@@ -62,7 +62,7 @@ Para nombres de equipo (DERMA SCAN, DIODE LASER 4D, RF CAVI PRO).
 | Fuente | **Montserrat ExtraBold**, mayúsculas, **sin itálica**. Texto blanco. |
 | Caja | `#6F04BA`. En Propiedades: Scale **285** y Round Corners **140**, **sin tocar**. |
 | Posición | Control de efectos: **545 / 440** (arriba) y escala **72 a 92**. |
-| Reutilizarla | Si el plano dura mucho: más chica y más arriba (**545 / 350**) más un zoom-in al clip. Ver [transiciones y movimiento](transiciones_y_movimiento.md). |
+| Una sola vez | **Entra y sale una sola vez y se mantiene.** Si el plan la repite enseguida con el mismo texto (la reutilizada del cierre), sigue la primera; no hay una segunda entrada. *(pedido del 30/10)* |
 
 ![Pastilla](../_guia/fotogramas/07_pastilla_1line_fill_text_box.jpg)
 

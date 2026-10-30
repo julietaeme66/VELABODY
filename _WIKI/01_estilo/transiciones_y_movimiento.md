@@ -6,7 +6,7 @@
 - Cada una lleva el SFX **`Transition Complex 14.wav`** **0,1 s antes** del corte, a −12 dB.
 - **No usamos light leaks** (desde el feedback del 27/10, que pidió algo más tranquilo).
 - La clienta pidió que en los videos ORG sean sutiles y en los ADS un poco más juguetonas.
-- **Siempre la misma Pan Left**, con el mismo aspecto en todos los cortes *(pedido del 30/10)*. En el proyecto validado (Video 1) son dos capas de ajuste de Mister Horse, de **4 cuadros antes y 11 después** del corte: una mueve la imagen (la que sale acelera hacia la izquierda; la que entra aparece ~470 px a la derecha y frena) y rellena en espejo, y la otra le pone un desenfoque direccional horizontal (hasta ~100 px en el corte). El SFX va desde 0,1 s antes del corte y dura 0,4 s.
+- **Siempre la misma Pan Left**, con el mismo aspecto en todos los cortes *(pedido del 30/10)*. En el proyecto validado (Video 1) son dos capas de ajuste de Mister Horse, de **4 cuadros antes y 11 después** del corte: una mueve la imagen (la que sale acelera hacia la izquierda; la que entra aparece ~470 px a la derecha y frena) y rellena en espejo, y la otra le pone un desenfoque direccional horizontal (hasta ~100 px en el corte). El SFX va desde 0,1 s antes del corte y dura 0,4 s. Medido en el export, la imagen que entra frena más despacio que la interpolación lineal de los keyframes: a +2, +3 y +4 cuadros todavía está a 200, 116 y 72 px.
 
 ## A-roll (presentadora)
 
@@ -29,7 +29,9 @@ Objeto máscara: calado ~13, opacidad 100 % y expansión 0 (se sube si detecta m
 
 ![Sándwich](../_guia/fotogramas/08_sandwich_de_capas.jpg)
 
-## Reutilizar la pastilla con zoom
+## ~~Reutilizar la pastilla con zoom~~
+
+> Ya no se usa: la pastilla entra una sola vez y se mantiene (ver [títulos](titulos.md)). *(pedido del 30/10)*
 
 Cuando el mismo plano dura mucho, se vuelve a poner la pastilla **más chica y arriba** (545 / 350, escala de 72 a 80) y se le da un zoom-in suave al clip con dos keyframes lineales.
 

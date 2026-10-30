@@ -21,7 +21,12 @@
     "zoom_lento_por_s": 0.03,
     "min_plano_entre_broll_s": 3.0,
     "_pedido": "30/10: a cámara 3 s o más o nada; nunca jump cut de la misma toma (zoom lento continuo, sin punch-ins); cola final de 1 s",
-    "zoom_max": 1.12
+    "zoom_max": 1.12,
+    "broll_max_s": 4.0,
+    "broll_plano_s": 3.5,
+    "broll_cerrado_zoom": 1.5,
+    "broll_distinto": 0.6,
+    "_pedido_broll": "30/10: el B-roll largo se corta cada 3-4 s; el plano siguiente es otra parte del mismo clip que muestre otra cosa o un plano más cerrado"
   },
   "aroll": [],
   "caras": {

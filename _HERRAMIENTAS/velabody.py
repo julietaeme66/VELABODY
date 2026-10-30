@@ -572,6 +572,78 @@ def ritmo_automatico(rt: dict, aroll: list[dict], broll: list[dict], palabras: l
     return nuevos, saltos
 
 
+def partir_broll_largo(rt: dict, broll: list[dict], palabras: list[dict], graficos: list[dict], transiciones: list[dict],
+                       medio, fps: int, notas: list[str], carpeta_cache: pathlib.Path) -> None:
+    """B-roll largo (pedido del 30/10): un inserto de más de broll_max_s se corta en planos de ~broll_plano_s.
+    Cada plano nuevo sale del mismo archivo sin ser un jump cut: o bien otra parte del clip que se ve
+    distinta (broll_visual.otra_parte), o bien el mismo momento en un plano más cerrado (broll_cerrado_zoom,
+    centrado en lo que tiene detalle). Se alternan, empezando por el plano cerrado (sigue mostrando lo
+    mismo de lo que se habla, p. ej. el 3D bajo el título "CORTE 3D"). Los cortes caen al empezar
+    una palabra, nunca a mitad de un gráfico ni encima de una transición."""
+    sys.path.insert(0, str(AQUI))     # con python -I la carpeta del script no está en sys.path
+    import broll_visual
+    maximo, plano = rt["broll_max_s"], rt.get("broll_plano_s", 3.5)
+    zoom_cerrado, umbral = rt.get("broll_cerrado_zoom", 1.5), rt.get("broll_distinto", 0.6)
+    minimo = rt.get("broll_plano_min_s", 2.0)
+    cuadro = lambda v: round(round(v * fps) / fps, 4)
+    ocupado = [(g["t"], g["fin"]) for g in graficos] + [(x["t"] - 0.5, x["t"] + 0.5) for x in transiciones]
+    candidatos = sorted({cuadro(p["i"]) for p in palabras} | {cuadro(g["fin"]) for g in graficos})
+    candidatos = [c for c in candidatos if not any(a < c < b for a, b in ocupado)]
+    usados: dict[str, list[tuple[float, float]]] = {}
+    for b in broll:
+        usados.setdefault(b["clip"], []).append((b["in"], b["out"]))
+
+    nuevos = []
+    for b in sorted(broll, key=lambda b: b["t"]):
+        dur = b["out"] - b["in"]
+        n = max(1, round(dur / plano))
+        if dur <= maximo or n < 2:
+            nuevos.append(b)
+            continue
+        cortes, t0 = [], b["t"]
+        for k in range(1, n):
+            ideal = b["t"] + k * dur / n
+            validos = [c for c in candidatos if c - t0 >= minimo and b["t"] + dur - c >= minimo * (n - k)]
+            if validos:
+                t0 = min(validos, key=lambda c: abs(c - ideal))
+                cortes.append(t0)
+        if not cortes:
+            notas.append(f"- ⚠️ B-roll {b['clip']} de {dur:.1f} s: no encuentro dónde cortarlo (gráficos o transiciones encima).")
+            nuevos.append(b)
+            continue
+        ruta, largo = medio(b["clip"])["ruta"], medio(b["clip"])["duracion"]
+        bordes = [b["t"], *cortes, b["t"] + dur]
+        prev = {**b, "out": round(b["in"] + bordes[1] - bordes[0], 3)}
+        piezas = [prev]
+        for k in range(1, len(bordes) - 1):
+            d = round(bordes[k + 1] - bordes[k], 3)
+            otra = broll_visual.otra_parte(ruta, d, largo, (prev["in"], prev["out"]), usados[b["clip"]], umbral, carpeta_cache)
+            sigue = prev["out"] if prev["out"] + d <= largo - 0.05 else None
+            cerrado = prev.get("zoom", 1.0) < zoom_cerrado and sigue is not None
+            quiere_otra = k % 2 == 0 or not cerrado
+            if otra is not None and quiere_otra:
+                pieza = {**b, "in": round(otra, 3), "out": round(otra + d, 3)}
+                como = f"otra parte del clip ({otra:.1f} s)"
+            elif cerrado:
+                fx, fy = broll_visual.foco_cercano(ruta, sigue, sigue + d, zoom_cerrado, carpeta_cache)
+                pieza = {**b, "in": round(sigue, 3), "out": round(sigue + d, 3), "zoom": zoom_cerrado, "foco_x": fx, "foco_y": fy}
+                como = f"plano más cerrado (×{zoom_cerrado}, foco {fx:.2f}/{fy:.2f})"
+            elif sigue is not None and prev.get("zoom", 1.0) != b.get("zoom", 1.0):
+                pieza = {**b, "in": round(sigue, 3), "out": round(sigue + d, 3)}
+                como = "vuelve al plano abierto"
+            else:
+                prev["out"] = round(prev["out"] + d, 3)       # no hay cómo variar: el plano anterior sigue
+                notas.append(f"- ⚠️ B-roll {b['clip']}: no encuentro otra parte distinta ni un plano cerrado; sigue de corrido.")
+                continue
+            pieza["t"] = cuadro(bordes[k])
+            usados[b["clip"]].append((pieza["in"], pieza["out"]))
+            piezas.append(pieza)
+            prev = pieza
+            notas.append(f"- Ritmo: {b['clip']} se corta en {bordes[k]:.2f} s → {como}.")
+        nuevos.extend(piezas)
+    broll[:] = nuevos
+
+
 # ------------------------------------------------------------------ armado
 
 def titulo_video(plan: dict) -> str:
@@ -839,6 +911,13 @@ def armar_pieza(plan: dict, sufijo: str, conservar: dict | None = None) -> list:
             extra = {"fondo_cargado": g["fondo_cargado"]} if g.get("fondo_cargado") else {}
             if g.get("pastilla"):
                 cp = CONFIG["pastilla_v2"]
+                # la pastilla entra y sale una sola vez y se mantiene (pedido del 30/10): si el plan la repite
+                # enseguida con el mismo texto (p. ej. la reutilizada del cierre), sigue la primera
+                prev = next((x for x in reversed(graficos) if x["tipo"] == "pastilla"), None)
+                if prev and prev["texto"] == g["pastilla"].upper() and ini - prev["fin"] <= 1.0:
+                    notas.append(f"- Pastilla {prev['texto']}: la del plan en {ini:.2f} s sigue la anterior (entra una sola vez).")
+                    prev["fin"] = max(prev["fin"], fin)
+                    continue
                 graficos.append({"tipo": "pastilla", "t": ini, "fin": fin, "texto": g["pastilla"].upper(),
                                  "escala": g.get("escala", cp["escala"]), "pos": g.get("pos", cp["pos"]), "bloque": nb, **extra})
                 continue
@@ -881,6 +960,8 @@ def armar_pieza(plan: dict, sufijo: str, conservar: dict | None = None) -> list:
         transiciones.append({"t": round(t, 4), "tipo": "Pan Left"})   # corte hook → body pegado a mano
     if plan.get("ritmo"):
         zooms, saltos = ritmo_automatico(plan["ritmo"], aroll, broll, palabras_tl, zooms, duracion, medio, fps, notas)
+        if plan["ritmo"].get("broll_max_s"):
+            partir_broll_largo(plan["ritmo"], broll, palabras_tl, graficos, transiciones, medio, fps, notas, salida / "_claves")
     aroll = aplicar_zooms(aroll, zooms, medio, plan.get("caras", {}), fps)
 
     # ---- subtítulos: bloques de 2-3 palabras, una sola línea

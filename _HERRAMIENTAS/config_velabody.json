@@ -181,9 +181,9 @@
       "fondo": {"fuente": "Montserrat-Medium.otf", "px": 58, "tracking_em": -0.009, "base_dy": 17, "alto_caja": 112, "margen_x": 28, "radio": 16},
       "camara": {"fuente": "Gotham Book.otf", "px": 49, "tracking_em": -0.022, "base_dy": 11, "brillo": [{"desvio_px": 22, "opacidad": 1}, {"desvio_px": 12, "opacidad": 1}, {"desvio_px": 3, "opacidad": 0.6}]}
     },
-    "pan_left": {"_fuente": "Keyframes del Pan Left de Mister Horse en el proyecto validado (VELABODY_EDICION.prproj, Video 1, corte de 1,5 s), evaluados por cuadro. Cuadro relativo al corte: desplazamiento horizontal en px (V12, Transformar) y largo del desenfoque direccional en px (V13).",
-      "desplazamiento_px": {"-4": 0, "-3": -6, "-2": -31, "-1": -81, "0": 471, "1": 308, "2": 169, "3": 87, "4": 47, "5": 26, "6": 14, "7": 7, "8": 3, "9": 1, "10": 0, "11": 0},
-      "desenfoque_px": {"-4": 0, "-3": 1.5, "-2": 8.2, "-1": 20.9, "0": 96.3, "1": 68.5, "2": 32.8, "3": 17.0, "4": 9.6, "5": 5.5, "6": 3.1, "7": 1.7, "8": 0.8, "9": 0.3, "10": 0.0, "11": 0},
+    "pan_left": {"_fuente": "Keyframes del Pan Left de Mister Horse en el proyecto validado (VELABODY_EDICION.prproj, Video 1, corte de 1,5 s), evaluados por cuadro y corregidos con lo medido en el export aprobado (medir_transicion.py, corte del cuadro 45): Premiere frena la toma que entra más tarde que la interpolación lineal de los keyframes (+2 a +8: 200, 116, 72, 44, 24, 16, 8 px en lugar de 169, 87, 47, 26, 14, 7, 3). Cuadro relativo al corte: desplazamiento horizontal en px (V12, Transformar) y largo del desenfoque direccional en px (V13, escalado con la misma velocidad).",
+      "desplazamiento_px": {"-4": 0, "-3": -10, "-2": -35, "-1": -85, "0": 471, "1": 316, "2": 200, "3": 116, "4": 72, "5": 44, "6": 24, "7": 16, "8": 8, "9": 2, "10": 0, "11": 0},
+      "desenfoque_px": {"-4": 0, "-3": 1.5, "-2": 8.2, "-1": 20.9, "0": 96.3, "1": 68.5, "2": 38.8, "3": 22.7, "4": 14.7, "5": 9.3, "6": 5.3, "7": 3.9, "8": 2.1, "9": 0.6, "10": 0.0, "11": 0},
       "sigma_por_px_direccional": 0.577},
     "color": {"lut": "AlexaV3_K1S1_LogC2Video_Rec709_EE.cube", "exposicion_pasos": 0.3, "contraste_s": 0.5},
     "sandwich": {"halo_px": 6, "calado_px": 6},

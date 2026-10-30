@@ -17,6 +17,7 @@
 - Cuando un mismo clip se usa en varios videos, conviene recorrerlo y usar otras partes para variar (no en todos los casos). *(pedido del 30/10)*
 - **Nunca un jump cut que muestre la misma toma.** No se corta y se vuelve a la misma toma (ni con otro encuadre ni saltando un pedazo), ni en la presentadora ni en el B-roll. Una imagen se puede quedar más de 3 s: el dinamismo no va por ahí. Si una pausa recortada dejaría un salto a la vista, se conserva la pausa; dos tramos seguidos del mismo B-roll van de corrido. *(pedido del 30/10)*
 - **Zoom lento continuo** en los tramos a cámara (hacia adentro o hacia afuera, ~3 % por segundo), sin cortes.
+- **B-roll largo: se corta cada 3–4 s.** Si un inserto dura mucho (p. ej. 10 s de la pantalla con los análisis), se parte. El plano siguiente sale del mismo archivo, pero tiene que verse como **otro plano**: o bien **otra parte del clip que muestre otra cosa**, o bien **un plano más cerrado** del mismo momento (×1,5, sobre la pantalla o el rostro; p. ej. cuando habla de la luz ultravioleta). Se alternan, empezando por el plano cerrado (sigue mostrando de lo que se habla). Los cortes caen al empezar una palabra, y nunca a mitad de un gráfico ni encima de una transición. *(pedido del 30/10)*
 
 ## Final del video
 
@@ -32,4 +33,5 @@ Desde la versión 2.1 (30/10), el builder corta con márgenes de 0,15 s antes y 
 Para el ritmo de arriba, el plan activa `"corte": {"modo": "dinamico", ...}` y `"ritmo": {...}` (ver `_COMPOSITOR/pilotos/ads14/plan.json`):
 
 - **Recorte dinámico:** mide la voz de cada toma con un umbral relativo a esa voz, no al pico. En tomas muy bajas el umbral por pico queda pegado al ruido de sala y deja segundos muertos. Deja 0,06 s antes y 0,15 s después de la voz, y saca pausas de más de 0,3 s. Solo achica tramos, nunca los agranda.
+- **B-roll largo:** `"broll_max_s"` (4), `"broll_plano_s"` (3,5), `"broll_cerrado_zoom"` (1,5) y `"broll_distinto"` (0,6). `broll_visual.py` lee los cuadros clave de cada clip y mide qué tan distinta se ve otra parte. Por debajo de ~0,45 es el mismo encuadre apenas movido, o sea, un jump cut. El plano cerrado usa `zoom`/`foco_x`/`foco_y` del B-roll, que Premiere ya entiende.
 - **Control:** después del recorte, cada palabra del guion alineada por Whisper tiene que quedar adentro; si no, sale un aviso en `notas_revision`.

@@ -63,7 +63,7 @@ Cada corrida guarda `_COMPOSITOR_SALIDAS/<nombre>_HN_vNNN.mp4` (render) y `_vNNN
 | MOGRT *Ease Position & Mask Y - Bottom* | `Titulo` (SVG): sube desde una máscara con borde en la línea de base; ease-out *quint*, 30 cuadros. |
 | MOGRT *1-Line Fill Text Box - Up* | `Pastilla` (SVG): la caja crece desde abajo y el texto sube con el borde superior; ease-out cúbica, 19 cuadros. |
 | Estilos de pista `VELABODY SUBS C FONDO` / `CAMARA` | `Subtitulos` quemados: caja `#6F04BA` con Montserrat Medium 58, o Gotham Book 49 con halo violeta. |
-| Pan Left (Mister Horse) | `ConPanLeft`, con **los keyframes de las dos capas de ajuste de Mister Horse del proyecto validado** (`VELABODY_EDICION.prproj`, leídos con `leer_prproj.py`): Transformar mueve la imagen de −4 a +11 cuadros del corte (la que sale acelera hacia la izquierda, la que entra aparece 471 px a la derecha y frena), Espejo rellena el lado vacío y Desenfoque direccional a 90° llega a 96 px en el corte. Los valores están en `config_velabody.json › compositor.pan_left`. Lleva el SFX `Transition Complex 14.wav` desde 0,1 s antes del corte. Se mide con `medir_transicion.py`. No toca los subtítulos. |
+| Pan Left (Mister Horse) | `ConPanLeft`, con **los keyframes de las dos capas de ajuste de Mister Horse del proyecto validado** (`VELABODY_EDICION.prproj`, leídos con `leer_prproj.py`): Transformar mueve la imagen de −4 a +11 cuadros del corte (la que sale acelera hacia la izquierda, la que entra aparece 471 px a la derecha y frena), Espejo rellena el lado vacío y Desenfoque direccional a 90° llega a 96 px en el corte. Del cuadro +1 al +9, la tabla se corrigió con lo medido en el export aprobado, porque Premiere frena la imagen más tarde que la interpolación lineal de los keyframes. Los valores están en `config_velabody.json › compositor.pan_left`. Lleva el SFX `Transition Complex 14.wav` desde 0,1 s antes del corte. Se mide con `medir_transicion.py`. No toca los subtítulos. |
 | Objeto máscara (sándwich) | `mascara_persona.py --detras`: mate de RobustVideoMatting + halo y calado, como video con alfa encima de la pastilla. El adaptador ubica cada pastilla sobre la presentadora para que el pelo le tape ~25 % del alto (sale "por detrás de la cabeza", como en el Video 1). |
 | Desenfoque gaussiano con máscara de calado (fondo cargado) | `Desenfoques`: `backdrop-filter` solo en la zona del título, con borde elíptico suave; entra y sale con el gráfico. |
 | Mover el título a mano si toca la cabeza | El adaptador mide el borde del pelo (máscara de persona) bajo cada título y lo sube; si no entra bajo la zona segura, achica el bloque entero. |
@@ -108,7 +108,8 @@ Las tres piezas salen del mismo plan (`pilotos/ads14/plan.json`, copiado de `pla
 
 - **Títulos:** siempre dos palabras en dos líneas justificadas, nunca tocando la cabeza, con desenfoque detrás. **Si se corta la toma, el gráfico se corta en el mismo cuadro**, sin fundido (`cortar_graficos_con_la_toma`).
 - **Cantidad de gráficos:** la del plan, aunque la wiki recomiende 2 a 4.
-- **Pastilla:** sale por detrás de la cabeza.
+- **Pastilla:** sale por detrás de la cabeza y **entra una sola vez**: si el plan la repite enseguida con el mismo texto, sigue la primera.
+- **B-roll largo:** se corta cada 3–4 s (`partir_broll_largo` en `velabody.py`, con `broll_visual.py`). El plano siguiente sale del mismo archivo: primero el mismo momento en un plano ×1,5 más cerrado, centrado en lo que tiene detalle, y después otra parte del clip que se vea distinta. Los cortes caen al empezar una palabra y nunca a mitad de un gráfico. Usa `zoom`/`foco` del B-roll, igual que el panel de Premiere.
 - **Ritmo:** sin silencios; a cámara 3 s o más o nada; cola final de 1 s.
 - **Nunca un jump cut de la misma toma.** Si dos tramos seguidos de la misma toma quedarían a la vista, `velabody.py` vuelve a armar la pieza conservando la pausa entre ellos (`armar_sin_saltos`), y dos insertos seguidos del mismo clip se unen en un solo plano. La imagen puede quedarse más de 3 s; se mueve con un zoom lento continuo (entra o sale), nunca con un salto de escala.
 - **Pan Left:** los keyframes del proyecto validado, con su SFX.
@@ -133,7 +134,7 @@ Las versiones anteriores quedan en `_COMPOSITOR_SALIDAS` (no se pisan). El conte
 
 **Para revisar (decisiones creativas):**
 
-- Los insertos son más largos que en el aprobado (plano mediano de B-roll 0,95 s), porque ya no se parten: partirlos dentro del mismo clip sería un jump cut.
+- Los insertos siguen siendo más largos que en el aprobado (mediana de 0,95 s allá, 2–4 s acá): no hay material para cortar más seguido sin repetir el mismo encuadre.
 - En H3, ANALIZADOR / FACIAL sube 48 px para no tocar la cabeza.
 - La pastilla reutilizada del cierre queda más abajo que la guía (545/350), porque se ubica detrás de la cabeza.
 
@@ -150,6 +151,17 @@ Prueba de una sola pieza en calidad media (810x1440), como se pidió. 58,1 s, 17
 | SFX de la transición | Sí, en los 3 cortes. |
 | Zona segura (PNG de la clienta) | Ningún gráfico afuera. |
 | Color de la cadena | ΔE2000 1,56. |
+
+### Tercera revisión: `ADS14_H1_media_v003_norm.mp4`
+
+El H1 de la segunda revisión quedó aprobado como camino. Sobre esa versión:
+
+| Qué | Resultado |
+|---|---|
+| B-roll largo | C3831 (6,5 s) pasa a un primer plano del rostro en la tablet; C3829 (9,5 s), al 3D más cerca (debajo de CORTE / 3D) y después a otra parte del clip; C3835 (6 s), a un plano más cerrado del reporte. Ningún plano de B-roll pasa de 4 s. |
+| Pastilla DERMA SCAN | Una sola entrada, de 1573 a 1712, con un solo click. |
+| Pan Left (corte 1292 contra el aprobado) | La toma que sale: −12, −40, −92 contra −12, −40, −92. La que entra: 500, 328, 192, 108, 64, 40, 24, 16 contra 496, 316, 200, 116, 72, 44, 24, 16 (≤ 12 px). |
+| Sonoridad, zona segura y color | −14,0 LUFS, −1,0 dBTP; ningún gráfico afuera; ΔE2000 1,56. |
 
 ## Hallazgos que también afectan al flujo de Premiere
 
