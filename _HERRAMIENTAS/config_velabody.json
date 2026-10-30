@@ -1,0 +1,160 @@
+{
+  "secuencia": {
+    "ancho": 1080,
+    "alto": 1920,
+    "fps": 30
+  },
+  "violeta": "#6F04BA",
+  "recursos": {
+    "click": "C:\\TRABAJO\\BANCO DE SONIDOS\\click\\Mouse Click.mp3",
+    "mogrt_texto": "C:\\Users\\marro\\AppData\\Local\\MisterHorse\\ProductManager\\Products\\3283\\Items\\Starter Pack\\(2) Text Presets\\Position & Mask Ease In [Bottom].mogrt",
+    "mogrt_pastilla": "C:\\Users\\marro\\AppData\\Local\\MisterHorse\\ProductManager\\Products\\3283\\Items\\Starter Pack\\(1) Text Boxes\\1-Line Fill Text Box 1 - Up.mogrt",
+    "carpeta_light_leaks": "E:\\VELABODY\\VELABODY_EDICIÓN_RECURSOS--20261019T115510Z-1-001\\VELABODY_EDICIÓN_RECURSOS-\\Recursos estéticos\\Transiciones_Oficios\\Light leaks Transitions\\Assets",
+    "zona_segura": "E:\\VELABODY\\Video 1 — ORG12 · Derma Scan presentación del equipo\\zona-segura-reels-ig_v1-copia.png",
+    "ajuste_lumetri_nombre": "LUMETRI VELABODY",
+    "plantilla_secuencia_nombre": "_PLANTILLA_9x16"
+  },
+  "pistas": {
+    "V1": "A-roll",
+    "V2": "B-roll",
+    "V3": "Ajuste Lumetri",
+    "V4": "Light leaks",
+    "V5": "Títulos",
+    "V6": "Zona segura (desactivada)",
+    "A1": "Voz",
+    "A2": "Clicks",
+    "A3": "SFX light leak",
+    "A4": "Música"
+  },
+  "audio": {
+    "voz_lufs": -14,
+    "true_peak_db": -1,
+    "musica_bajo_voz_db": 22,
+    "voz_ganancia_max_db": 15,
+    "click_db": -8,
+    "sfx_light_db": -14
+  },
+  "corte": {
+    "pad_inicio": 0.15,
+    "pad_fin": 0.35,
+    "pausa_max": 0.8,
+    "similitud_palabra": 0.75,
+    "cola_final": 1.5,
+    "cola_minima": 1.0
+  },
+  "subtitulos": {
+    "palabras_max": 3,
+    "caracteres_max": 20,
+    "duracion_min": 0.35,
+    "unir_huecos_menores_a": 0.3,
+    "no_separar": [
+      "Derma Scan",
+      "Diode Laser 4D",
+      "Diode Laser",
+      "Infinity DPL",
+      "RF Cavi Pro"
+    ],
+    "caracteres_max_fondo": 18
+  },
+  "titulos": {
+    "y_primera_linea": 370,
+    "ancho_max": 840,
+    "tamano_max": 112,
+    "interlineado": 0.3,
+    "separacion_runs_em": 0.12,
+    "pastilla_rel": 0.8,
+    "alto_mayusculas_em": 0.7,
+    "mogrt_comp": [
+      1920,
+      1080
+    ],
+    "duracion": 2.6,
+    "fuentes": {
+      "clave": {
+        "archivo": "Montserrat-Medium.otf",
+        "ps": "Montserrat-Medium",
+        "mayus": true,
+        "italica": false
+      },
+      "normal": {
+        "archivo": "Montserrat-Regular.otf",
+        "ps": "Montserrat-Regular",
+        "mayus": true,
+        "italica": false
+      },
+      "pastilla": {
+        "archivo": "Montserrat-ExtraBold.otf",
+        "ps": "Montserrat-ExtraBold",
+        "mayus": false,
+        "italica": true
+      },
+      "acento": {
+        "archivo": "Montserrat-ExtraBold.otf",
+        "ps": "Montserrat-ExtraBold",
+        "mayus": false,
+        "italica": true
+      }
+    },
+    "pastilla_padding": [
+      0.22,
+      0.16
+    ],
+    "pastilla_padding_base_px": 14,
+    "pastilla_redondeo": 100
+  },
+  "reemplazos": {
+    "láser": "laser",
+    "Láser": "Laser",
+    "LÁSER": "LASER",
+    "Dermascan": "Derma Scan"
+  },
+  "light_leak": {
+    "duracion": 1.0,
+    "modo_fusion": "screen"
+  },
+  "titulos_v2": {
+    "fuente": "Montserrat-Medium.otf",
+    "ancho_guia": 852,
+    "escala_max": 130,
+    "factor_ancho": 0.965,
+    "arriba_rel": 0.135,
+    "base_rel": 0.565,
+    "separacion": 24,
+    "y_mayusculas": 380,
+    "x": 540,
+    "escalon": 0.3,
+    "duracion": 2.4,
+    "escala_linea_max": 200
+  },
+  "pastilla_v2": {
+    "escala": 80,
+    "pos": [
+      545,
+      440
+    ]
+  },
+  "estilo_v2": {
+    "secuencia_base": "Video 1 — ORG12 · Derma Scan: presentación del equipo",
+    "mogrt_titulo": "Ease Position & Mask Y - Bottom (782305a2) 1080x1920",
+    "mogrt_pastilla": "1-Line Fill Text Box 1 - Up 1080x1920",
+    "sfx_transicion": "E:\\VELABODY\\PROYECTO\\Premiere Composer Files\\Audio\\Transition Complex 14.wav",
+    "sfx_transicion_db": -12,
+    "sfx_adelanto": 0.1,
+    "pistas": {
+      "aroll": 1,
+      "broll": 3,
+      "ajuste": 4,
+      "graficos": [
+        5,
+        6,
+        7
+      ],
+      "zona_segura": 8,
+      "a_voz": 1,
+      "a_sfx": 2,
+      "a_musica": 3,
+      "a_click": 4
+    },
+    "musica_fade": 2.0
+  }
+}

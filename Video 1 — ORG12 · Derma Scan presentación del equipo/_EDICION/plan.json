@@ -1,0 +1,153 @@
+{
+  "nombre": "Video 1 — ORG12 · Derma Scan presentación del equipo — PILOTO",
+  "carpeta": "E:\\VELABODY\\Video 1 — ORG12 · Derma Scan presentación del equipo",
+  "musica": "E:\\VELABODY\\Video 1 — ORG12 · Derma Scan presentación del equipo\\retro-fashion-2026-06-29-15-04-14-utc\\Main.mp3",
+  "aroll": [
+    "C3650",
+    "C3653",
+    "C3655",
+    "C3659",
+    "C3660"
+  ],
+  "bloques": [
+    {
+      "texto": "El diagnóstico facial avanzado redefinirá tu estrategia para crear protocolos y potenciar el resultado de tus tratamientos.",
+      "clip": "C3650",
+      "titulos": [
+        {
+          "en": "diagnóstico",
+          "lineas": [
+            [
+              {
+                "t": "Diagnóstico",
+                "estilo": "clave"
+              }
+            ],
+            [
+              {
+                "t": "facial",
+                "estilo": "pastilla"
+              },
+              {
+                "t": "avanzado",
+                "estilo": "normal"
+              }
+            ]
+          ]
+        },
+        {
+          "en": "potenciar",
+          "lineas": [
+            [
+              {
+                "t": "Potenciar",
+                "estilo": "clave"
+              }
+            ],
+            [
+              {
+                "t": "el resultado",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "C3829",
+          "desde": "tu estrategia",
+          "hasta": "protocolos",
+          "in": 1.0
+        }
+      ]
+    },
+    {
+      "texto": "Un análisis facial que le muestra a tu paciente lo que a simple vista no se ve.",
+      "clip": "C3653",
+      "broll": [
+        {
+          "clip": "C3667",
+          "desde": "Un análisis",
+          "hasta": "paciente",
+          "in": 5.5
+        },
+        {
+          "clip": "C3823",
+          "desde": "lo que",
+          "in": 2.0
+        }
+      ],
+      "light_leak_al_final": "Burn\\Burn 03.mp4"
+    },
+    {
+      "texto": "Te presentamos Derma Scan, nuestro analizador facial profesional.",
+      "clip": "C3655",
+      "titulos": [
+        {
+          "en": "Derma",
+          "lineas": [
+            [
+              {
+                "t": "Derma",
+                "estilo": "clave"
+              },
+              {
+                "t": "Scan",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "C3829",
+          "desde": "nuestro analizador",
+          "in": 14.0
+        }
+      ]
+    },
+    {
+      "texto": "Un diagnóstico que te permite sugerir nuevos tratamientos con seguridad, aumentar tus ganancias y elevar el ticket promedio de tu spa.",
+      "clip": "C3659",
+      "broll": [
+        {
+          "clip": "C3831",
+          "desde": "Un diagnóstico",
+          "hasta": "seguridad",
+          "in": 1.0
+        },
+        {
+          "clip": "C3827",
+          "desde": "aumentar",
+          "in": 0.5
+        }
+      ],
+      "light_leak_al_final": "Bokeh\\Bokeh 05.mp4"
+    },
+    {
+      "texto": "¿Estás lista para incorporarlo a tu spa? Comenta este video y te enviaremos información.",
+      "clip": "C3660",
+      "titulos": [
+        {
+          "en": "Estás lista",
+          "lineas": [
+            [
+              {
+                "t": "¿Estás lista",
+                "estilo": "clave"
+              }
+            ],
+            [
+              {
+                "t": "para tu spa?",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

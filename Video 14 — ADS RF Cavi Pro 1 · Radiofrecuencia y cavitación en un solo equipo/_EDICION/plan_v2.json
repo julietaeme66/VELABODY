@@ -1,0 +1,174 @@
+{
+  "nombre": "ADSRF1",
+  "codigo": "ADSRF1",
+  "estilo": "v2",
+  "solo_hook_desde": 2,
+  "carpeta": "E:\\VELABODY\\Video 14 — ADS RF Cavi Pro 1 · Radiofrecuencia y cavitación en un solo equipo",
+  "musica": "E:\\VELABODY\\MUSICA\\fashion-2026-08-30-17-11-41-utc\\The Fashion Elegance Short 1.wav",
+  "aroll": [],
+  "caras": {
+    "PRESENTADORA/B02_Clip_C3942": [0.39, 0.35],
+    "PRESENTADORA/B03_Clip1_C3943": [0.49, 0.37],
+    "PRESENTADORA/B03_Clip2_C3945": [0.53, 0.36],
+    "PRESENTADORA/B04_Clip1_C3946": [0.55, 0.42],
+    "PRESENTADORA/B04_Clip2_C3949": [0.42, 0.33],
+    "PRESENTADORA/B04_Clip3_C3950": [0.49, 0.26],
+    "PRESENTADORA/B06_Clip1_C3953": [0.43, 0.36],
+    "PRESENTADORA/B06_Clip2_C3954": [0.40, 0.37],
+    "PRESENTADORA/B07_Clip_C3957": [0.38, 0.36],
+    "PRESENTADORA/B08_Clip_C3959": [0.38, 0.36],
+    "PRESENTADORA/BH1_Clip_C3937": [0.36, 0.33],
+    "PRESENTADORA/BH2_Clip_C3939": [0.33, 0.33],
+    "PRESENTADORA/BH3_Clip_C3941": [0.32, 0.33]
+  },
+  "hooks": [
+    {
+      "texto": "Ofrece tratamientos faciales y corporales en tu spa con un solo equipo.",
+      "clip": "PRESENTADORA/BH1_Clip_C3937",
+      "desde_seg": 10.0,
+      "graficos": [
+        {"en": "faciales", "hasta": "fin", "lineas": ["Facial y corporal"]}
+      ],
+      "zooms": [{"tipo": "lento", "de": 1.0, "a": 1.12}]
+    },
+    {
+      "texto": "¿Quieres incorporar cavitación y radiofrecuencia en tu spa?",
+      "clip": "PRESENTADORA/BH2_Clip_C3939",
+      "graficos": [
+        {"en": "cavitación", "hasta": "fin", "lineas": ["Cavitación y", "radiofrecuencia"]}
+      ],
+      "zooms": [{"tipo": "lento", "de": 1.0, "a": 1.12}]
+    },
+    {
+      "texto": "¿Cómo puedes incorporar dos tratamientos a tu spa con un solo equipo?",
+      "clip": "PRESENTADORA/BH3_Clip_C3941",
+      "desde_seg": 25.0,
+      "graficos": [
+        {"en": "dos tratamientos", "hasta": "fin", "lineas": ["Dos tratamientos", "un solo equipo"]}
+      ],
+      "zooms": [{"tipo": "lento", "de": 1.0, "a": 1.12}]
+    }
+  ],
+  "bloques": [
+    {
+      "texto": "Elige RF Cavi Pro.",
+      "clip": "PRESENTADORA/B02_Clip_C3942",
+      "desde_seg": 16.5,
+      "pan_left": true,
+      "graficos": [
+        {"en": "Elige", "hasta": "fin", "lineas": ["RF Cavi Pro"]}
+      ],
+      "broll": [
+        {"clip": "B-ROLL/B02_Insert2_C3783", "desde": "Elige", "in": 0.0}
+      ]
+    },
+    {
+      "texto": "Combina cavitación y radiofrecuencia en el mismo equipo.",
+      "clip": "PRESENTADORA/B03_Clip1_C3943",
+      "desde_seg": 22.0,
+      "broll": [
+        {
+          "desde": "Combina",
+          "pantalla_dividida": [
+            {"clip": "B-ROLL/B03_Insert1_C3819", "in": 4.0, "foco_y": 0.6},
+            {"clip": "B-ROLL/B03_Insert2_C3806", "in": 4.0, "foco_y": 0.55},
+            {"clip": "B-ROLL/B03_Insert3_C3789", "in": 0.0, "foco_y": 0.45}
+          ]
+        }
+      ]
+    },
+    {
+      "texto": "¿Podrás ofrecer tratamientos de rostro y cuerpo?",
+      "clip": "PRESENTADORA/B03_Clip2_C3945",
+      "desde_seg": 13.0,
+      "graficos": [
+        {"en": "de rostro", "hasta": "fin", "lineas": ["Rostro y cuerpo"]}
+      ],
+      "broll": [
+        {"clip": "B-ROLL/B04_Insert2_C3786", "desde": "tratamientos", "hasta": "rostro", "in": 5.0},
+        {"clip": "B-ROLL/B03_Insert1_C3819", "desde": "y cuerpo", "in": 10.0}
+      ]
+    },
+    {
+      "texto": "En tu spa o cabina.",
+      "clip": "PRESENTADORA/B03_Clip2_C3945",
+      "desde_seg": 22.5,
+      "zooms": [{"tipo": "punch", "z": 1.25}]
+    },
+    {
+      "texto": "RF Cavi Pro incluye cuatro cabezales.",
+      "clip": "PRESENTADORA/B04_Clip1_C3946",
+      "desde_seg": 42.4,
+      "pan_left": true,
+      "graficos": [
+        {"en": "cuatro", "hasta": "fin", "lineas": ["Cuatro cabezales"]}
+      ],
+      "zooms": [{"tipo": "lento", "de": 1.0, "a": 1.12}]
+    },
+    {
+      "texto": "Una para cavitación.",
+      "clip": "PRESENTADORA/B04_Clip2_C3949",
+      "desde_seg": 12.5,
+      "graficos": [
+        {"en": "Una", "hasta": "fin", "lineas": ["Cavitación"]}
+      ],
+      "broll": [
+        {"clip": "B-ROLL/B04_Insert3_C3820", "desde": "Una", "in": 0.5}
+      ]
+    },
+    {
+      "texto": "Dos corporales de radiofrecuencia para zonas amplias y pequeñas.",
+      "clip": "PRESENTADORA/B04_Clip3_C3950",
+      "desde_seg": 43.0,
+      "graficos": [
+        {"en": "Dos corporales", "hasta": "radiofrecuencia", "lineas": ["Dos corporales"]}
+      ],
+      "broll": [
+        {"clip": "B-ROLL/B04_Insert1_C3805", "desde": "zonas amplias", "hasta": "amplias", "in": 9.0},
+        {"clip": "B-ROLL/B04_Insert1_C3805", "desde": "y pequeñas", "in": 2.5}
+      ]
+    },
+    {
+      "texto": "Ofrece sesiones breves y de alto valor en sesiones de 15 a 30 minutos.",
+      "clip": "PRESENTADORA/B06_Clip1_C3953",
+      "desde_seg": 16,
+      "pan_left": true,
+      "graficos": [
+        {"en": "de 15", "hasta": "fin", "lineas": ["15 a 30 minutos"]}
+      ],
+      "broll": [
+        {"clip": "B-ROLL/B06_Insert_C3793", "desde": "sesiones breves", "hasta": "valor", "in": 0.0}
+      ]
+    },
+    {
+      "texto": "Sin cirugía ni tiempo de recuperación.",
+      "clip": "PRESENTADORA/B06_Clip2_C3954",
+      "desde_seg": 7.6,
+      "graficos": [
+        {"en": "Sin cirugía", "hasta": "fin", "lineas": ["Sin cirugía"]}
+      ],
+      "broll": [
+        {"clip": "B-ROLL/B06_Insert_C3793", "desde": "ni tiempo", "in": 4.0}
+      ]
+    },
+    {
+      "texto": "Financia hoy tu RF Cavi Pro sin pago inicial y hasta en 60 cuotas.",
+      "clip": "PRESENTADORA/B07_Clip_C3957",
+      "desde_seg": 22.0,
+      "graficos": [
+        {"en": "sin pago", "hasta": "inicial", "lineas": ["Sin pago inicial"]},
+        {"en": "hasta en", "hasta": "fin", "lineas": ["Hasta 60 cuotas"]}
+      ],
+      "zooms": [{"tipo": "lento", "de": 1.0, "a": 1.15}]
+    },
+    {
+      "texto": "Haz clic aquí y accede a nuestra financiación.",
+      "clip": "PRESENTADORA/B08_Clip_C3959",
+      "desde_seg": 10.0,
+      "graficos": [
+        {"en": "Haz clic", "hasta": "fin", "pastilla": "RF Cavi Pro", "escala": 80, "pos": [545, 440]}
+      ],
+      "zooms": [{"tipo": "lento", "en": "Haz clic", "de": 1.0, "a": 1.2}]
+    }
+  ]
+}

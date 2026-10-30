@@ -1,0 +1,263 @@
+<title>Gráficos Velabody</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,800;1,800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: una columna de lectura; cada gráfico = ficha + fotogramas a todo el ancho */
+:root {
+  --bg: #fbfafd;
+  --surface: #f1eef6;
+  --fg: #1d1a24;
+  --muted: #5d566b;
+  --line: #ddd6e8;
+  --violeta: #6F04BA;
+  --violeta-txt: #6F04BA;
+  --mark: #ffd600;
+  --display: "Montserrat", "Segoe UI", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --mono: "IBM Plex Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15121b; --surface: #211c2b; --fg: #ece8f3; --muted: #a79fb6; --line: #362f44;
+    --violeta-txt: #c58cf5; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15121b; --surface: #211c2b; --fg: #ece8f3; --muted: #a79fb6; --line: #362f44;
+  --violeta-txt: #c58cf5; color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 1000px; margin: 0 auto; padding-block: 40px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 56px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+h1 { font-weight: 800; font-size: clamp(30px, 5vw, 44px); line-height: 1.05; text-transform: uppercase; letter-spacing: -0.01em; }
+h1 span { color: var(--violeta-txt); }
+h2 { font-weight: 800; font-size: 24px; line-height: 1.2; }
+h3 { font-weight: 800; font-size: 17px; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+header { display: flex; flex-direction: column; gap: 14px; }
+.lede { color: var(--muted); }
+code, .val { font-family: var(--mono); font-size: 0.9em; background: var(--surface); padding: 1px 6px; border-radius: 4px; overflow-wrap: anywhere; }
+.swatch { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.chip { width: 56px; height: 56px; border-radius: 10px; background: #6F04BA; flex: none; }
+.swatch div { min-width: 0; }
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: var(--surface); }
+tr:last-child td { border-bottom: 0; }
+td strong { font-family: var(--display); font-weight: 800; }
+section { display: flex; flex-direction: column; gap: 18px; }
+.steps { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; max-width: 72ch; }
+ul.plain { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; max-width: 72ch; }
+figure { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+figure img { width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); display: block; }
+figcaption { font-size: 14px; color: var(--muted); max-width: 80ch; }
+figcaption b { color: var(--fg); font-weight: 600; }
+.ts { font-family: var(--mono); font-size: 12px; color: var(--violeta-txt); }
+.note { background: var(--surface); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+.pill { display: inline-block; background: #6F04BA; color: #fff; font-family: var(--display); font-weight: 800; padding: 2px 12px; border-radius: 99px; font-size: 13px; text-transform: uppercase; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Reels Velabody · 1080×1920 · Premiere Pro</div>
+    <h1>Gráficos <span>Velabody</span></h1>
+    <p class="lede">Resumen de las dos grabaciones de pantalla de Juli (28/10/2026) dentro de la secuencia <em>Video 1 — ORG12 · Derma Scan: presentación del equipo</em>. Están los nombres exactos de cada gráfico, la fuente, los tamaños y el color, con un fotograma de cada parada. Los recuadros amarillos marcan el dato que importa.</p>
+  </header>
+
+  <section>
+    <div class="swatch">
+      <div class="chip" aria-hidden="true"></div>
+      <div>
+        <h3>Violeta del brief: <code>#6F04BA</code></h3>
+        <p class="lede">RGB 111 · 4 · 186. Es el único tono de violeta, tanto para títulos y pastillas como para la caja de subtítulos. En la grabación se ve como <code>#6C00B8</code> por la compresión, pero el que se carga es <code>#6F04BA</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ficha rápida</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Gráfico</th><th>Nombre en Premiere (Mister Horse)</th><th>Fuente</th><th>Tamaños</th><th>Color</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Título "paquetito"</strong><br>DIAGNÓSTICO / FACIAL AVANZADO</td>
+            <td><code>Ease Position &amp; Mask Y - Bottom (782305a2) 1080x1920 by Mister Horse</code><br>Entra desde abajo con máscara.</td>
+            <td>Montserrat <b>Medium</b>, todo en mayúsculas (botón TT), centrado</td>
+            <td>Propiedades: tamaño de fuente <span class="val">100</span>, escala ~<span class="val">100</span> (no se toca).<br>Control de efectos › Movimiento: escala <span class="val">74–92</span> según la palabra.</td>
+            <td>Texto <code>#6F04BA</code></td>
+          </tr>
+          <tr>
+            <td><strong>Pastilla de destacado</strong><br><span class="pill">Derma Scan</span></td>
+            <td><code>1-Line Fill Text Box 1 - Up 1080x1920 by Mister Horse</code></td>
+            <td>Montserrat <b>ExtraBold</b>, todo en mayúsculas (botón TT), sin itálica. Texto blanco.</td>
+            <td>Propiedades › Scale <span class="val">285</span> (no se toca).<br>Control de efectos: escala <span class="val">72–92</span>, posición <span class="val">545 / 440</span> (arriba) o <span class="val">545 / 350</span>.</td>
+            <td>Caja <code>#6F04BA</code>, texto blanco</td>
+          </tr>
+          <tr>
+            <td><strong>Subtítulo a cámara</strong></td>
+            <td>Pista de subtítulos nativa (C1/C2)</td>
+            <td>Blanco, chico, centrado, con brillo violeta</td>
+            <td>Una sola línea de 2 o 3 palabras, siempre a la misma altura</td>
+            <td>Blanco + brillo <code>#6F04BA</code></td>
+          </tr>
+          <tr>
+            <td><strong>Subtítulo sobre B-roll</strong></td>
+            <td>Estilo de pista <code>VELABODY SUBS C FONDO</code></td>
+            <td>Blanco sobre caja</td>
+            <td>Una sola línea, misma altura fija</td>
+            <td>Caja <code>#6F04BA</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr>
+
+  <section>
+    <div class="eyebrow">Gráfico 1</div>
+    <h2>Título "paquetito": Ease Position &amp; Mask Y - Bottom</h2>
+    <p>Son los títulos con margen justificado. El MOGRT es de Mister Horse (Starter Pack › Text Presets) y en la línea de tiempo aparece como <code>Ease Position &amp; Mask Y - Bottom (782305a2) 1080x1920 by Mister Horse</code>. <b>Cada línea va en su propia capa</b>: en el ejemplo, DIAGNÓSTICO y FACIAL AVANZADO están en V9 y V10.</p>
+    <figure>
+      <img src="fotogramas/01_titulo_paquetito_timeline.jpg" alt="Título DIAGNÓSTICO FACIAL AVANZADO en el monitor y sus capas apiladas en la línea de tiempo" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 0:15</span> · <b>El título en el monitor y sus capas en la línea de tiempo.</b> Arriba de los títulos están las capas "Mister Horse Adjustment" (ver pendientes al final).</figcaption>
+    </figure>
+    <figure>
+      <img src="fotogramas/02_titulo_propiedades_fuente.jpg" alt="Panel Propiedades con Montserrat Medium, tamaño de fuente 100 y mayúsculas activadas" loading="lazy">
+      <figcaption><span class="ts">Grabación 2 · 0:15</span> · <b>Propiedades › Text:</b> Montserrat, Medium, tamaño de fuente 100, botón TT (todo mayúsculas) activado y párrafo centrado. Igual después se mueve a mano.</figcaption>
+    </figure>
+    <h3>Cómo se arma el paquetito</h3>
+    <ol class="steps">
+      <li>La palabra grande (DIAGNÓSTICO, TRATAMIENTO, TICKET…) tiene que tocar justo los dos bordes del rectángulo guía, un extremo en cada punta.</li>
+      <li>La segunda línea (FACIAL AVANZADO) se escala para que ocupe ese mismo ancho.</li>
+      <li>Alejarse y mirar: tiene que verse todo centrado como un bloque.</li>
+    </ol>
+    <figure>
+      <img src="fotogramas/03_titulo_alineacion_bordes.jpg" alt="DIAGNÓSTICO ocupando todo el ancho del rectángulo guía" loading="lazy">
+      <figcaption><span class="ts">Grabación 2 · 0:39</span> · <b>La palabra grande toca los dos bordes del rectángulo.</b> En este caso: escala 87, posición 259 / 481.</figcaption>
+    </figure>
+    <figure>
+      <img src="fotogramas/04_titulo_escala_control_efectos.jpg" alt="Control de efectos del título POTENCIAR TUS RESULTADOS con escala 85" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 0:52</span> · <b>POTENCIAR / TUS RESULTADOS:</b> se achica y se mueve desde Control de efectos › Movimiento (posición 543 / 513, escala 85; en otro momento estaba en 74).</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="eyebrow">Regla de escala</div>
+    <h2>Propiedades fijo, Control de efectos para ajustar</h2>
+    <p>En el panel <b>Propiedades</b> la escala se deja como viene: ~100 en los títulos y 285 en la pastilla. Si se toca ahí, el MOGRT corta los bordes. Todo el ajuste de tamaño y posición se hace en <b>Control de efectos › Movimiento</b>, a ojo, hasta que entre bien en el encuadre.</p>
+    <figure>
+      <img src="fotogramas/10_escala_en_propiedades_285.jpg" alt="Propiedades de la pastilla con Scale 285" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 2:33</span> · <b>Propiedades › Transform › Scale 285</b> en la pastilla. Si se sube, se corta.</figcaption>
+    </figure>
+    <figure>
+      <img src="fotogramas/11_escala_en_control_efectos.jpg" alt="Control de efectos de la pastilla con escala 87" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 2:51</span> · <b>El ajuste fino va acá:</b> Control de efectos, escala 87, posición 545 / 440.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="eyebrow">Márgenes</div>
+    <h2>Siempre dentro de la guía de zona segura</h2>
+    <p>Se edita siempre con la guía <code>zona-segura-reels-ig_v1-copia.png</code> en una pista de arriba. Los gráficos quedan con la misma distancia a los dos lados, pensando en cómo se ve en el celular.</p>
+    <figure>
+      <img src="fotogramas/12_margenes_zona_segura.jpg" alt="Monitor de programa con la pastilla centrada dentro de la guía de zona segura" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 3:06</span> · <b>Mismo margen a izquierda y derecha</b> dentro del rectángulo guía.</figcaption>
+    </figure>
+  </section>
+
+  <hr>
+
+  <section>
+    <div class="eyebrow">Gráfico 2</div>
+    <h2>Pastilla de destacado: 1-Line Fill Text Box 1 - Up</h2>
+    <p>Es la pastilla violeta con texto blanco para los nombres de equipo (DERMA SCAN). En la línea de tiempo aparece como <code>1-Line Fill Text Box 1 - Up 1080x1920 by Mister Horse</code>. La animación de movimiento es la misma que la del título. El nombre del producto va siempre en mayúsculas.</p>
+    <figure>
+      <img src="fotogramas/07_pastilla_1line_fill_text_box.jpg" alt="Pastilla DERMA SCAN con posición 545 440 y escala 92" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 1:12</span> · <b>Primera aparición:</b> posición 545 / 440, escala 92, en V2 (debajo del clip duplicado).</figcaption>
+    </figure>
+    <figure>
+      <img src="fotogramas/16_pastilla_propiedades_fuente.jpg" alt="Panel Propiedades de la pastilla con Montserrat ExtraBold y mayúsculas activadas" loading="lazy">
+      <figcaption><b>Propiedades › Text de la pastilla:</b> se escribe "Derma Scan" y el botón TT lo pasa a mayúsculas. Fuente Montserrat ExtraBold, sin itálica.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="eyebrow">Técnica</div>
+    <h2>Sándwich de capas: la pastilla detrás de la persona</h2>
+    <p>Para que la pastilla quede detrás de la cabeza, el gráfico va entre dos copias del mismo clip:</p>
+    <ol class="steps">
+      <li><b>V1:</b> clip original.</li>
+      <li><b>V2:</b> la pastilla (1-Line Fill Text Box).</li>
+      <li><b>V3:</b> copia del mismo clip con <b>Opacidad › Objeto máscara</b>, para que la persona quede recortada por encima del gráfico.</li>
+      <li><b>V4:</b> la capa de ajuste <code>CORRECCION DE COLOR</code> (Lumetri). En ese tramo se <b>deshabilita</b>, se copia el efecto <b>Color de Lumetri</b> y se pega en las dos copias del clip (V1 y V3). Así el color de la piel queda igual y el Lumetri no tiñe el gráfico.</li>
+    </ol>
+    <figure>
+      <img src="fotogramas/08_sandwich_de_capas.jpg" alt="Línea de tiempo con V1 clip, V2 pastilla, V3 clip duplicado y V4 capa de ajuste" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 1:39</span> · <b>El sándwich:</b> C3655 en V1, la pastilla en V2, C3655 duplicado en V3 y la capa de ajuste en V4. El clip tiene su propio "Color de Lumetri".</figcaption>
+    </figure>
+    <h3>Ajustes del Objeto máscara</h3>
+    <ul class="plain">
+      <li><b>Calado:</b> ~<span class="val">13</span>.</li>
+      <li><b>Opacidad:</b> <span class="val">100 %</span>.</li>
+      <li><b>Expansión:</b> <span class="val">0</span> en este ejemplo. A veces hay que subirla, depende de cómo detecte a la persona.</li>
+      <li>Conviene que quede un halo chiquito alrededor de la persona. Si no, cuando se mueve, la máscara se come el gráfico.</li>
+    </ul>
+    <figure>
+      <img src="fotogramas/14_mascara_objeto_calado.jpg" alt="Objeto máscara con calado 13, opacidad 100 y expansión 0; la persona aparece marcada en rojo" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 3:33</span> · <b>Objeto máscara (01)</b> sobre el C3660 duplicado. Lo rojo es la zona que detecta como persona.</figcaption>
+    </figure>
+    <h3>Rastreador</h3>
+    <p>Si la persona mueve la cabeza y la máscara deja de cubrir bien, se usa el <b>Rastreador</b> del Objeto máscara: se posiciona la máscara sobre ella y se le da play para que haga el trackeo. Hay que hacerlo solo en tramos muy cortos del clip, porque consume muchos recursos de la compu.</p>
+    <figure>
+      <img src="fotogramas/15_rastreador_tracker.jpg" alt="Controles del Rastreador dentro de Objeto máscara y la máscara siguiendo a la persona" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 4:08</span> · <b>Rastreador</b> con los botones de trackeo adelante y atrás.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="eyebrow">Técnica</div>
+    <h2>Reutilizar la pastilla y hacer zoom in</h2>
+    <p>Cuando el mismo plano dura mucho, se vuelve a usar la pastilla pero <b>más chica y arriba</b>, y se varía un poco el tamaño para que no se vea siempre igual. Después se hace un pequeño <b>zoom in</b> al clip con dos keyframes de Posición y Escala <b>sin curvas automáticas</b> (interpolación lineal): se marcan los dos puntos y listo.</p>
+    <figure>
+      <img src="fotogramas/09_pastilla_chica_zoom_keyframes.jpg" alt="Keyframes de posición y escala en el clip C3660 con la pastilla DERMA SCAN chica arriba" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 2:24</span> · <b>Zoom in:</b> keyframes en Posición (512 / 788) y Escala (60) del C3660. La pastilla queda chica arriba.</figcaption>
+    </figure>
+    <figure>
+      <img src="fotogramas/13_grafico_reutilizado_escala_80.jpg" alt="Pastilla cortada a la mitad, segunda parte con escala 80 y posición 545 350" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 3:12</span> · <b>El mismo gráfico cortado a la mitad:</b> la segunda parte se escala de 72 a 80 (posición 545 / 350) y se mete en el sándwich con el Lumetri deshabilitado.</figcaption>
+    </figure>
+  </section>
+
+  <hr>
+
+  <section>
+    <div class="eyebrow">Gráficos 3 y 4</div>
+    <h2>Subtítulos</h2>
+    <p>Esto ya lo vieron antes, así que va como recordatorio. Siempre en <b>una sola línea</b>, con 2 o 3 palabras y a la misma altura fija, sin tapar el equipo.</p>
+    <figure>
+      <img src="fotogramas/05_subtitulo_a_camara.jpg" alt="Subtítulo blanco con brillo violeta sobre la persona hablando a cámara" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 0:30</span> · <b>A cámara:</b> blanco, chico, centrado, con brillo violeta.</figcaption>
+    </figure>
+    <figure>
+      <img src="fotogramas/06_subtitulo_sobre_broll.jpg" alt="Subtítulo nuestro analizador en blanco sobre caja violeta encima del B-roll" loading="lazy">
+      <figcaption><span class="ts">Grabación 1 · 1:49</span> · <b>Sobre B-roll:</b> blanco sobre caja violeta, estilo de pista <code>VELABODY SUBS C FONDO</code>.</figcaption>
+    </figure>
+  </section>
+
+  <section class="note">
+    <h3>Pendientes que no se ven en las grabaciones</h3>
+    <ul class="plain">
+      <li><b>Capas "Mister Horse Adjustment"</b> (V12/V13 y V9/V10, al final de cada título): aparecen en la línea de tiempo pero no se explican en las grabaciones.</li>
+      <li><b>Fuente de los subtítulos:</b> no se abrió su panel de Propiedades. Confirmar en Premiere antes de replicar.</li>
+    </ul>
+  </section>
+</div>

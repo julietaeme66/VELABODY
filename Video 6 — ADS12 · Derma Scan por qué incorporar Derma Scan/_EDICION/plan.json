@@ -1,0 +1,260 @@
+{
+  "nombre": "ADS12",
+  "codigo": "ADS12",
+  "carpeta": "E:\\VELABODY\\Video 6 — ADS12 · Derma Scan por qué incorporar Derma Scan",
+  "musica": "E:\\VELABODY\\MUSICA\\fashion-2026-09-19-17-37-26-utc\\diamond_tunes_happy\\diamond_tunes_happy_short-02_60sec.wav",
+  "aroll": [],
+  "hooks": [
+    {
+      "texto": "¿Sabes por qué deberías incorporar Derma Scan a tu spa?",
+      "clip": "PRESENTADORA/BH1_Clip_C3841",
+      "desde_seg": 25,
+      "titulos": [
+        {
+          "en": "Derma",
+          "lineas": [
+            [
+              {
+                "t": "Derma",
+                "estilo": "clave"
+              },
+              {
+                "t": "Scan",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "texto": "Un analizador facial es muy sencillo de utilizar y trae múltiples beneficios.",
+      "clip": "PRESENTADORA/BH2_Clip_C3842",
+      "titulos": [
+        {
+          "en": "analizador",
+          "lineas": [
+            [
+              {
+                "t": "Analizador",
+                "estilo": "clave"
+              },
+              {
+                "t": "facial",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B04_Insert_C3830",
+          "desde": "y trae",
+          "hasta": "beneficios",
+          "in": 2.0
+        }
+      ]
+    },
+    {
+      "texto": "Así puedes utilizar Derma Scan y aumentar el ticket de cada consulta.",
+      "clip": "PRESENTADORA/BH3_Clip_C3843",
+      "desde_seg": 13,
+      "titulos": [
+        {
+          "en": "aumentar",
+          "lineas": [
+            [
+              {
+                "t": "Aumentar",
+                "estilo": "clave"
+              },
+              {
+                "t": "el ticket",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B03_Insert2_C3673",
+          "desde": "Derma Scan",
+          "hasta": "Derma Scan",
+          "in": 1.0,
+          "dur": 1.6
+        }
+      ]
+    }
+  ],
+  "bloques": [
+    {
+      "texto": "Derma Scan es un analizador facial profesional que le muestra a tu paciente todo lo que a simple vista no se ve.",
+      "clip": "PRESENTADORA/B02_Clip_C3844",
+      "desde_seg": 6.5,
+      "broll": [
+        {
+          "clip": "B-ROLL/B02_Insert_C3663",
+          "desde": "Derma Scan",
+          "hasta": "profesional",
+          "in": 0.3
+        }
+      ]
+    },
+    {
+      "texto": "Utilizarlo es muy sencillo. Coloca la pantalla de aislamiento lumínico. Tu paciente apoya el mentón y el equipo realiza la captura de una imagen multiespectral con imágenes RGB, ultravioleta y de luz polarizada.",
+      "clip": "PRESENTADORA/B03_Clip_C3846",
+      "titulos": [
+        {
+          "en": "muy sencillo",
+          "lineas": [
+            [
+              {
+                "t": "Muy",
+                "estilo": "clave"
+              },
+              {
+                "t": "sencillo",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B03_Insert1_C3669",
+          "desde": "Coloca la pantalla",
+          "hasta": "lumínico",
+          "in": 2.0
+        },
+        {
+          "clip": "B-ROLL/B03_Insert1_C3669",
+          "desde": "apoya el mentón",
+          "dur": 1.6,
+          "in": 6.0
+        },
+        {
+          "clip": "B-ROLL/B03_Insert2_C3673",
+          "desde": "la captura",
+          "hasta": "multiespectral",
+          "in": 13.0
+        },
+        {
+          "clip": "B-ROLL/B03_Insert2_C3673",
+          "desde": "ultravioleta",
+          "dur": 1.5,
+          "in": 19.5
+        }
+      ]
+    },
+    {
+      "texto": "El reporte sugiere tratamientos de tu propio catálogo de servicio. Así, cada consulta es una oportunidad para recomendar tratamientos y aumentar el ticket en cada visita.",
+      "clip": "PRESENTADORA/B04_Clip_C3847",
+      "titulos": [
+        {
+          "en": "cada consulta",
+          "lineas": [
+            [
+              {
+                "t": "Cada",
+                "estilo": "clave"
+              },
+              {
+                "t": "consulta",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B04_Insert_C3830",
+          "desde": "sugiere tratamientos",
+          "hasta": "servicio",
+          "in": 10.0
+        },
+        {
+          "clip": "B-ROLL/B05_Insert_C3835",
+          "desde": "recomendar tratamientos",
+          "dur": 1.8,
+          "in": 13.0
+        }
+      ]
+    },
+    {
+      "texto": "Además, compara el progreso sesión a sesión, el mejor motivo para que tu paciente vuelva a agendar.",
+      "clip": "PRESENTADORA/B05_Clip_C3848",
+      "titulos": [
+        {
+          "en": "vuelva",
+          "lineas": [
+            [
+              {
+                "t": "Vuelva",
+                "estilo": "clave"
+              },
+              {
+                "t": "a agendar",
+                "estilo": "pastilla"
+              }
+            ]
+          ],
+          "y": 600
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B05_Insert_C3835",
+          "desde": "compara el progreso",
+          "hasta": "sesión a sesión",
+          "in": 0.0
+        }
+      ]
+    },
+    {
+      "texto": "Y con Velabody accede a entrenamientos personalizados de uno a uno para que puedas utilizarlo con confianza desde el primer día.",
+      "clip": "PRESENTADORA/B06_Clip_C3849",
+      "desde_seg": 9.5,
+      "encuadre": {
+        "zoom": 1.3,
+        "foco_x": 0.52,
+        "foco_y": 0.43
+      },
+      "titulos": [
+        {
+          "en": "uno a uno",
+          "lineas": [
+            [
+              {
+                "t": "Uno",
+                "estilo": "clave"
+              },
+              {
+                "t": "a uno",
+                "estilo": "pastilla"
+              }
+            ]
+          ],
+          "y": 565
+        }
+      ]
+    },
+    {
+      "texto": "Si quieres incorporar Derma Scan a tu spa, escríbenos y te contamos todo.",
+      "clip": "PRESENTADORA/B07_Clip_C3850",
+      "desde_seg": 13.5,
+      "broll": [
+        {
+          "clip": "B-ROLL/B02_Insert_C3663",
+          "desde": "incorporar",
+          "dur": 1.5,
+          "in": 3.2
+        }
+      ]
+    }
+  ],
+  "titulos_y": 545
+}

@@ -1,0 +1,1761 @@
+[
+ {
+  "video": 6,
+  "titulo": "Video 6 — ADS12 · Derma Scan: por qué incorporar Derma Scan",
+  "bloques": [
+   {
+    "bloque": "Hook 1",
+    "inserts_sug": "A cámara",
+    "texto": "¿Sabes por qué deberías incorporar Derma Scan a tu spa?",
+    "indicacion": "Pieza 1 · Desde el seg 25",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1zsAClyR1YJNAX_w_Gqm6mEkRR7mppW9J"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 2",
+    "inserts_sug": "A cámara",
+    "texto": "Un analizador facial es muy sencillo de usar y trae múltiples beneficios a tu spa.",
+    "indicacion": "Pieza 2",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "19Dr86iqpL5idILY6IDus0SWKeP9cXB_D"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 3",
+    "inserts_sug": "A cámara",
+    "texto": "Así puedes usar Derma Scan y aumentar el ticket de cada consulta en tu spa.",
+    "indicacion": "Pieza 3 · Desde el seg 13",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1NIyM8hRPoUS75Xr7fXncgS8Y61nHD_Ca"
+     }
+    ]
+   },
+   {
+    "bloque": "2",
+    "inserts_sug": "Insert",
+    "texto": "Derma Scan es un analizador facial profesional que le muestra a tu paciente lo que a simple vista no se ve.",
+    "indicacion": "Desde el seg 7",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1VGe34qTgsx2L_jPHoSrNQPave-AwS8RC"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1wCXZMQzGaq_DSKC68Mll0fbHHra6gX-r"
+     }
+    ]
+   },
+   {
+    "bloque": "3",
+    "inserts_sug": "Insert 1 + Insert 2, este más al final, cuando se ve al equipo sacar las fotos",
+    "texto": "Usarlo es muy sencillo: colocas la pantalla de aislamiento lumínico, tu paciente apoya el mentón y el equipo realiza la captura multiespectral, con imágenes RGB, ultravioleta y luz polarizada.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1az0lxwwPVh5GMeOulRzxZYkF6LP57xYH"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1BAOVSJfYkFQtZ6gWHEFiA30Qga7AORc1"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1Oqz16Y0nNsRQdc5Od0CDLxqeSxkoMQ5U"
+     }
+    ]
+   },
+   {
+    "bloque": "4",
+    "inserts_sug": "Insert",
+    "texto": "El reporte sugiere tratamientos de tu propio menú. Así, cada consulta se convierte en una oportunidad de recomendar un tratamiento y aumentar el ticket de cada visita.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1v7fJMuNSUwOq0ARqkkEwcqcCAysKVz3Z"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1UPKRj6dxnzYe-Ngu_vDrrP5mjJ93H6VD"
+     }
+    ]
+   },
+   {
+    "bloque": "5",
+    "inserts_sug": "Insert",
+    "texto": "Además, compara el progreso entre sesiones: el mejor motivo para que tu paciente vuelva a agendar.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1kc47CqrTnK04uD1Kvph6McoxNjxXUnxY"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1BqaJE4ks98_kk8Gp8sB7Ec_t5WEAhlJz"
+     }
+    ]
+   },
+   {
+    "bloque": "6",
+    "inserts_sug": "A cámara, plano más cercano",
+    "texto": "Y con Velabody, accedes a entrenamiento personalizado, uno a uno, para usarlo con confianza desde el primer día.",
+    "indicacion": "",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1x-tWTYZvHxorRv-k2noCIcK5e2Ug6KG_"
+     }
+    ]
+   },
+   {
+    "bloque": "7",
+    "inserts_sug": "Alguna toma breve donde se vea el equipo",
+    "texto": "Si quieres incorporar Derma Scan a tu spa, escríbenos y te contamos todo.",
+    "indicacion": "Desde el seg 14",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1h9KU5JQg1LHEUXBaMQPT02NRUNUrzIws"
+     }
+    ]
+   }
+  ],
+  "extras": []
+ },
+ {
+  "video": 7,
+  "titulo": "Video 7 — ADS13 · Derma Scan: cada consulta, un tratamiento reservado",
+  "bloques": [
+   {
+    "bloque": "Hook 1",
+    "inserts_sug": "A cámara",
+    "texto": "¿Quieres sumar más pacientes a tu spa o cabina? Un diagnóstico facial es el paso que convierte una consulta en un tratamiento reservado.",
+    "indicacion": "Pieza 1",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1OJeMizMXHw2BbxbLSwsEjwB8nMoesTSM"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 2",
+    "inserts_sug": "A cámara",
+    "texto": "¿Sabes cómo un analizador facial puede hacer crecer las ganancias de tu spa?",
+    "indicacion": "Pieza 2 · Desde el seg 15",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "19_MaOKX7AmwRmv5-6HlK9NkBiH3SKxae"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 3",
+    "inserts_sug": "A cámara",
+    "texto": "Cada consulta puede convertirse en un tratamiento reservado. Te cuento cómo.",
+    "indicacion": "Pieza 3",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1jg1YepkYmB9P_lqUXCQg1fDU8ygtBAMT"
+     }
+    ]
+   },
+   {
+    "bloque": "2",
+    "inserts_sug": "Insert",
+    "texto": "Con el reporte de Derma Scan en mano, la recomendación se vuelve concreta, y tu paciente entiende cuáles son los beneficios de continuar con los tratamientos.",
+    "indicacion": "Desde el seg 20",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1kc47CqrTnK04uD1Kvph6McoxNjxXUnxY"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1-P9zxHJqdrTpvt9mUgRGO6FCBRqUJw8d"
+     }
+    ]
+   },
+   {
+    "bloque": "3",
+    "inserts_sug": "A cámara",
+    "texto": "Cada consulta con diagnóstico es una oportunidad real de venta.",
+    "indicacion": "",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1yyqfzzWW3tws5KMqRglnTjxK_fmJjI1G"
+     }
+    ]
+   },
+   {
+    "bloque": "4",
+    "inserts_sug": "Insert",
+    "texto": "El reporte sugiere tratamientos complementarios de tu propio menú, así cada visita puede sumar más de un servicio y aumentar el ticket.",
+    "indicacion": "Desde el seg 9",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1CNILVbJTD2vZW0-EO4Cv6CO_AAYq-HaD"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1uvgxnc4SI9YDNgMHEHNl6MV2PjPEAsjL"
+     }
+    ]
+   },
+   {
+    "bloque": "5",
+    "inserts_sug": "Insert",
+    "texto": "Además, puedes ofrecer el análisis como puerta de entrada para que nuevas pacientes conozcan tu spa.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1p7JH_AqVFIqyIEmjd70r4UJYnDhMeHvI"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1O1cgr-rwuEkGBbIekckfngN5UtinrKVn"
+     }
+    ]
+   },
+   {
+    "bloque": "6",
+    "inserts_sug": "Insert",
+    "texto": "Si quieres incorporar Derma Scan a tu spa, escríbenos y te contamos nuestras opciones de financiación.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1KBe9e9jm__T-2k9KBrK3HOff0wZ9BSqz"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1-Lm_wXIEsenDwdkXPtMOHykWaov2J8k7"
+     }
+    ]
+   }
+  ],
+  "extras": []
+ },
+ {
+  "video": 8,
+  "titulo": "Video 8 — ADS14 · Derma Scan: las funciones de Derma Scan",
+  "bloques": [
+   {
+    "bloque": "Hook 1",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 1 · Desde el seg 17",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "16VTiSRyhUrFae0E9ybkne_HXxo-4Mgqp"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 2",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 2",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1_er7EGnP0UBUzDlG17df1kRztE7zHJ77"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 3",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 3",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1itnQ-Y7jCJ-P51GaQmAKCr6DAAwrx7Fe"
+     }
+    ]
+   },
+   {
+    "bloque": "2",
+    "inserts_sug": "Insert",
+    "texto": "Primero, no solo diagnostica: brinda una recomendación de tratamiento concreta a partir del análisis de la piel de tu paciente.",
+    "indicacion": "Desde el seg 8",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1koIuSC-UrPs_SZ1di3g9xsV5ZbIYqPBJ"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "149MCa_4fKJ4wpdsiN6OaezQ2e7S8QKmK"
+     }
+    ]
+   },
+   {
+    "bloque": "3",
+    "inserts_sug": "Insert. En algunos momentos queda una sombra debajo: evitar esas partes",
+    "texto": "Segundo, compara el progreso de tu paciente entre sesiones. Analiza su rostro completo, de ambos lados. Es el argumento perfecto para que vuelva a agendar.",
+    "indicacion": "Desde el seg 17",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "18xIzNTEWirxdNuJx_ovVWQa7PcQl28vY"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1CmfQZpSQEwxp-1jFSGd73nRBEf1yG-YV"
+     }
+    ]
+   },
+   {
+    "bloque": "4",
+    "inserts_sug": "Insert: la parte que se ve en el seg 18 aprox.",
+    "texto": "Tercero, tiene una vista de corte 3D de la piel, para observar la profundidad de manchas o lunares, algo que a simple vista no se ve.",
+    "indicacion": "Desde el seg 17",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1KBe9e9jm__T-2k9KBrK3HOff0wZ9BSqz"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1SXn6abDxykpOu-LTDyocp727Vq-iUsZE"
+     }
+    ]
+   },
+   {
+    "bloque": "5",
+    "inserts_sug": "Insert",
+    "texto": "Cuarto, muestra si el protector solar está bien aplicado: bajo luz UV, puedes enseñarle a tu paciente si quedan zonas sin proteger.",
+    "indicacion": "Desde el seg 15",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1p7JH_AqVFIqyIEmjd70r4UJYnDhMeHvI"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1mH-wdt5M5XMYCNGNGN-x9c2IxvvASiSM"
+     }
+    ]
+   },
+   {
+    "bloque": "6",
+    "inserts_sug": "",
+    "texto": "Y por último, todo el reporte queda accesible al instante, por QR, en el celular de tu paciente.",
+    "indicacion": "Desde el seg 10",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1N9X7smKbi13SiVkIjDTHiB-oJvNWUmH0"
+     }
+    ]
+   },
+   {
+    "bloque": "7",
+    "inserts_sug": "Acá ver de reutilizar alguno de los inserts que ya usamos",
+    "texto": "¿Cuál de estas funciones te resulta más útil para tu spa?",
+    "indicacion": "Desde el seg 10",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1J26dICIR7k6_1gJFInxaE57L3hSR9uu0"
+     }
+    ]
+   },
+   {
+    "bloque": "8",
+    "inserts_sug": "",
+    "texto": "¿Quieres incorporarlo a tu spa? Escríbenos y te enviamos toda la información.",
+    "indicacion": "Desde el seg 12",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1sX9x4K260IFzbz5SCT1jWN0SJFi3cEKc"
+     }
+    ]
+   }
+  ],
+  "extras": []
+ },
+ {
+  "video": 9,
+  "titulo": "Video 9 — ORG7 · Diode Laser 4D: parámetros automáticos con el sistema SMART",
+  "bloques": [
+   {
+    "bloque": "1",
+    "inserts_sug": "Insert",
+    "texto": "¿Sabías que Diode Laser 4D ajusta los parámetros iniciales de Laser Hair Removal por ti?",
+    "indicacion": "Desde el seg 16",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1rxJjLvkjMmohfHs05DY0FLP4JRUndx7H"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "11HZidxoD1YvWOPqMdhZzCFpBBKCmvs2V"
+     }
+    ]
+   },
+   {
+    "bloque": "2",
+    "inserts_sug": "Insert",
+    "texto": "Comenzar con el tratamiento es muy sencillo: seleccionas el género de la paciente, la zona a tratar y su fototipo en esa zona…",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "15GIQF0KdWDAPw12zWW_cg2jSlT5YaF4S"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "12gUhkOqLWq2kOpiq_4VpMEo9c68VpdPK"
+     }
+    ]
+   },
+   {
+    "bloque": "3",
+    "inserts_sug": "Insert",
+    "texto": "…y el equipo configura de manera automática los parámetros óptimos para esa sesión.",
+    "indicacion": "Continúa el clip del bloque 2",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1oPLEvBKQzpWJUCj8VxIvRQuonwU4Wstp"
+     }
+    ],
+    "links_clip": []
+   },
+   {
+    "bloque": "4",
+    "inserts_sug": "Insert",
+    "texto": "No necesitas memorizar combinaciones y no tardas en realizar este procedimiento. Es intuitivo y muy sencillo de utilizar.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1w_qVov03ZFyiNAoRZpOD9AqbJtcIom4L"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1yaghuKFJGhNUfOF9-PuKCue7dsbEfP4U"
+     }
+    ]
+   },
+   {
+    "bloque": "5",
+    "inserts_sug": "Insert",
+    "texto": "El sistema SMART, además, verifica en todo momento que el equipo esté en condiciones óptimas de funcionamiento.",
+    "indicacion": "Desde el seg 13",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1LC9wNRxM9kB0UtKWFzuDFFtmKTqa-Mbz"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1XmqsF0v2aFPiyCn9OjJ0ZnbxGYlp6LN6"
+     }
+    ]
+   },
+   {
+    "bloque": "6",
+    "inserts_sug": "A cámara",
+    "texto": "Eso significa menos margen de error y más seguridad en cada sesión.",
+    "indicacion": "",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "13WtCny8gTJItelOeaTxitWxMZ-RT8sic"
+     }
+    ]
+   },
+   {
+    "bloque": "7",
+    "inserts_sug": "Insert 1 + Insert 2",
+    "texto": "¿Todavía te genera dudas? Para que puedas empezar con confianza, tu Diode Laser 4D incluye entrenamiento personalizado, uno a uno, con una especialista de nuestro equipo.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1-kIjghtaudbiPgUxayckCvIq9iJwwTLk"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1-Clt9V2zgik9aFV1v7hFfASFkNCY34w8"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1GjBATNsroqMEWV5fSviJVIG_0DoX_yaa"
+     }
+    ]
+   },
+   {
+    "bloque": "8",
+    "inserts_sug": "Insert",
+    "texto": "Comenta este video y te enviaremos más información sobre nuestra tecnología de Laser Hair Removal y cómo puede ayudarte a hacer crecer tu spa.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "10cFBLreN4fegFv7FKuFXlau0H9krgFg6"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1bjT31o9ljeO78j_o4t2lDlLX9Qx5WrZi"
+     }
+    ]
+   }
+  ],
+  "extras": [
+   {
+    "texto": "Más inserts disponibles para este video: Insert A · Insert B",
+    "links": [
+     {
+      "texto": "Insert A",
+      "id": "1g4xPiICc5WIFQIiXVqLoZsJCLDGxKJI2"
+     },
+     {
+      "texto": "Insert B",
+      "id": "1zef5-UfooCb0vofUzqadj-KB-rLGDdcx"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "video": 10,
+  "titulo": "Video 10 — ORG4 · Diode Laser 4D: por qué hacen falta varias sesiones",
+  "bloques": [
+   {
+    "bloque": "1",
+    "inserts_sug": "Insert",
+    "texto": "¿Tus pacientes preguntan por qué la depilación laser requiere varias sesiones? Esto les puedes responder.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1z1IkhQAWCpWlyphIL4JA1ieIy5JGekqj"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1nc2o55Ob1Hunvsn1cAC0G3Rr_5XclgRy"
+     }
+    ]
+   },
+   {
+    "bloque": "2",
+    "inserts_sug": "Insert",
+    "texto": "El vello no crece todo al mismo tiempo. Cada folículo pasa por un ciclo…",
+    "indicacion": "Desde el seg 10",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1lXob0sY0jh2siDf3fhmKHT_4g0p014ed"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1lFDeH_8nPRqtSOdVHjZ57NSZgrF8i08o"
+     }
+    ]
+   },
+   {
+    "bloque": "3",
+    "inserts_sug": "A cámara",
+    "texto": "…y el laser actúa solo sobre el vello que está en fase anágena, es decir, la fase de crecimiento activo.",
+    "indicacion": "",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1h9lVKyFWlogJ-LdOSnrKgNT57B4rlKUg"
+     }
+    ]
+   },
+   {
+    "bloque": "4",
+    "inserts_sug": "Insert",
+    "texto": "Solo una parte del vello está en esta fase al mismo tiempo, y esa proporción cambia según la zona del cuerpo.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1uwq-fdsImMAM_AlqWrUfXHpBgSKZ0QXY"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1Xb28xioPG0XiDxyIelJSHmVt6ZvwO5xl"
+     }
+    ]
+   },
+   {
+    "bloque": "5",
+    "inserts_sug": "A cámara",
+    "texto": "El resto está en fase catágena o telógena: en pausa, o directamente inactivo.",
+    "indicacion": "",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1u9nW9Gm2MZDH96Yr_hYgoNRXSChbD2gb"
+     }
+    ]
+   },
+   {
+    "bloque": "6",
+    "inserts_sug": "Insert",
+    "texto": "El vello en fase de reposo no absorbe la energía en la sesión actual, pero se trata a medida que entra en su etapa anágena, en las siguientes sesiones.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1-kIjghtaudbiPgUxayckCvIq9iJwwTLk"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1gkwXBx_LHPbfEcR4UgL5xSLiT7QzBwpE"
+     }
+    ]
+   },
+   {
+    "bloque": "7",
+    "inserts_sug": "",
+    "texto": "Por eso realizamos sesiones espaciadas: para tratar el vello a medida que entra en fase activa.",
+    "indicacion": "Desde el seg 13",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1YLjwglUzeRR4DzyMI8EJblnpF8Q8p5Ea"
+     }
+    ]
+   },
+   {
+    "bloque": "8",
+    "inserts_sug": "Insert",
+    "texto": "Cada sesión suma resultados al tratar el vello que ingresó en su fase activa.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1GFlVxWcCDda-5ibXwq-LaRIv-3ch9kM_"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1aH6CHFBKhQHuYurzyhzcZrBVIb8bdryC"
+     }
+    ]
+   },
+   {
+    "bloque": "9",
+    "inserts_sug": "Insert 1 + Insert 2",
+    "texto": "Cuando tu paciente pregunte por qué no alcanza con una sesión, ya sabes qué responderle: no es el tratamiento ni el equipo, es el ciclo del vello.",
+    "indicacion": "Desde el seg 13",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1BCBHFLQKUMRpSOcN4XpZRkxr0Oj-raQn"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1WfCbviVIMah5H7Vly5higGfyMv_Iba0s"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1-XBl-UNzq_SwDNBYVxpuv1G2LzmVptwu"
+     }
+    ]
+   },
+   {
+    "bloque": "10",
+    "inserts_sug": "Insert",
+    "texto": "¿Quieres conocer más sobre cómo ofrecer Laser Hair Removal en tu spa? Síguenos: en Velabody somos expertos en aparatología estética.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1savR23EvXoge1H-XBGZzDxUi2xt-RSli"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1TX5VbgOdaQ5gKT5sbJxRXAlfk9dpFIvW"
+     }
+    ]
+   }
+  ],
+  "extras": [
+   {
+    "texto": "Fotos de las fases del vello, para sumar en chico mientras la presentadora las explica (bloques 2 a 6): Foto 1 · Foto 2 · Foto 3",
+    "links": [
+     {
+      "texto": "Foto 1",
+      "id": "1qa3LDrJmp4eZMohDDAhiYGMmI-eNAkLE"
+     },
+     {
+      "texto": "Foto 2",
+      "id": "1C824OTo4OknH6P-tU3g5Jah-2ZwzYTuQ"
+     },
+     {
+      "texto": "Foto 3",
+      "id": "1kEfY6camXdLFXKsNC5vlBubAT9NeEuih"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "video": 11,
+  "titulo": "Video 11 — ORG3 · Diode Laser 4D: Ice Technology",
+  "bloques": [
+   {
+    "bloque": "1",
+    "inserts_sug": "A cámara, con el handpiece en la mano + Insert",
+    "texto": "¿Cómo lograr que la depilación laser sea una experiencia más confortable?",
+    "indicacion": "Este archivo tiene el inicio, pero no se puede previsualizar en Drive: revisar si se abre al descargarlo",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1HOMaOLWqQRiv40Z5Esd3jEtuSfSMmzql"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1jmzzYxvzdNbyfb554nq04nf3sCFCvbAc"
+     }
+    ]
+   },
+   {
+    "bloque": "2",
+    "inserts_sug": "A cámara",
+    "texto": "Se llama Ice Technology.",
+    "indicacion": "",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1teV3SToD0F4wafxan6R9zWprO6bTB502"
+     }
+    ]
+   },
+   {
+    "bloque": "3",
+    "inserts_sug": "Insert",
+    "texto": "Es una tecnología de enfriamiento integrada en el handpiece de Diode Laser 4D.",
+    "indicacion": "Desde el seg 40. Acá el nombre del equipo se dice mal: probar con esta voz en off sobre inserts. Si no funciona, resolverlo con texto en pantalla",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "12a5PqgyyiBE2LoqPm2cy6lYpZtg5IMLu"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1xjhbfjycKqapjZ-xg7qyLv-j9Vw2MBTl"
+     }
+    ]
+   },
+   {
+    "bloque": "4",
+    "inserts_sug": "Insert",
+    "texto": "¿Cómo funciona? Mantiene la piel a una temperatura confortable y más fresca durante toda la sesión.",
+    "indicacion": "Desde el seg 15",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1FBbcrOqjZjvpGhMrUuCpUNTguMKd3J6n"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "17fA29-3D_ml9khTNIEoMN8vgRmC8sXo3"
+     }
+    ]
+   },
+   {
+    "bloque": "5",
+    "inserts_sug": "Insert: la parte final, cuando ya tiene los anteojos puestos",
+    "texto": "La sensación que tendrán tus pacientes es apenas un calor leve.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1AofazJ4XEYxeyVeJTXzs6LZpufvHVyIY"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1KfQ8fQGma9gVv2Sn048AprH1zqddEsZf"
+     }
+    ]
+   },
+   {
+    "bloque": "6",
+    "inserts_sug": "Insert 1 + Insert 2",
+    "texto": "Una experiencia tolerable, con mínimas molestias, que no interrumpe la sesión.",
+    "indicacion": "Desde el seg 9",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1-MaGMS2Kx95uW3FjBMlH2e81HEMTzbaH"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1-Clt9V2zgik9aFV1v7hFfASFkNCY34w8"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1wI23j1G8PHacakrE8jSEzBhKFsCZelmX"
+     }
+    ]
+   },
+   {
+    "bloque": "7",
+    "inserts_sug": "Insert",
+    "texto": "Eso significa sesiones más tranquilas, pacientes menos tensas y más ganas de completar su tratamiento.",
+    "indicacion": "Desde el 1:05",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1-kIjghtaudbiPgUxayckCvIq9iJwwTLk"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1-2Ay_rZ0O0RJ3Cfmcx7H8W3ymV2DIrHy"
+     }
+    ]
+   },
+   {
+    "bloque": "8",
+    "inserts_sug": "Insert",
+    "texto": "¿Quieres ofrecer esta experiencia en tu spa? Comenta este video y te enviamos más información sobre Diode Laser 4D.",
+    "indicacion": "Clip 2 desde el seg 15",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "10cFBLreN4fegFv7FKuFXlau0H9krgFg6"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip 1",
+      "id": "17DzQx9vZ65t4M7hPBW2F19Synm3s6q0L"
+     },
+     {
+      "texto": "Clip 2",
+      "id": "1So1hJ_HTJvolwmooSfdJPvwMd2_h5gRK"
+     }
+    ]
+   }
+  ],
+  "extras": []
+ },
+ {
+  "video": 12,
+  "titulo": "Video 12 — ORG8 · Diode Laser 4D: la demanda de depilación laser",
+  "bloques": [
+   {
+    "bloque": "1",
+    "inserts_sug": "Insert",
+    "texto": "Todos buscan este tratamiento en 2026, y no todos los spas lo tienen todavía.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1RkZ8MEgtMYQMdyu_nZNVd0KHlj17wgQV"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1zLnshooIjWUFD_9-o6SHdzUlP8d_eF_5"
+     }
+    ]
+   },
+   {
+    "bloque": "2",
+    "inserts_sug": "A cámara",
+    "texto": "La demanda de depilación laser en Estados Unidos crece año tras año.",
+    "indicacion": "Desde el seg 30",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1a_AWJe-7m5_8FDJdzQ5MQ_k4ssDTjY_H"
+     }
+    ]
+   },
+   {
+    "bloque": "3",
+    "inserts_sug": "Insert",
+    "texto": "No es una moda pasajera. Es un servicio que cada vez más pacientes buscan por su comodidad y sus resultados visibles en el tiempo.",
+    "indicacion": "Desde el 1:15",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1AofazJ4XEYxeyVeJTXzs6LZpufvHVyIY"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1j-QQ3ZaTjJZH2KQynuda4wQIFKAAcgv7"
+     }
+    ]
+   },
+   {
+    "bloque": "4",
+    "inserts_sug": "Insert 1 + Insert 2",
+    "texto": "Con nuestro equipo Diode Laser 4D, incorporarlo es simple: es apto para todos los tipos de piel y vello, su Ice Technology lo convierte en una experiencia más confortable y es muy sencillo de configurar.",
+    "indicacion": "Este bloque quedó grabado muy cortado: hay que acomodarlo para que fluya. El nombre del equipo se dice mal: probar con esta voz en off y revisar que el tono no quede muy distinto",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1UmzaDMBSpSEAeabyCF1VIo7Xxqc0OHSD"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1-Clt9V2zgik9aFV1v7hFfASFkNCY34w8"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip 1",
+      "id": "1IP1Id0Sq7WKZVIafYDR_q-eXjJ8ZnbsR"
+     },
+     {
+      "texto": "Clip 2",
+      "id": "1GEGC_LjXiAG__iwvNt6Ws9zHvHUdqx3B"
+     }
+    ]
+   },
+   {
+    "bloque": "5",
+    "inserts_sug": "Insert",
+    "texto": "El sistema SMART ajusta la configuración automáticamente, y la velocidad del equipo te permite realizar más sesiones por día.",
+    "indicacion": "Seg 18 y seg 50. Mismo caso que el bloque 4",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1NzO3w4fZODm6Ey0zy6F97ZVEOIl9TccP"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1oKlQYftf6PVIPyMMyaE1Kip5q2H5fPLZ"
+     }
+    ]
+   },
+   {
+    "bloque": "6",
+    "inserts_sug": "Insert",
+    "texto": "Más pacientes en tu spa, un servicio que todos están buscando y una razón más para que tus pacientes vuelvan mes a mes.",
+    "indicacion": "Desde el 1:10 aprox.",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1S-a_huu8lirvYIVmFbezkgyJ114mttCY"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1q0zHAXG8iLZphzmDPIU8ue5qCej4UQ9k"
+     }
+    ]
+   },
+   {
+    "bloque": "7",
+    "inserts_sug": "Insert",
+    "texto": "¿Ya ofreces depilación laser en tu spa, o todavía lo estás evaluando? Cuéntanos en los comentarios y te enviamos más información sobre Diode Laser 4D.",
+    "indicacion": "Desde el seg 30",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1uwq-fdsImMAM_AlqWrUfXHpBgSKZ0QXY"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1OuUYEIY4axLiMdo8liu0mK9_w7e3h9wS"
+     }
+    ]
+   }
+  ],
+  "extras": []
+ },
+ {
+  "video": 13,
+  "titulo": "Video 13 — ADS4 · Diode Laser 4D: así es una sesión con Diode Laser 4D",
+  "bloques": [
+   {
+    "bloque": "Hook 1",
+    "inserts_sug": "A cámara, tono de invitación",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 1",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1QWSllnsvsaEoA6J8dZ4lmoduj4I7ADcP"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 2",
+    "inserts_sug": "A cámara, tono de invitación",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 2",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "12RCJmOIhdkcKT3qWyslIXe4LMNvk5uCP"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 3",
+    "inserts_sug": "A cámara, tono de invitación",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 3",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1b3sXFUYp-mjRswm1khkrpAfYBEr3Hqvq"
+     }
+    ]
+   },
+   {
+    "bloque": "2",
+    "inserts_sug": "Insert",
+    "texto": "Antes de comenzar, seleccionamos la zona y ajustamos los parámetros. El sistema SMART hace la mayor parte del trabajo por mí.",
+    "indicacion": "Los bloques 2 a 5 son voz en off sobre inserts. Probar cómo queda",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1UmzaDMBSpSEAeabyCF1VIo7Xxqc0OHSD"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Audio 1",
+      "id": "193qzrdtOK0bSpABglGY88V0ZhQ9HQbcs"
+     },
+     {
+      "texto": "Audio 2",
+      "id": "1ByYBizDa7B-Wn3_rt3EfDI689UMME0pp"
+     },
+     {
+      "texto": "Audio 3",
+      "id": "13ciADKmPEmsEWct3zJ65V7C5jqH-3HhJ"
+     },
+     {
+      "texto": "Audio 4",
+      "id": "1ZeZ6NB_D7_0-VmU5IkfTbVeljEB2Iuy-"
+     }
+    ]
+   },
+   {
+    "bloque": "3",
+    "inserts_sug": "Insert 1 + Insert 2 + Insert 3, con la pantalla dividida en 3",
+    "texto": "Vamos deslizando el handpiece con calma, zona por zona. Con Ice Technology, la sensación que siente la paciente es apenas un calor leve.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1eaMBPvCQ_NgxrJetuinY5o01t9Sp4FsT"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1z1IkhQAWCpWlyphIL4JA1ieIy5JGekqj"
+     },
+     {
+      "texto": "Insert 3",
+      "id": "1RkZ8MEgtMYQMdyu_nZNVd0KHlj17wgQV"
+     }
+    ],
+    "links_clip": []
+   },
+   {
+    "bloque": "4",
+    "inserts_sug": "Insert",
+    "texto": "Una experiencia confortable, con molestias mínimas, que no interrumpe la sesión.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1lXob0sY0jh2siDf3fhmKHT_4g0p014ed"
+     }
+    ],
+    "links_clip": []
+   },
+   {
+    "bloque": "5",
+    "inserts_sug": "Insert",
+    "texto": "Así se siente trabajar con un equipo que hace las cosas más simples, para mí, y para quien está en la camilla.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1GFlVxWcCDda-5ibXwq-LaRIv-3ch9kM_"
+     }
+    ],
+    "links_clip": []
+   },
+   {
+    "bloque": "6",
+    "inserts_sug": "A cámara",
+    "texto": "¿Quieres incorporar tú también depilación laser a tu spa?",
+    "indicacion": "",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1uYQDA7L0nGTOR5DjI3DF2vR4ncgNmNMt"
+     }
+    ]
+   }
+  ],
+  "extras": []
+ },
+ {
+  "video": 14,
+  "titulo": "Video 14 — ADS RF Cavi Pro 1 · Radiofrecuencia y cavitación en un solo equipo",
+  "bloques": [
+   {
+    "bloque": "Hook 1",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 1",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1F6FBfBswnAn6OC_Ypt5_lHfOMtAr5bql"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 2",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 2",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1oRN3YHABEXAuwUIyT6DMmPFM3rZS-bam"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 3",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 3 · Desde el seg 25",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1XZDUpw4hZwPoPtyOja1u-NMsscp3LSFs"
+     }
+    ]
+   },
+   {
+    "bloque": "2",
+    "inserts_sug": "Insert 1 + Insert 2",
+    "texto": "Elige RF Cavi Pro.",
+    "indicacion": "Desde el seg 15",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1krLz9Rw9vsKAAHsZBfGMtuTNqlfcOotq"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1RNfJTZOpHEnLGNkzrFhCpj3z_5ehMBxQ"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "12fju3XbbwWJGOfAf_3lBB0yE68_3Z1oj"
+     }
+    ]
+   },
+   {
+    "bloque": "3",
+    "inserts_sug": "Pantalla dividida en 3: Insert 1 + Insert 2 + Insert 3",
+    "texto": "Combina radiofrecuencia y cavitación en un mismo equipo. Podrás ofrecer tratamientos de rostro y cuerpo en tu spa o cabina.",
+    "indicacion": "Clip 1 desde el seg 22; sigue en el clip 2",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1RzHqQoAcgmcSNQf17mIUbE1dYz8Sne9k"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1krLz9Rw9vsKAAHsZBfGMtuTNqlfcOotq"
+     },
+     {
+      "texto": "Insert 3",
+      "id": "1u3fKiwj5oDgkl1MN7H5aMEBIxyYCGaXl"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip 1",
+      "id": "15bCqOki3IUXfIr4jrKE3GU1tfr8Pns0A"
+     },
+     {
+      "texto": "Clip 2",
+      "id": "13y02HQdMDeiVkVYmK6rfYj0HK1GqHI9_"
+     }
+    ]
+   },
+   {
+    "bloque": "4",
+    "inserts_sug": "Insert 1 + Insert 2 + Insert 3",
+    "texto": "RF Cavi Pro incluye cuatro cabezales: uno de cavitación, dos corporales de radiofrecuencia, para zonas amplias y zonas pequeñas, y uno facial.",
+    "indicacion": "Quedó cortado en varios clips: clip 1 desde el seg 43, clip 2 desde el seg 13 y clip 3 desde el seg 45. La parte de “uno facial” está en uno de estos dos (no se pueden previsualizar en Drive): Clip A · Clip B",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1VCfryP5O-X4sruNXMkT3dS2v0aUqEIHg"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1s5idnwpHh5-WcUW7DxMHYz7HHG6XTZIt"
+     },
+     {
+      "texto": "Insert 3",
+      "id": "1UaudregiRzN4VCWvZGacCfnjtgUSq2mT"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip 1",
+      "id": "1lY5UGYyJ94ArQ3MKAWdfAjxaEVz-8TSJ"
+     },
+     {
+      "texto": "Clip 2",
+      "id": "1Evs6Cq-KhysmY0OAaQ9J5tutAfE4tdAZ"
+     },
+     {
+      "texto": "Clip 3",
+      "id": "1Aqez3FOvK325wFv4JHZmwO_kn57_5bO-"
+     }
+    ]
+   },
+   {
+    "bloque": "5",
+    "inserts_sug": "Insert",
+    "texto": "Ajustas la intensidad y la duración del tratamiento desde la pantalla táctil, según las necesidades de tu paciente.",
+    "indicacion": "Debería estar en el clip A o el B del bloque 4. Si no está, se omite este bloque",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1UaudregiRzN4VCWvZGacCfnjtgUSq2mT"
+     }
+    ],
+    "links_clip": []
+   },
+   {
+    "bloque": "6",
+    "inserts_sug": "Insert",
+    "texto": "Ofrece sesiones breves y de alto valor, de 15 a 30 minutos, sin cirugía ni tiempo de recuperación.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1d0Ai88-yNZc5crCNU25anbMbcYSvuFKK"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip 1",
+      "id": "1Kegg1axNv05PeGN3mT09KDYy1uj_X5IM"
+     },
+     {
+      "texto": "Clip 2",
+      "id": "1IrTQ6X1iWCdxI2q-N5orVykW_q8kTCFu"
+     }
+    ]
+   },
+   {
+    "bloque": "7",
+    "inserts_sug": "A cámara",
+    "texto": "Financia hoy tu RF Cavi Pro sin pago inicial, en hasta 60 cuotas.",
+    "indicacion": "Desde el seg 20",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1h4I5xiJAGWdSxuQd-sJy6EUO49Zw-msa"
+     }
+    ]
+   },
+   {
+    "bloque": "8",
+    "inserts_sug": "A cámara",
+    "texto": "Escríbenos y accede hoy a nuestra financiación.",
+    "indicacion": "Desde el seg 10",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1Fl8wMX0jIFilAUz5KQAFIT07V9d2YOeC"
+     }
+    ]
+   }
+  ],
+  "extras": []
+ },
+ {
+  "video": 15,
+  "titulo": "Video 15 — ADS RF Cavi Pro 2 · Cómo funciona la radiofrecuencia",
+  "bloques": [
+   {
+    "bloque": "Hook 1",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 1",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1HE8PaJQhuI2g_9VTTY2HAvGUVhPVGqO1"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 2",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 2 · Desde el seg 13",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1G5PFjNnV0Ko-PlRaaXlJnzZS8Az8F4US"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 3",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 3 · Desde el seg 8",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "151Y5pDMzcbhExMfJ8R5zuSVnH2-tO6I0"
+     }
+    ]
+   },
+   {
+    "bloque": "2",
+    "inserts_sug": "Insert 1 + Insert 2",
+    "texto": "RF Cavi Pro utiliza ondas electromagnéticas para calentar las capas profundas de la piel, de forma no invasiva.",
+    "indicacion": "El clip de este bloque se perdió: cubrirlo con inserts + la voz en off",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1zjdKGXp-NWUazD1Sci7uF_XcuoXqO8tp"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1RNfJTZOpHEnLGNkzrFhCpj3z_5ehMBxQ"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Voz en off",
+      "id": "1RrOxaPrATHbp4LhnS0JKTafc5rYkp13c"
+     }
+    ]
+   },
+   {
+    "bloque": "3",
+    "inserts_sug": "Insert",
+    "texto": "Ese calor favorece la producción de colágeno y elastina, las fibras que le dan firmeza y elasticidad a la piel.",
+    "indicacion": "Desde el seg 18",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1s5idnwpHh5-WcUW7DxMHYz7HHG6XTZIt"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1iJECcynKuYBd_ZHnSk5zRxJPCrEGiwjK"
+     }
+    ]
+   },
+   {
+    "bloque": "4",
+    "inserts_sug": "Insert 1 + Insert 2",
+    "texto": "Adquiriendo hoy RF Cavi Pro, te llevas tres cabezales de radiofrecuencia: uno facial y dos corporales, para zonas pequeñas y zonas amplias.",
+    "indicacion": "Clip 1 desde el 1:19",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1lqCuL6D-7ZL5uSYn_bzkTD-e___H0ry-"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1RzHqQoAcgmcSNQf17mIUbE1dYz8Sne9k"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip 1",
+      "id": "1GO2Q2gv0ovFoL_UdNDAZYpDuDoVG_sot"
+     },
+     {
+      "texto": "Clip 2",
+      "id": "1fw8TdheR6CwQPL5yvOyeA1jEaE6pgQsL"
+     }
+    ]
+   },
+   {
+    "bloque": "5",
+    "inserts_sug": "Insert 1 + Insert 2",
+    "texto": "Así puedes ofrecer tratamientos de firmeza en rostro, cuello, brazos, abdomen y muslos, en sesiones de 15 a 30 minutos.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1u3fKiwj5oDgkl1MN7H5aMEBIxyYCGaXl"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1iYE-eEqgfxtunBijMiAw5TzE7tFFHyHd"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1xi5Q_CRzBQLaKlUKBG3XbKK6eXBwdvLK"
+     }
+    ]
+   },
+   {
+    "bloque": "6",
+    "inserts_sug": "Insert",
+    "texto": "Además, con RF Cavi Pro también puedes ofrecer cavitación. Así incorporarás otro tratamiento corporal de alta demanda a tu spa.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1H9f3TbbowFlzgi0kZDvZJ6MYKmlehQ1L"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip 1",
+      "id": "1psnvb3sXY4oyFVAAizVIk8YnLRz9V1p_"
+     },
+     {
+      "texto": "Clip 2",
+      "id": "1889Lim-k1-3RzIsRcvpZoeoM7XOT4D9K"
+     }
+    ]
+   },
+   {
+    "bloque": "7",
+    "inserts_sug": "Insert",
+    "texto": "¿Quieres acceder hoy a nuestra financiación sin downpayment? No dejes pasar esta oportunidad.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1uWtQmwsHZdWluJWYKokWsXYUlgghiygN"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1mJfe5uz-wb362EP6i0sGuoyfLm8hGdug"
+     }
+    ]
+   }
+  ],
+  "extras": []
+ },
+ {
+  "video": 16,
+  "titulo": "Video 16 — ADS RF Cavi Pro 3 · Cómo funciona la cavitación",
+  "bloques": [
+   {
+    "bloque": "Hook 1",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 1",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1xy8bYWkYVWyYvdprXrZ1xkb10Xb5qhBU"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 2",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 2",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1bdIVCfoQ-hIKEx9b8OjAo5OWfk8XOmeu"
+     }
+    ]
+   },
+   {
+    "bloque": "Hook 3",
+    "inserts_sug": "A cámara, junto al equipo",
+    "texto": "Ver clip",
+    "indicacion": "Pieza 3 · Desde el seg 16",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1CFR4Nnxn4X3cm-UitpniYGluctmEscZ7"
+     }
+    ]
+   },
+   {
+    "bloque": "2",
+    "inserts_sug": "Insert 1 + Insert 2",
+    "texto": "¿Conoces el secreto de la cavitación? Usa ondas de ultrasonido para generar microburbujas en el tejido adiposo.",
+    "indicacion": "Falta un clip de este texto: cubrir esa parte con inserts + la voz en off",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1-kG8EKeEyvaIhVJno5N4Dap7Oj9QDc9X"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1krLz9Rw9vsKAAHsZBfGMtuTNqlfcOotq"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "11fJnmgia5OpBYmWRFTMYFF8FNoIv7nit"
+     },
+     {
+      "texto": "Voz en off",
+      "id": "1-c6ioLoHUMwtODhhHFZpI3448w9rSd19"
+     }
+    ]
+   },
+   {
+    "bloque": "3",
+    "inserts_sug": "Insert 1 + Insert 2",
+    "texto": "Esas microburbujas implosionan y ayudan a descomponer las células grasas, que luego se eliminan a través del sistema linfático.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1VCfryP5O-X4sruNXMkT3dS2v0aUqEIHg"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1H9f3TbbowFlzgi0kZDvZJ6MYKmlehQ1L"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip 1",
+      "id": "1JnSibDcRJiLEbt9qLaYEaDUOS6qQyAFU"
+     },
+     {
+      "texto": "Clip 2",
+      "id": "1g64IuuXn-tgqMpkolEtjzcPg54faA34M"
+     }
+    ]
+   },
+   {
+    "bloque": "4",
+    "inserts_sug": "Insert 1 + Insert 2",
+    "texto": "Con RF Cavi Pro, la cavitación trabaja a 36 kHz, una frecuencia que llega más profundo, pensada para zonas amplias como abdomen y muslos.",
+    "indicacion": "Clip 1 desde el 2:40; clip 2 desde el 1:15",
+    "links_insert": [
+     {
+      "texto": "Insert 1",
+      "id": "1VCfryP5O-X4sruNXMkT3dS2v0aUqEIHg"
+     },
+     {
+      "texto": "Insert 2",
+      "id": "1H9f3TbbowFlzgi0kZDvZJ6MYKmlehQ1L"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip 1",
+      "id": "1OU7wJt87mqlhyzA-0UoAuEwYd-ZyYRDy"
+     },
+     {
+      "texto": "Clip 2",
+      "id": "1gIakHNoizMjLZu_dFzWRk2XKJFWlWytc"
+     }
+    ]
+   },
+   {
+    "bloque": "5",
+    "inserts_sug": "Insert",
+    "texto": "Así puedes trabajar grasa localizada y celulitis.",
+    "indicacion": "",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "17Hvv-ZMuTyB4xIoeb_2aOT1n9Ne8dtLR"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1e7PYABabUM-8CL5mZWyBmJ1QKfQh81_N"
+     }
+    ]
+   },
+   {
+    "bloque": "6",
+    "inserts_sug": "Insert",
+    "texto": "Además, con este equipo, también incorporas un tratamiento de radiofrecuencia corporal para complementar el tratamiento.",
+    "indicacion": "Desde el seg 30",
+    "links_insert": [
+     {
+      "texto": "Insert",
+      "id": "1UaudregiRzN4VCWvZGacCfnjtgUSq2mT"
+     }
+    ],
+    "links_clip": [
+     {
+      "texto": "Clip",
+      "id": "1vOkwzCncQg1TaIDpWfxxnPnroESP-e2x"
+     }
+    ]
+   },
+   {
+    "bloque": "7",
+    "inserts_sug": "A cámara",
+    "texto": "¡No te pierdas la oportunidad de incorporarlo hoy! Accede a financiación sin downpayment.",
+    "indicacion": "",
+    "links_insert": [],
+    "links_clip": [
+     {
+      "texto": "Clip 1",
+      "id": "1KZYh7hNF8LjM-FCO7ADSw2BcSfFhwGMW"
+     },
+     {
+      "texto": "Clip 2",
+      "id": "1Rie6SJEoAcGUS5eoxUnfVHW8dC_JTodh"
+     }
+    ]
+   }
+  ],
+  "extras": []
+ }
+]

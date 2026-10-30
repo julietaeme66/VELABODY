@@ -1,0 +1,113 @@
+{
+  "nombre": "ADS4",
+  "codigo": "ADS4",
+  "estilo": "v2",
+  "solo_hook_desde": 2,
+  "carpeta": "E:\\VELABODY\\Video 13 — ADS4 · Diode Laser 4D así es una sesión con Diode Laser 4D",
+  "musica": "E:\\VELABODY\\MUSICA\\fashion-2026-08-30-17-11-41-utc\\The Fashion Elegance Short 4.wav",
+  "aroll": [],
+  "caras": {
+    "PRESENTADORA/BH1_Clip_C3930": [0.51, 0.39],
+    "PRESENTADORA/BH2_Clip_C3929": [0.44, 0.37],
+    "PRESENTADORA/BH3_Clip_C3931": [0.50, 0.40],
+    "PRESENTADORA/B06_Clip_C3934": [0.50, 0.39]
+  },
+  "hooks": [
+    {
+      "texto": "De inicio a fin, así es una sesión de depilación laser.",
+      "clip": "PRESENTADORA/BH1_Clip_C3930",
+      "graficos": [
+        {"en": "así es", "hasta": "fin", "lineas": ["Depilación laser"]}
+      ],
+      "zooms": [{"tipo": "lento", "de": 1.0, "a": 1.12}]
+    },
+    {
+      "texto": "Acompáñame a hacer una sesión de depilación laser con Diode Laser 4D.",
+      "clip": "PRESENTADORA/BH2_Clip_C3929",
+      "desde_seg": 26.0,
+      "graficos": [
+        {"en": "una sesión", "hasta": "fin", "lineas": ["Diode Laser 4D"]}
+      ],
+      "zooms": [{"tipo": "lento", "de": 1.0, "a": 1.12}]
+    },
+    {
+      "texto": "Esto es lo que siente tu paciente durante una sesión de depilación laser.",
+      "clip": "PRESENTADORA/BH3_Clip_C3931",
+      "desde_seg": 7.5,
+      "graficos": [
+        {"en": "lo que siente", "hasta": "fin", "lineas": ["Lo que siente", "tu paciente"]}
+      ],
+      "zooms": [{"tipo": "lento", "de": 1.0, "a": 1.12}]
+    }
+  ],
+  "bloques": [
+    {
+      "texto": "Antes de comenzar, seleccionamos la zona y ajustamos los parámetros. El sistema SMART hace la mayor parte del trabajo por mí.",
+      "voz_en_off": "VOZ EN OFF/B02_Audio1_Marina voz en off 1",
+      "pausa_despues": 0.2,
+      "pan_left": true,
+      "graficos": [
+        {"en": "El sistema", "hasta": "trabajo", "lineas": ["Sistema SMART"]}
+      ],
+      "broll": [
+        {"clip": "B-ROLL/B02_Insert_C3737", "desde": "Antes de comenzar", "in": 4.0},
+        {"clip": "B-ROLL/B02_Insert_C3737", "desde": "seleccionamos", "in": 8.5},
+        {"clip": "B-ROLL/B02_Insert_C3737", "desde": "ajustamos", "in": 13.0},
+        {"clip": "B-ROLL/B02_Insert_C3737", "desde": "El sistema", "in": 17.5}
+      ]
+    },
+    {
+      "texto": "Vamos deslizando el handpiece con calma, zona por zona, con Ice Technology. La sensación que siente la paciente es apenas un calor leve.",
+      "voz_en_off": "VOZ EN OFF/B02_Audio2_Marina voz en off 2",
+      "pausa_despues": 0.2,
+      "graficos": [
+        {"en": "con Ice", "dur": 2.4, "lineas": ["Ice Technology"]}
+      ],
+      "broll": [
+        {
+          "desde": "Vamos",
+          "pantalla_dividida": [
+            {"clip": "B-ROLL/B03_Insert3_C3756", "in": 4.0, "foco_y": 0.6},
+            {"clip": "B-ROLL/B03_Insert2_C3746", "in": 0.5, "foco_y": 0.5},
+            {"clip": "B-ROLL/B03_Insert1_C3744", "in": 4.5, "foco_y": 0.55}
+          ]
+        }
+      ]
+    },
+    {
+      "texto": "Una experiencia confortable con molestias mínimas que no interrumpe la sesión.",
+      "voz_en_off": "VOZ EN OFF/B02_Audio4_Marina voz en off 3",
+      "pausa_despues": 0.2,
+      "graficos": [
+        {"en": "Una experiencia", "hasta": "mínimas", "lineas": ["Experiencia", "confortable"]}
+      ],
+      "broll": [
+        {"clip": "B-ROLL/B04_Insert_C3766", "desde": "Una experiencia", "in": 2.4},
+        {"clip": "B-ROLL/B04_Insert_C3766", "desde": "que no interrumpe", "in": 7.5}
+      ]
+    },
+    {
+      "texto": "Así se siente trabajar con un equipo que hace las cosas más simples para mí y para quien está en la camilla.",
+      "voz_en_off": "VOZ EN OFF/B02_Audio3_Marina voz en off 4",
+      "pausa_despues": 0.2,
+      "graficos": [
+        {"en": "las cosas", "hasta": "mí", "lineas": ["Todo más simple"]}
+      ],
+      "broll": [
+        {"clip": "B-ROLL/B05_Insert_C3780", "desde": "Así se siente", "in": 1.0},
+        {"clip": "B-ROLL/B05_Insert_C3780", "desde": "las cosas", "in": 8.0},
+        {"clip": "B-ROLL/B05_Insert_C3780", "desde": "para quien", "in": 17.0}
+      ]
+    },
+    {
+      "texto": "¿Quieres incorporar depilación laser en tu spa? Haz clic aquí y te contamos más.",
+      "clip": "PRESENTADORA/B06_Clip_C3934",
+      "pan_left": true,
+      "graficos": [
+        {"en": "incorporar", "hasta": "spa?", "pastilla": "Depilación laser", "escala": 80, "pos": [545, 440]},
+        {"en": "Haz clic", "hasta": "fin", "pastilla": "Diode Laser 4D", "escala": 72, "pos": [545, 350]}
+      ],
+      "zooms": [{"tipo": "lento", "en": "Haz clic", "de": 1.0, "a": 1.2}]
+    }
+  ]
+}

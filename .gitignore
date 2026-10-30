@@ -1,0 +1,31 @@
+# Solo se versiona lo liviano y compartible: la wiki, las herramientas y el guion/plan de cada video.
+# Videos, música, el .prproj y los exportados se comparten por Drive (GitHub no acepta archivos de +100 MB).
+/*
+!/.gitignore
+!/README.md
+!/CLAUDE.md
+!/_WIKI/
+!/_HERRAMIENTAS/
+!/Video */
+/Video */*
+!/Video */guion.md
+!/Video */_EDICION/
+/Video */_EDICION/*
+!/Video */_EDICION/plan*.json
+
+# Obsidian: la configuración sí, el estado de las ventanas de cada uno no
+_WIKI/.obsidian/workspace*.json
+
+# Cachés y salidas pesadas de las herramientas
+_HERRAMIENTAS/cache_leaks/
+_HERRAMIENTAS/revision/
+__pycache__/
+
+# Por las dudas, ningún archivo de media
+*.mp4
+*.MP4
+*.mov
+*.MOV
+*.wav
+*.mp3
+*.prproj

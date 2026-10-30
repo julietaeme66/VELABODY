@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>VELABODY Builder</title>
+<style>
+  body { background: #232323; color: #ddd; font: 12px/1.4 "Segoe UI", sans-serif; margin: 10px; }
+  h1 { font-size: 13px; color: #b98cf0; margin: 0 0 8px; }
+  button { display: block; width: 100%; margin: 6px 0; padding: 7px; border: 0; border-radius: 4px;
+           background: #6F04BA; color: #fff; font-weight: 600; cursor: pointer; }
+  button.sec { background: #444; }
+  button:disabled { opacity: .5; }
+  #ruta { width: 100%; box-sizing: border-box; background: #333; color: #ddd; border: 1px solid #555;
+          font-size: 11px; padding: 4px; }
+  label { display: flex; justify-content: space-between; align-items: center; margin: 4px 0; }
+  input[type=number] { width: 60px; background: #333; color: #ddd; border: 1px solid #555; }
+  #log { white-space: pre-wrap; background: #1a1a1a; padding: 6px; height: 170px; overflow: auto;
+         font: 11px Consolas, monospace; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <h1>VELABODY Builder</h1>
+  <button class="sec" id="elegir">1 · Elegir armado.json…</button>
+  <input id="ruta" placeholder="…o pegá acá la ruta del armado.json">
+  <label><input type="checkbox" id="opTitulos" checked> Títulos (MOGRT Mister Horse)</label>
+  <label><input type="checkbox" id="opSubs" checked> Pistas de subtítulos (SRT)</label>
+  <label>Escala tamaño de títulos <input type="number" id="factor" value="1" step="0.05"></label>
+  <button id="construir">2 · Construir secuencia</button>
+  <button class="sec" id="diag">Diagnóstico de clips seleccionados</button>
+  <div id="log"></div>
+<script>
+  var VERSION = "2.1";
+  var cep = window.__adobe_cep__;
+  var campo = document.getElementById("ruta");
+
+  function log(t) { var el = document.getElementById("log"); el.textContent += t + "\n"; el.scrollTop = 1e9; }
+  window.onerror = function (msg, src, linea) { log("✖ Error JS: " + msg + " (línea " + linea + ")"); };
+  function q(s) { return JSON.stringify(s); }
+
+  // evalScript con chequeo: si el JSX no cargó, se carga a mano antes de llamar
+  function jsx(llamada, cb) {
+    if (!cep) { log("✖ Este panel no está corriendo dentro de Premiere."); return; }
+    cep.evalScript(llamada, function (r) {
+      if (r === "EvalScript error.") log("✖ Premiere devolvió error al ejecutar: " + llamada.substr(0, 60));
+      else if (cb) cb(r);
+    });
+  }
+  function rutaJSX() {
+    var base = decodeURIComponent(location.pathname.replace(/^\/+/, "").replace(/\/[^\/]*$/, ""));
+    return base + "/jsx/velabody.jsx";
+  }
+  function cargarJSX(cb) {
+    // siempre se recarga el .jsx: así cualquier actualización del script se usa sin reiniciar Premiere
+    jsx("1", function () {
+      jsx("$.evalFile(" + q(rutaJSX()) + "); vb_version()", function (r2) {
+        if (r2 === VERSION) { if (cb) cb(); }
+        else log("✖ No pude cargar velabody.jsx (" + r2 + ")");
+      });
+    });
+  }
+  function ruta() { return campo.value.replace(/^"+|"+$/g, "").trim(); }
+  function guardar() { try { localStorage.setItem("vb_ruta", ruta()); } catch (e) {} }
+  try { campo.value = localStorage.getItem("vb_ruta") || ""; } catch (e) {}
+  campo.onchange = guardar;
+
+  document.getElementById("elegir").onclick = function () {
+    // el diálogo lo abre Premiere (ExtendScript): funciona en todas las versiones de CEP
+    cargarJSX(function () {
+      jsx("vb_elegirArmado(" + q(ruta()) + ")", function (r) {
+        if (r) { campo.value = r; guardar(); log("Elegido: " + r); }
+      });
+    });
+  };
+  document.getElementById("construir").onclick = function () {
+    if (!ruta()) { log("Primero elegí el armado.json"); return; }
+    var op = { titulos: document.getElementById("opTitulos").checked,
+               subs: document.getElementById("opSubs").checked,
+               factor: parseFloat(document.getElementById("factor").value) || 1 };
+    log("Construyendo… (puede tardar un minuto)");
+    cargarJSX(function () {
+      jsx("vb_construir(" + q(ruta()) + "," + q(JSON.stringify(op)) + ")", function (r) { log(r); });
+    });
+  };
+  document.getElementById("diag").onclick = function () {
+    cargarJSX(function () { jsx("vb_diagnostico(" + q(ruta()) + ")", function (r) { log(r); }); });
+  };
+  cargarJSX(function () { log("Listo. Versión del panel " + VERSION); });
+</script>
+</body>
+</html>

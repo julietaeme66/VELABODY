@@ -1,0 +1,217 @@
+{
+  "nombre": "ADS13",
+  "codigo": "ADS13",
+  "carpeta": "E:\\VELABODY\\Video 7 — ADS13 · Derma Scan cada consulta, un tratamiento reservado",
+  "musica": "E:\\VELABODY\\MUSICA\\fashion-2026-08-30-17-11-41-utc\\The Fashion Elegance Short 3.wav",
+  "titulos_y": 300,
+  "aroll": [],
+  "hooks": [
+    {
+      "texto": "¿Quieres sumar pacientes a tu spa o cabina? Un análisis facial concreto es el paso que convierte una consulta en un tratamiento reservado.",
+      "clip": "PRESENTADORA/BH2_Clip_C3852",
+      "desde_seg": 14.5,
+      "titulos": [
+        {
+          "en": "sumar",
+          "lineas": [
+            [
+              {
+                "t": "Sumar",
+                "estilo": "clave"
+              },
+              {
+                "t": "pacientes",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "E:\\VELABODY\\Video 6 — ADS12 · Derma Scan por qué incorporar Derma Scan\\B-ROLL\\B03_Insert2_C3673.MP4",
+          "desde": "Un análisis facial",
+          "hasta": "concreto",
+          "in": 13.0
+        },
+        {
+          "clip": "B-ROLL/B04_Insert_C3832",
+          "desde": "tratamiento reservado",
+          "dur": 1.6,
+          "in": 8.0
+        }
+      ]
+    },
+    {
+      "texto": "PENDIENTE: el texto del Hook 2 del brief no está grabado.",
+      "pendiente": true
+    },
+    {
+      "texto": "Cada consulta puede convertirse en un tratamiento reservado. Te cuento cómo.",
+      "clip": "PRESENTADORA/BH3_Clip_C3855",
+      "titulos": [
+        {
+          "en": "tratamiento",
+          "lineas": [
+            [
+              {
+                "t": "Tratamiento",
+                "estilo": "clave"
+              },
+              {
+                "t": "reservado",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B06_Insert_C3829",
+          "desde": "convertirse",
+          "dur": 1.6,
+          "in": 1.0
+        }
+      ]
+    }
+  ],
+  "bloques": [
+    {
+      "texto": "Con el reporte de Derma Scan en mano, la recomendación se vuelve concreta y tu paciente entiende cuáles son los beneficios de continuar con los tratamientos.",
+      "clip": "PRESENTADORA/B02_Clip_C3856",
+      "desde_seg": 19.5,
+      "titulos": [
+        {
+          "en": "la recomendación",
+          "lineas": [
+            [
+              {
+                "t": "Recomendación",
+                "estilo": "clave"
+              },
+              {
+                "t": "concreta",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B02_Insert_C3835",
+          "desde": "Con el reporte",
+          "hasta": "en mano",
+          "in": 0.0
+        },
+        {
+          "clip": "B-ROLL/B04_Insert_C3832",
+          "desde": "los beneficios",
+          "dur": 1.8,
+          "in": 5.0
+        }
+      ]
+    },
+    {
+      "texto": "Cada consulta con diagnóstico es una oportunidad real de venta.",
+      "clip": "PRESENTADORA/B03_Clip_C3857",
+      "titulos": [
+        {
+          "en": "oportunidad",
+          "y": 452,
+          "lineas": [
+            [
+              {
+                "t": "Oportunidad",
+                "estilo": "clave"
+              },
+              {
+                "t": "de venta",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "texto": "El reporte sugiere tratamientos complementarios de tu propio catálogo de servicios. Así, cada visita puede sumar más de un servicio y aumentar el ticket.",
+      "clip": "PRESENTADORA/B04_Clip_C3858",
+      "desde_seg": 8.5,
+      "titulos": [
+        {
+          "en": "aumentar",
+          "lineas": [
+            [
+              {
+                "t": "Aumentar",
+                "estilo": "clave"
+              },
+              {
+                "t": "el ticket",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B02_Insert_C3835",
+          "desde": "sugiere tratamientos",
+          "in": 11.0,
+          "dur": 2.0
+        },
+        {
+          "clip": "E:\\VELABODY\\Video 6 — ADS12 · Derma Scan por qué incorporar Derma Scan\\B-ROLL\\B04_Insert_C3830.MP4",
+          "desde": "cada visita",
+          "dur": 1.6,
+          "in": 12.0
+        }
+      ]
+    },
+    {
+      "texto": "Además, puedes ofrecer el análisis como una puerta de entrada para que nuevos pacientes conozcan tu spa.",
+      "clip": "PRESENTADORA/B05_Clip_C3859",
+      "titulos": [
+        {
+          "en": "puerta",
+          "lineas": [
+            [
+              {
+                "t": "Puerta",
+                "estilo": "clave"
+              },
+              {
+                "t": "de entrada",
+                "estilo": "pastilla"
+              }
+            ]
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B05_Insert_C3838",
+          "desde": "ofrecer el análisis",
+          "hasta": "entrada",
+          "in": 6.0
+        }
+      ]
+    },
+    {
+      "texto": "Si quieres incorporar Derma Scan a tu spa, escríbenos y te contamos nuestras opciones de financiación.",
+      "clip": "PRESENTADORA/B06_Clip_C3861",
+      "broll": [
+        {
+          "clip": "B-ROLL/B06_Insert_C3829",
+          "desde": "incorporar",
+          "dur": 1.8,
+          "in": 2.0
+        }
+      ],
+      "desde_seg": 3.9
+    }
+  ]
+}
