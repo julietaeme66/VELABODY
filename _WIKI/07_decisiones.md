@@ -2,6 +2,7 @@
 
 Lo más nuevo va arriba. Formato: **fecha · decisión** · por qué · fuente.
 
+- **30/10/2026** · El proyecto se sube a GitHub (repo privado `julietaeme66/VELABODY`) para trabajar de a varios. Va solo lo liviano: la wiki, las herramientas, y el guion y el plan de cada video. La guía de gráficos se copió a `_WIKI/_guia` para que Obsidian muestre sus imágenes · Juli.
 - **30/10/2026** · **Builder 2.1**: aplica solo los nombres del brief y la bandeja por video, los cortes largos con cola final, los subtítulos de fondo de 18 caracteres, la voz pareja con la música 22 dB abajo y los títulos siempre justificados. Los −14 LUFS finales salen de la normalización del export · Juli pidió actualizarlo.
 - **30/10/2026** · Los gráficos van **siempre en MAYÚSCULAS**. La guía de gráficos en PDF es el documento de referencia · Juli.
 - **30/10/2026** · Reglas nuevas de Juli:

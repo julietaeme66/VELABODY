@@ -45,4 +45,5 @@ Reels verticales para la marca **Velabody** (1080x1920, 30 fps, Premiere Pro 202
 
 - **Ejemplo nuevo:** copiá [la plantilla](_plantillas/ficha_ejemplo.md) en `04_ejemplos/buenos/`, o pedíselo a Claude ("ADS13_Hook1 es buen ejemplo porque…"). Claude arma la ficha y saca los fotogramas.
 - **Regla nueva o cambiada:** se edita la página que corresponde y se suma una línea en [07_decisiones](07_decisiones.md). No hay que dejar dos versiones de la misma regla.
-- **Para leerla cómoda:** en Obsidian, *Open folder as vault* → `E:\VELABODY\_WIKI`.
+- **Para leerla cómoda:** en Obsidian, *Open folder as vault* → `E:\VELABODY\_WIKI` (o la carpeta `_WIKI` de tu copia del repo).
+- **GitHub:** la wiki, las herramientas y los planes están en el repo privado [julietaeme66/VELABODY](https://github.com/julietaeme66/VELABODY). Antes de editar, *pull*; después, *commit* + *push*. Los videos, la música y el `.prproj` no están en el repo: van por Drive.
