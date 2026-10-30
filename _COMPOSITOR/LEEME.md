@@ -16,22 +16,35 @@ python -m venv .venv
 
 | Para qué | Comando |
 |---|---|
-| Armar, renderizar, normalizar y verificar el piloto | `npm run piloto` |
+| Armar, renderizar, normalizar y verificar el ADS14 completo (H1, H2 y H3) | `npm run ads14` |
+| Solo algunos hooks | `npm run ads14 -- --piezas H2` |
+| El piloto corto (Hook 2 + bloque 1) | `npm run piloto` |
 | Abrir el preview interactivo (Remotion Studio) | `npm run studio` |
 | Renderizar a mano lo que haya en `timeline.json` | `npx remotion render src/index.ts VelabodyPieza <salida.mp4>` |
-| Verificar un MP4 exportado | `npm run verificar -- <video.mp4> <carpeta_publica> <informe.json>` |
+| Verificar un MP4 exportado | `npm run verificar -- <video.mp4> <carpeta_publica> <informe.json> [timeline_H1.json]` |
 | Pruebas del adaptador y chequeo de tipos | `npm run pruebas` |
 
-`npm run piloto` corre `herramientas/piloto.py` con el plan de `pilotos/ads14_h2/plan.json`, en este orden: `velabody.py` → `preparar_medios.py` → `adaptar_armado.py` → render de Remotion → normalización a −14 LUFS y −1 dBTP → informe y hoja de contactos. Cada corrida guarda `_COMPOSITOR_SALIDAS/<nombre>_vNNN.mp4` (render) y `_vNNN_norm.mp4` (entrega), con el número siguiente. **Nunca pisa un exportado.**
+`herramientas/piloto.py` hace todo el recorrido, en este orden:
+
+1. `velabody.py`: arma `armado.json` o, en un anuncio, `armado_HookN.json`.
+2. `preparar_medios.py`: un solo juego de proxies para todas las piezas.
+3. Por cada pieza, `adaptar_armado.py` → `timeline_HN.json`.
+4. Render de Remotion.
+5. Normalización a −14 LUFS y −1 dBTP.
+6. Informe, hoja de contactos y `verificar_entrega.py`.
+
+Cada corrida guarda `_COMPOSITOR_SALIDAS/<nombre>_HN_vNNN.mp4` (render) y `_vNNN_norm.mp4` (entrega), con el número siguiente. **Nunca pisa un exportado.**
+
+**Hooks:** en Premiere, `solo_hook_desde` armaba el cuerpo una vez y se pegaba a mano en los demás hooks. Acá cada hook sale completo (hook + cuerpo) del mismo plan, así que esa clave no va. Si el plan la trae, `piloto.py` frena y avisa.
 
 ## Dónde está cada cosa
 
 | Qué | Dónde | ¿En Git? |
 |---|---|---|
 | Código del compositor | `_COMPOSITOR/src` (Remotion) y `_COMPOSITOR/herramientas` (Python) | Sí |
-| Plan e inventario del piloto | `_COMPOSITOR/pilotos/ads14_h2/` | Sí |
+| Planes e inventarios | `_COMPOSITOR/pilotos/ads14/` (ADS14 completo) y `pilotos/ads14_h2/` (piloto corto) | Sí |
 | Rutas de esta compu | `_HERRAMIENTAS/config_local.json` (ver `config_local.ejemplo.json`) | No |
-| Tomas del piloto | `<raiz>/_MEDIOS_PILOTO/ADS14_H2/` | No |
+| Tomas del ADS14 (las 15) | `<raiz>/_MEDIOS_PILOTO/ADS14/` | No |
 | Fuentes, música, click, LUT y aprobado | `<raiz>/_RECURSOS/` | No |
 | Caché (proxies, carpeta pública, mediciones) | `<raiz>/_COMPOSITOR_CACHE/` | No |
 | MP4 exportados e informes | `<raiz>/_COMPOSITOR_SALIDAS/` | No |
@@ -52,7 +65,9 @@ python -m venv .venv
 | Pan Left (Mister Horse) | `ConPanLeft`: 5 cuadros antes y 5 después del corte, deslizamiento con desenfoque horizontal y bordes en espejo. No toca los subtítulos. |
 | Objeto máscara (sándwich) | `mascara_persona.py`: mate de RobustVideoMatting + halo y calado, como video con alfa encima de la pastilla. |
 | Normalización de sonoridad del export | `loudnorm` de ffmpeg en dos pasadas (−14 LUFS, −1 dBTP). |
-| Bandeja y secuencias `_H1` | No aplica: cada pieza es un MP4 versionado. |
+| B-roll en una pista con `overwriteClip` | Si dos insertos se cruzan, el que se puso después pisa la cola del anterior (igual que en Premiere). |
+| Volumen de la voz en el clip | Pista de voz aparte (WAV por toma y ganancia), así cada hook puede llevar su nivel. |
+| Bandeja y secuencias `_H1` | No aplica: cada pieza es un MP4 versionado (`ADS14_H1_vNNN`…). |
 
 ## Calibración contra el Video 1 FINAL
 
@@ -84,11 +99,31 @@ Las medidas están en `config_velabody.json › compositor` y se pueden repetir:
 | Clicks | Suenan en el cuadro de inicio de cada gráfico, 2–3 cuadros antes de que se vea (como en el aprobado) |
 | Zona segura | Ningún gráfico afuera (zona aproximada: falta el PNG oficial) |
 
+## ADS14 completo: H1, H2 y H3
+
+Las tres piezas salen del mismo plan (`pilotos/ads14/plan.json`, copiado de `plan_v2.json`; las diferencias están en su `_nota`) y comparten el mismo cuerpo de 6 bloques.
+
+| Pieza | Duración | Sonoridad | Clicks (antes de verse) | Cortes entre tomas |
+|---|---|---|---|---|
+| `ADS14_H1_v002_norm.mp4` (Cinco cosas…) | 62,5 s · 1875 cuadros | −14,0 LUFS · −1,0 dBTP · L/R iguales | 2–5 cuadros | 7, todos ≥ 11 dB por debajo de la voz |
+| `ADS14_H2_v001_norm.mp4` (Esto es lo que hace diferente…) | 61,1 s · 1832 cuadros | −14,0 LUFS · −1,0 dBTP · L/R iguales | 2–5 cuadros | 7, todos ≥ 11 dB por debajo de la voz |
+| `ADS14_H3_v001_norm.mp4` (¿Sabés todo lo que un analizador…?) | 61,9 s · 1858 cuadros | −14,0 LUFS · −1,0 dBTP · L/R iguales | 2–5 cuadros | 7, todos ≥ 11 dB por debajo de la voz |
+
+Las tres en H.264 BT.709, con la música ≥ 20 dB por debajo de la voz y nada fuera de la zona segura aproximada. El contenido de cada toma se comprobó con su transcripción contra el guion del plan (coincidencia 0,82–1,00). En B07, después de la frase, la presentadora dice "Dije cualquier cosa": el corte lo deja afuera, porque la voz termina en 12,65 s, el corte cae en 13,06 s y el comentario empieza en 13,84 s.
+
+**Para revisar con Juli (decisiones creativas, no se tocaron):**
+
+- El plan trae **7 u 8 gráficos por pieza**; la wiki dice **2 a 4** por video.
+- **CORTE 3D** y **REPORTE POR QR** quedan encima de las letras del logo "velabody" de la pared, y **CINCO COSAS** también lo cruza. La wiki pide sombra leve o desenfoque cuando el fondo dificulta la lectura; hoy solo RECOMENDACIÓN la tiene (como en el piloto).
+- **COMPARA / EL PROGRESO** (y = 345) cae sobre la pantalla oscura de la tablet: violeta sobre negro, que no se arregla con sombra. Habría que moverlo o cambiar el B-roll de ese tramo.
+
 ## Hallazgos que también afectan al flujo de Premiere
 
 1. **`Mouse Click.mp3` arranca con 0,26 s de silencio.** El builder pone el click al inicio del gráfico, así que suena unos 8 cuadros tarde; en el aprobado, Juli lo compensó a mano. El compositor ya lo corrige (`click_silencio_inicial_s`).
 2. **El violeta del aprobado sale exportado como ~`#6601B2`, no `#6F04BA`**, posiblemente por la gestión de color de Premiere. El compositor entrega `#6F04BA`.
 3. `velabody.py` fallaba al imprimir las notas en consolas cp1252 ("→", "⚠"). Ya está corregido.
+4. **Dos B-roll del bloque 7 se cruzan 8 cuadros**, porque `velabody.py` alarga cada inserto y adelanta el siguiente. En Premiere lo tapa `overwriteClip`; el compositor hace lo mismo y lo avisa.
+5. El plan del ADS14 tomaba **C3835 de la carpeta del Video 7** (ruta absoluta en `E:`). Acá se bajó a la carpeta del ADS14.
 
 ## Diferencias pendientes frente al aprobado
 
@@ -97,7 +132,8 @@ Las medidas están en `config_velabody.json › compositor` y se pueden repetir:
 - **Zona segura:** se verificó con una zona aproximada; falta el PNG de la clienta.
 - **Pan Left:** está medido y hecho a ojo cuadro a cuadro, sin comparación numérica (en el aprobado no hay dos cortes iguales para medir).
 - **Halo del subtítulo de cámara:** ajustado visualmente.
-- **Sándwich:** funciona (ver `stills/sandwich_cmp.png` en la caché), pero en este fragmento la cabeza no llega a la pastilla, así que el piloto no lo usa. El halo se comparó a ojo con el aprobado.
+- **Sándwich:** funciona (ver `stills/sandwich_cmp.png` en la caché), pero en el ADS14 la cabeza nunca llega a la pastilla, así que no se usa. El halo se comparó a ojo con el aprobado.
+- **Descendentes en los títulos:** la máscara del MOGRT corta en la línea de base. En el compositor el borde baja con la entrada para no cortar la cola de la Q ("QUE", "QR"). En el aprobado no había letras con descendente para comparar.
 - **Fondo cargado:** solo está hecha la "sombra"; el "desenfoque" de zona falla con un mensaje claro.
 - **Arranque del hook:** `velabody.py` deja 0,5 s de casi silencio antes de "Esto". Es el comportamiento del builder y no se tocó.
 - **Versión 1080x1080:** no está hecha. Según la wiki, se arma después de validar.

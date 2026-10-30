@@ -20,7 +20,7 @@ Valida y falla con un mensaje claro ante lo que el compositor no sabe hacer (lig
 campos desconocidos, tramos fuera de la duración de los proxies o capas de video superpuestas).
 
 Uso:
-    python adaptar_armado.py <armado.json> <carpeta_publica>     (lee y escribe <carpeta_publica>/*.json)
+    python adaptar_armado.py <armado.json> <carpeta_publica> [timeline_X.json]   (por defecto, timeline.json)
 """
 import json
 import pathlib
@@ -118,8 +118,11 @@ def adaptar(a: dict, medios: dict) -> dict:
             else:
                 v["caja"] = caja_premiere(m["ancho"], m["alto"], x["escala"], x["pos"])
             videos.append(v)
-        else:
-            voces.append({"src": m["src"], "desde": desde, "dur": hasta - desde, "trim": trim})
+        # la voz va en su propia pista (WAV del mismo tramo que el proxy, con la ganancia de esta pieza)
+        vz = medios["voces"].get(f"{x['clip']}|{x['ganancia_db']:+.1f}")
+        if not vz:
+            raise ArmadoNoSoportado(f"A-roll {k}: falta la voz de {x['clip']} a {x['ganancia_db']:+.1f} dB (correr preparar_medios.py)")
+        voces.append({"src": vz["src"], "desde": desde, "dur": hasta - desde, "trim": cuadro(x["in"] - vz["inicio"], fps)})
     for k, x in enumerate(a["broll"]):
         desconocidos(x, CAMPOS_BROLL, f"B-roll {k}")
         m = fuente_de(x, f"B-roll {k}")
@@ -127,12 +130,22 @@ def adaptar(a: dict, medios: dict) -> dict:
         videos.append({"capa": "broll", "clip": x["clip"], "src": m["src"], "desde": desde, "dur": hasta - desde,
                        "trim": cuadro(x["in"] - m["inicio"], fps),
                        "caja": caja_encuadrar(m, W, H, x.get("foco_x", 0.5), x.get("zoom", 1.0), x.get("foco_y", 0.5))})
-    # A-roll: una sola capa continua; B-roll: no se pisan entre sí
-    for capa in ("aroll", "broll"):
-        tramos = sorted((v["desde"], v["desde"] + v["dur"], v["clip"]) for v in videos if v["capa"] == capa)
-        for (a0, a1, c0), (b0, b1, c1) in zip(tramos, tramos[1:]):
-            if b0 < a1:
-                raise ArmadoNoSoportado(f"{capa}: {c0} y {c1} se superponen (cuadros {b0}–{a1})")
+    # B-roll: en Premiere va todo en una pista con overwriteClip, así que un inserto pisa la cola del que
+    # se puso antes (velabody.py alarga cada uno 0,15 s y adelanta el siguiente 0,1 s). Se replica eso.
+    brolls = [v for v in videos if v["capa"] == "broll"]
+    ajustes = []
+    for k, v in enumerate(brolls):
+        for w in brolls[k + 1:]:
+            if v["desde"] < w["desde"] < v["desde"] + v["dur"]:
+                ajustes.append(f"{v['clip']} pierde {v['desde'] + v['dur'] - w['desde']} cuadros (lo pisa {w['clip']})")
+                v["dur"] = w["desde"] - v["desde"]
+    # A-roll: una sola capa continua, sin superposiciones
+    tramos = sorted((v["desde"], v["desde"] + v["dur"], v["clip"]) for v in videos if v["capa"] == "aroll")
+    for (a0, a1, c0), (b0, b1, c1) in zip(tramos, tramos[1:]):
+        if b0 < a1:
+            raise ArmadoNoSoportado(f"aroll: {c0} y {c1} se superponen (cuadros {b0}–{a1})")
+    for t in ajustes:
+        print(f"  B-roll: {t}")
     for v in videos:
         if v["desde"] + v["dur"] > total + 1:
             raise ArmadoNoSoportado(f"{v['clip']} termina después del final de la pieza")
@@ -196,13 +209,11 @@ def adaptar(a: dict, medios: dict) -> dict:
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     armado, publico = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
+    nombre = sys.argv[3] if len(sys.argv) > 3 else "timeline.json"     # una por pieza: timeline_H1.json…
     medios = json.loads((publico / "medios.json").read_text(encoding="utf-8"))
     tl = adaptar(json.loads(armado.read_text(encoding="utf-8")), medios)
-    sandwich = publico / "sandwich.json"           # lo escribe mascara_persona.py, si se pidió
-    if sandwich.exists():
-        tl["sandwich"] = json.loads(sandwich.read_text(encoding="utf-8"))
-    (publico / "timeline.json").write_text(json.dumps(tl, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"timeline.json · {tl['duracion']} cuadros · {len(tl['videos'])} videos · {len(tl['graficos'])} gráficos · "
+    (publico / nombre).write_text(json.dumps(tl, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"{nombre} · {tl['duracion']} cuadros · {len(tl['videos'])} videos · {len(tl['graficos'])} gráficos · "
           f"{len(tl['subtitulos'])} subtítulos · {len(tl['transiciones'])} transiciones · {len(tl['sandwich'])} sándwich")
 
 

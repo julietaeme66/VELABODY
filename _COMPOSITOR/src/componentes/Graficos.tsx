@@ -20,7 +20,10 @@ const estiloGrafico = (opacidad: number, sombra?: boolean): React.CSSProperties 
 };
 
 // Título "paquetito" (equivalente del MOGRT Ease Position & Mask Y - Bottom): Montserrat Medium en
-// mayúsculas, violeta, entra subiendo desde una máscara cuyo borde inferior es la línea de base.
+// mayúsculas, violeta, entra subiendo desde una máscara cuyo borde inferior es la línea de base. El borde
+// baja con la entrada hasta dejar lugar a los descendentes (la cola de la Q en "QUE"), sin cortarlos al final.
+const DESCENDENTE_EM = 0.25;
+
 export const Titulo: React.FC<{ g: TituloT; fundido: number }> = ({ g, fundido }) => {
   const frame = useCurrentFrame();
   const c = COMP.titulo;
@@ -31,7 +34,7 @@ export const Titulo: React.FC<{ g: TituloT; fundido: number }> = ({ g, fundido }
     <svg width={1080} height={1920} style={estiloGrafico(opacidadSalida(frame, g.hasta - g.desde, fundido), g.sombra)}>
       <defs>
         <clipPath id={id}>
-          <rect x={0} y={0} width={1080} height={g.base} />
+          <rect x={0} y={0} width={1080} height={g.base + DESCENDENTE_EM * g.fontPx * p} />
         </clipPath>
       </defs>
       <g clipPath={`url(#${id})`}>

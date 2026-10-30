@@ -1,0 +1,152 @@
+[
+ {
+  "en_el_plan": "B-ROLL/B02_Insert_C3831",
+  "archivo_drive": "C3831.MP4",
+  "drive_id": "1koIuSC-UrPs_SZ1di3g9xsV5ZbIYqPBJ",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\B-ROLL\\B02_Insert_C3831.MP4",
+  "bytes": 939684878,
+  "sha256": "59600cb6a2071ba6db752f4004d7f35f5f72127cc855141172da38d7f5366a49",
+  "duracion_s": 35.04,
+  "video": "h264 3840x2160 50/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "B-ROLL/B02_Insert_C3835",
+  "archivo_drive": "C3835.MP4",
+  "drive_id": "1kc47CqrTnK04uD1Kvph6McoxNjxXUnxY",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\B-ROLL\\B02_Insert_C3835.MP4",
+  "bytes": 469911377,
+  "sha256": "7098a6e6c22f2ffe1ad99eb85d7b8a85e146f1d8d6f90647e083cd5cd27a86e6",
+  "duracion_s": 22.56,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "B-ROLL/B03_Insert_C3825",
+  "archivo_drive": "C3825.MP4",
+  "drive_id": "18xIzNTEWirxdNuJx_ovVWQa7PcQl28vY",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\B-ROLL\\B03_Insert_C3825.MP4",
+  "bytes": 738354711,
+  "sha256": "4178856f90197c66825aaeaaf947b0cfe92c43c40ac86c50fb10facc8efb413b",
+  "duracion_s": 27.84,
+  "video": "h264 3840x2160 50/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "B-ROLL/B04_Insert_C3829",
+  "archivo_drive": "C3829.MP4",
+  "drive_id": "1KBe9e9jm__T-2k9KBrK3HOff0wZ9BSqz",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\B-ROLL\\B04_Insert_C3829.MP4",
+  "bytes": 738353890,
+  "sha256": "35d32bd50850c54d8b736d15d3f84058ed0848ba9b99cf2073cb5f384c9d57e5",
+  "duracion_s": 26.4,
+  "video": "h264 3840x2160 50/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "B-ROLL/B05_Insert_C3838",
+  "archivo_drive": "C3838.MP4",
+  "drive_id": "1p7JH_AqVFIqyIEmjd70r4UJYnDhMeHvI",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\B-ROLL\\B05_Insert_C3838.MP4",
+  "bytes": 671240993,
+  "sha256": "7badbd37f23bbe7e60aa484b7ff47a843c453db3aadadecba8bdffeaf2baff1f",
+  "duracion_s": 34.08,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "PRESENTADORA/B02_Clip_C3866",
+  "archivo_drive": "C3866.MP4",
+  "drive_id": "149MCa_4fKJ4wpdsiN6OaezQ2e7S8QKmK",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\PRESENTADORA\\B02_Clip_C3866.MP4",
+  "bytes": 335692095,
+  "sha256": "d3f8f3f609b57b42ed58e94ae98b378728f72ad0432b311ca63130dc5ec9b3fc",
+  "duracion_s": 16.8,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "PRESENTADORA/B03_Clip_C3867",
+  "archivo_drive": "C3867.MP4",
+  "drive_id": "1CmfQZpSQEwxp-1jFSGd73nRBEf1yG-YV",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\PRESENTADORA\\B03_Clip_C3867.MP4",
+  "bytes": 537021963,
+  "sha256": "cea42a36dfb06e0d197eaaf33ed11440646dd03832811821b6a909f66915a5cb",
+  "duracion_s": 29.28,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "PRESENTADORA/B04_Clip_C3868",
+  "archivo_drive": "C3868.MP4",
+  "drive_id": "1SXn6abDxykpOu-LTDyocp727Vq-iUsZE",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\PRESENTADORA\\B04_Clip_C3868.MP4",
+  "bytes": 537021835,
+  "sha256": "bd58e69d2c9c943c68e179c56060269874c94cef5e9b46c7144f88a1a3b4ac7c",
+  "duracion_s": 28.8,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "PRESENTADORA/B05_Clip_C3869",
+  "archivo_drive": "C3869.MP4",
+  "drive_id": "1mH-wdt5M5XMYCNGNGN-x9c2IxvvASiSM",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\PRESENTADORA\\B05_Clip_C3869.MP4",
+  "bytes": 604131079,
+  "sha256": "fa79e51c699639bb8d3d104c817aa3400c5e1ea454c928d438d528e70bf0e32a",
+  "duracion_s": 30.24,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "PRESENTADORA/B06_Clip_C3870",
+  "archivo_drive": "C3870.MP4",
+  "drive_id": "1N9X7smKbi13SiVkIjDTHiB-oJvNWUmH0",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\PRESENTADORA\\B06_Clip_C3870.MP4",
+  "bytes": 402801463,
+  "sha256": "0ca88e3bf32af2689f6307ed914c76fb66b693cdf52ff0cd1160e01ab95ed5b8",
+  "duracion_s": 18.72,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "PRESENTADORA/B07_Clip_C3871",
+  "archivo_drive": "C3871.MP4",
+  "drive_id": "1J26dICIR7k6_1gJFInxaE57L3hSR9uu0",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\PRESENTADORA\\B07_Clip_C3871.MP4",
+  "bytes": 335691843,
+  "sha256": "ae1af35f19a3ecb7a8ee394955b7c6cfebef40590b23bb691dccdb49443fc8e6",
+  "duracion_s": 15.84,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "PRESENTADORA/B08_Clip_C3873",
+  "archivo_drive": "C3873.MP4",
+  "drive_id": "1sX9x4K260IFzbz5SCT1jWN0SJFi3cEKc",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\PRESENTADORA\\B08_Clip_C3873.MP4",
+  "bytes": 402801715,
+  "sha256": "2faef22b82d1f6a202ab04854bc5e7acf8409e6a1c7cc6c75ba69414b61a2db0",
+  "duracion_s": 19.68,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "PRESENTADORA/BH1_Clip_C3862",
+  "archivo_drive": "C3862.MP4",
+  "drive_id": "16VTiSRyhUrFae0E9ybkne_HXxo-4Mgqp",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\PRESENTADORA\\BH1_Clip_C3862.MP4",
+  "bytes": 537021459,
+  "sha256": "d9910a658cd1db9eb9f08f0b0dcbee90bdafb7892c7061f20f73d43df3642246",
+  "duracion_s": 27.36,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "PRESENTADORA/BH2_Clip_C3864",
+  "archivo_drive": "C3864.MP4",
+  "drive_id": "1_er7EGnP0UBUzDlG17df1kRztE7zHJ77",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\PRESENTADORA\\BH2_Clip_C3864.MP4",
+  "bytes": 201472475,
+  "sha256": "a75f51dd49defdcabf648da686a69c0503c9ae7b31c34ec915fff395b62808b7",
+  "duracion_s": 9.6,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ },
+ {
+  "en_el_plan": "PRESENTADORA/BH3_Clip_C3863",
+  "archivo_drive": "C3863.MP4",
+  "drive_id": "1itnQ-Y7jCJ-P51GaQmAKCr6DAAwrx7Fe",
+  "ruta_local": "D:\\VELABODY\\_MEDIOS_PILOTO\\ADS14\\PRESENTADORA\\BH3_Clip_C3863.MP4",
+  "bytes": 201472223,
+  "sha256": "9c85874fde1efd57f32e1984c45c77bd695a4d63c532ccfaf59c0c9331a20bf4",
+  "duracion_s": 8.64,
+  "video": "h264 3840x2160 25/1 yuv422p10le rot 90"
+ }
+]

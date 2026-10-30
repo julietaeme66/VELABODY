@@ -12,9 +12,10 @@ import adaptar_armado as ad  # noqa: E402
 
 MEDIOS = {
     "medios": {
-        "A": {"src": "medios/A.mov", "inicio": 4.0, "fin": 10.0, "ancho": 2160, "alto": 3840, "audio": True},
-        "B": {"src": "medios/B.mp4", "inicio": 1.0, "fin": 6.0, "ancho": 2160, "alto": 3840, "audio": False},
+        "A": {"src": "medios/A.mp4", "inicio": 4.0, "fin": 10.0, "ancho": 2160, "alto": 3840},
+        "B": {"src": "medios/B.mp4", "inicio": 1.0, "fin": 6.0, "ancho": 2160, "alto": 3840},
     },
+    "voces": {"A|+15.0": {"src": "medios/voz_A_+15.0dB.wav", "inicio": 4.0}},
     "audio": {"click": "audio/click.mp3", "click_silencio_inicial_s": 0.262, "musica": "audio/musica.wav"},
 }
 
@@ -71,6 +72,13 @@ class TestAdaptador(unittest.TestCase):
         self.assertEqual(a1["kf"][0]["cuadro"], 42)
         self.assertEqual(tl["duracion"], 120)
 
+    def test_voz_en_pista_propia(self):
+        tl = self.adaptar()
+        self.assertEqual([v["src"] for v in tl["voces"]], ["medios/voz_A_+15.0dB.wav"] * 2)
+        self.assertEqual([(v["desde"], v["dur"], v["trim"]) for v in tl["voces"]], [(0, 42, 30), (42, 78, 72)])
+        with self.assertRaises(ad.ArmadoNoSoportado):    # una ganancia sin su WAV
+            self.adaptar({"aroll": [{**ARMADO["aroll"][0], "ganancia_db": 12.0}]})
+
     def test_titulo_linea_de_base(self):
         g = self.adaptar()["graficos"][0]
         self.assertEqual(g["fontPx"], 100.0)
@@ -86,6 +94,13 @@ class TestAdaptador(unittest.TestCase):
         self.assertEqual(musica["fadeFinal"], 60)
         self.assertEqual(tl["transiciones"], [{"tipo": "panLeft", "cuadro": 42}])
 
+    def test_broll_pisa_como_overwrite(self):
+        # dos insertos que se cruzan: el segundo pisa la cola del primero (overwriteClip en una pista)
+        tl = self.adaptar({"broll": [ARMADO["broll"][0], {**ARMADO["broll"][0], "t": 1.5, "in": 3.0, "out": 4.0}]})
+        b0, b1 = [v for v in tl["videos"] if v["capa"] == "broll"]
+        self.assertEqual((b0["desde"], b0["dur"]), (30, 15))
+        self.assertEqual((b1["desde"], b1["dur"]), (45, 30))
+
     def test_rechaza_lo_que_no_sabe_hacer(self):
         with self.assertRaises(ad.ArmadoNoSoportado):
             self.adaptar({"light_leaks": [{"t": 1.0}]})
@@ -95,8 +110,8 @@ class TestAdaptador(unittest.TestCase):
             self.adaptar({"broll": [{**ARMADO["broll"][0], "rotacion": 5}]})
         with self.assertRaises(ad.ArmadoNoSoportado):    # fuera del tramo del proxy
             self.adaptar({"broll": [{**ARMADO["broll"][0], "in": 5.5, "out": 6.5}]})
-        with self.assertRaises(ad.ArmadoNoSoportado):    # dos B-roll superpuestos
-            self.adaptar({"broll": [ARMADO["broll"][0], {**ARMADO["broll"][0], "t": 1.5}]})
+        with self.assertRaises(ad.ArmadoNoSoportado):    # A-roll superpuesto
+            self.adaptar({"aroll": [ARMADO["aroll"][0], {**ARMADO["aroll"][1], "t": 1.0}]})
         with self.assertRaises(ad.ArmadoNoSoportado):
             self.adaptar({"graficos": [{**ARMADO["graficos"][0], "fondo_cargado": "desenfoque"}]})
 

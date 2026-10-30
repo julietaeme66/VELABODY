@@ -5,6 +5,7 @@
   "scripts": {
     "studio": "remotion studio src/index.ts",
     "piloto": ".venv\\Scripts\\python -I herramientas/piloto.py pilotos/ads14_h2/plan.json --nombre ADS14_H2_piloto",
+    "ads14": ".venv\\Scripts\\python -I herramientas/piloto.py pilotos/ads14/plan.json --nombre ADS14",
     "verificar": ".venv\\Scripts\\python -I herramientas/verificar_entrega.py",
     "pruebas": ".venv\\Scripts\\python -I herramientas/test_adaptar_armado.py && tsc --noEmit",
     "tipos": "tsc --noEmit"

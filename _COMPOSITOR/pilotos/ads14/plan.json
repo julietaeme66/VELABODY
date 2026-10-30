@@ -1,0 +1,358 @@
+{
+  "nombre": "ADS14",
+  "titulo": "Video 8 — ADS14 · Derma Scan: las funciones de Derma Scan",
+  "codigo": "ADS14",
+  "estilo": "v2",
+  "origen": "Video 8 — ADS14 · Derma Scan las funciones de Derma Scan/_EDICION/plan_v2.json",
+  "_nota": "Diferencias con plan_v2: sin solo_hook_desde (cada hook se arma completo); carpeta y música relativas a la raíz; C3835 bajada a la carpeta de este video (el plan la tomaba del Video 7); sombra leve en RECOMENDACIÓN por el logo de la pared.",
+  "carpeta": "_MEDIOS_PILOTO/ADS14",
+  "musica": "_RECURSOS/musica/fashion-2026-08-30-17-11-41-utc/The Fashion Elegance Short 2.wav",
+  "aroll": [],
+  "caras": {
+    "PRESENTADORA/BH1_Clip_C3862": [
+      0.375,
+      0.41
+    ],
+    "PRESENTADORA/BH2_Clip_C3864": [
+      0.34,
+      0.41
+    ],
+    "PRESENTADORA/BH3_Clip_C3863": [
+      0.4,
+      0.42
+    ],
+    "PRESENTADORA/B02_Clip_C3866": [
+      0.35,
+      0.42
+    ],
+    "PRESENTADORA/B03_Clip_C3867": [
+      0.4,
+      0.38
+    ],
+    "PRESENTADORA/B04_Clip_C3868": [
+      0.4,
+      0.41
+    ],
+    "PRESENTADORA/B05_Clip_C3869": [
+      0.375,
+      0.42
+    ],
+    "PRESENTADORA/B06_Clip_C3870": [
+      0.45,
+      0.4
+    ],
+    "PRESENTADORA/B07_Clip_C3871": [
+      0.45,
+      0.38
+    ],
+    "PRESENTADORA/B08_Clip_C3873": [
+      0.43,
+      0.39
+    ]
+  },
+  "hooks": [
+    {
+      "texto": "Cinco cosas que Derma Scan puede hacer por tu spa y probablemente no sabías.",
+      "clip": "PRESENTADORA/BH1_Clip_C3862",
+      "desde_seg": 16.5,
+      "graficos": [
+        {
+          "en": "Cinco",
+          "hasta": "spa",
+          "lineas": [
+            "Cinco cosas",
+            "que no sabías"
+          ]
+        }
+      ],
+      "zooms": [
+        {
+          "tipo": "lento",
+          "de": 1.0,
+          "a": 1.12
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B04_Insert_C3829",
+          "desde": "y probablemente",
+          "hasta": "sabías",
+          "in": 1.0
+        }
+      ]
+    },
+    {
+      "texto": "Esto es lo que hace diferente a Derma Scan.",
+      "clip": "PRESENTADORA/BH2_Clip_C3864",
+      "graficos": [
+        {
+          "en": "lo que hace",
+          "hasta": "fin",
+          "pastilla": "Derma Scan",
+          "escala": 86
+        }
+      ],
+      "zooms": [
+        {
+          "tipo": "lento",
+          "de": 1.0,
+          "a": 1.12
+        }
+      ]
+    },
+    {
+      "texto": "¿Sabes todo lo que un analizador facial puede hacer por tu spa?",
+      "clip": "PRESENTADORA/BH3_Clip_C3863",
+      "graficos": [
+        {
+          "en": "analizador",
+          "hasta": "fin",
+          "lineas": [
+            "Analizador facial"
+          ]
+        }
+      ],
+      "zooms": [
+        {
+          "tipo": "lento",
+          "de": 1.0,
+          "a": 1.12
+        }
+      ]
+    }
+  ],
+  "bloques": [
+    {
+      "texto": "Primero, no solo diagnostica, brinda una recomendación concreta a partir del análisis de la piel de tu paciente.",
+      "clip": "PRESENTADORA/B02_Clip_C3866",
+      "desde_seg": 7.5,
+      "pan_left": true,
+      "graficos": [
+        {
+          "en": "recomendación",
+          "hasta": "concreta",
+          "lineas": [
+            "Recomendación"
+          ],
+          "fondo_cargado": "sombra"
+        }
+      ],
+      "zooms": [
+        {
+          "tipo": "lento",
+          "en": "brinda",
+          "hasta": "concreta",
+          "de": 1.0,
+          "a": 1.12
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B02_Insert_C3831",
+          "desde": "no solo",
+          "hasta": "diagnostica",
+          "in": 2.5
+        },
+        {
+          "clip": "B-ROLL/B05_Insert_C3838",
+          "desde": "a partir",
+          "hasta": "paciente",
+          "in": 7.0
+        }
+      ]
+    },
+    {
+      "texto": "Segundo, compara el progreso sesión tras sesión. Hace un análisis completo del rostro del paciente de ambos lados. El argumento ideal para que vuelva a agendar.",
+      "clip": "PRESENTADORA/B03_Clip_C3867",
+      "desde_seg": 16.5,
+      "graficos": [
+        {
+          "en": "compara",
+          "dur": 1.9,
+          "lineas": [
+            "Compara",
+            "el progreso"
+          ],
+          "y": 345
+        }
+      ],
+      "zooms": [
+        {
+          "tipo": "punch",
+          "en": "El argumento",
+          "z": 1.3
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B03_Insert_C3825",
+          "desde": "sesión tras",
+          "hasta": "tras sesión",
+          "in": 4.0
+        },
+        {
+          "clip": "B-ROLL/B02_Insert_C3831",
+          "desde": "Hace un análisis",
+          "hasta": "ambos lados",
+          "in": 27.5
+        }
+      ]
+    },
+    {
+      "texto": "Tercero, tiene una vista de corte 3D para que puedas analizar, por ejemplo, la profundidad de manchas o lunares, algo que a simple vista no se ve.",
+      "clip": "PRESENTADORA/B04_Clip_C3868",
+      "desde_seg": 16.5,
+      "pan_left": true,
+      "graficos": [
+        {
+          "en": "para que puedas",
+          "hasta": "ejemplo",
+          "lineas": [
+            "Corte 3D"
+          ]
+        }
+      ],
+      "zooms": [
+        {
+          "tipo": "lento",
+          "en": "algo que",
+          "de": 1.0,
+          "a": 1.15
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B04_Insert_C3829",
+          "desde": "una vista de corte",
+          "hasta": "3D",
+          "in": 17.0
+        },
+        {
+          "clip": "B-ROLL/B04_Insert_C3829",
+          "desde": "la profundidad",
+          "hasta": "lunares",
+          "in": 20.0
+        }
+      ]
+    },
+    {
+      "texto": "Cuarto, muestra si el protector solar está bien colocado. Bajo la luz ultravioleta permite enseñarle al paciente cómo utilizar el producto de forma correcta para que no queden zonas sin proteger.",
+      "clip": "PRESENTADORA/B05_Clip_C3869",
+      "desde_seg": 14.5,
+      "graficos": [
+        {
+          "en": "protector solar",
+          "hasta": "colocado",
+          "lineas": [
+            "Protector solar"
+          ]
+        }
+      ],
+      "zooms": [
+        {
+          "tipo": "punch",
+          "en": "enseñarle",
+          "hasta": "utilizar",
+          "z": 1.3
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B03_Insert_C3825",
+          "desde": "Bajo la luz",
+          "hasta": "permite",
+          "in": 12.0
+        },
+        {
+          "clip": "B-ROLL/B05_Insert_C3838",
+          "desde": "el producto",
+          "hasta": "correcta",
+          "in": 7.5
+        },
+        {
+          "clip": "B-ROLL/B03_Insert_C3825",
+          "desde": "zonas sin",
+          "hasta": "proteger",
+          "in": 16.0
+        }
+      ]
+    },
+    {
+      "texto": "Y por último, todo el reporte queda accesible al instante por QR al celular de tu paciente.",
+      "clip": "PRESENTADORA/B06_Clip_C3870",
+      "desde_seg": 9.5,
+      "pan_left": true,
+      "graficos": [
+        {
+          "en": "por QR",
+          "hasta": "fin",
+          "lineas": [
+            "Reporte por QR"
+          ]
+        }
+      ],
+      "broll": [
+        {
+          "clip": "B-ROLL/B02_Insert_C3835",
+          "desde": "todo el reporte",
+          "hasta": "instante",
+          "in": 2.0
+        }
+      ]
+    },
+    {
+      "texto": "¿Cuál de estas funciones te es más útil para tu spa?",
+      "clip": "PRESENTADORA/B07_Clip_C3871",
+      "desde_seg": 9.5,
+      "broll": [
+        {
+          "clip": "B-ROLL/B03_Insert_C3825",
+          "desde": "de estas",
+          "hasta": "funciones",
+          "in": 13.0
+        },
+        {
+          "clip": "B-ROLL/B04_Insert_C3829",
+          "desde": "te es",
+          "hasta": "útil",
+          "in": 18.0
+        }
+      ]
+    },
+    {
+      "texto": "¿Quieres incorporar Derma Scan a tu spa? Haz clic y te enviaremos toda la información.",
+      "clip": "PRESENTADORA/B08_Clip_C3873",
+      "desde_seg": 11.5,
+      "graficos": [
+        {
+          "en": "incorporar",
+          "hasta": "spa?",
+          "pastilla": "Derma Scan",
+          "escala": 86,
+          "pos": [
+            545,
+            440
+          ]
+        },
+        {
+          "en": "Haz clic",
+          "hasta": "fin",
+          "pastilla": "Derma Scan",
+          "escala": 72,
+          "pos": [
+            545,
+            350
+          ]
+        }
+      ],
+      "zooms": [
+        {
+          "tipo": "lento",
+          "en": "Haz clic",
+          "de": 1.0,
+          "a": 1.2
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,5 @@
-"""Arma una pieza de punta a punta sin Premiere y verifica el MP4 que sale.
+"""Arma una pieza de punta a punta sin Premiere y verifica el MP4 que sale. En los anuncios, una pieza
+completa por hook (hook + cuerpo): <nombre>_H1, _H2…
 
     plan.json → velabody.py → armado.json → preparar_medios.py → adaptar_armado.py → Remotion
     → normalización de sonoridad (−14 LUFS, −1 dBTP) → verificación
@@ -8,7 +9,7 @@ número siguiente al último que exista: nunca se pisa un exportado. Junto al MP
 las mediciones del archivo final y una hoja de contactos.
 
 Uso:
-    python piloto.py <plan.json> [--nombre NOMBRE] [--props props.json]
+    python piloto.py <plan.json> [--nombre NOMBRE] [--piezas H1,H3] [--props props.json]
 """
 import argparse
 import json
@@ -67,44 +68,70 @@ def medir(mp4: pathlib.Path) -> dict:
             "true_peak_dbtp": tp, "rms_izq_db": canales[0], "rms_der_db": canales[1]}
 
 
+def piezas_de(plan: dict, edicion: pathlib.Path) -> list[tuple[str, pathlib.Path]]:
+    """Orgánico: una pieza (armado.json). Anuncio: una por hook (armado_HookN.json → sufijo _HN)."""
+    if not plan.get("hooks"):
+        return [("", edicion / "armado.json")]
+    return [(f"_H{k}", edicion / f"armado_Hook{k}.json") for k, h in enumerate(plan["hooks"], 1) if not h.get("pendiente")]
+
+
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
     ap.add_argument("plan")
     ap.add_argument("--nombre")
+    ap.add_argument("--piezas", help="solo estas piezas, por ejemplo H1,H3")
     ap.add_argument("--props", help="props de Remotion ya armadas (por ejemplo, la prueba de sándwich)")
     a = ap.parse_args()
     plan_path = pathlib.Path(a.plan).resolve()
     plan = json.loads(plan_path.read_text(encoding="utf-8"))
+    if plan.get("solo_hook_desde"):
+        sys.exit("El plan tiene solo_hook_desde (flujo de Premiere: el cuerpo se pega a mano). Para el compositor, "
+                 "cada hook se arma completo: sacá esa clave del plan.")
     edicion = velabody.carpeta_plan(plan) / "_EDICION"
-    armado = edicion / "armado.json"
     publico = velabody.RAIZ / "_COMPOSITOR_CACHE" / "publico"
     salidas = velabody.RAIZ / "_COMPOSITOR_SALIDAS"
     salidas.mkdir(exist_ok=True)
 
     correr([PY, "-I", str(AQUI.parents[1] / "_HERRAMIENTAS" / "velabody.py"), str(plan_path)], stdout=subprocess.DEVNULL)
-    correr([PY, "-I", str(AQUI / "preparar_medios.py"), str(armado), str(publico)])
-    correr([PY, "-I", str(AQUI / "adaptar_armado.py"), str(armado), str(publico)])
-    tl = json.loads((publico / "timeline.json").read_text(encoding="utf-8"))
-
-    nombre = a.nombre or re.sub(r"\W+", "_", plan.get("titulo") or plan["nombre"]).strip("_")
-    render = siguiente_version(salidas, nombre)
-    cmd = ["npx", "remotion", "render", "src/index.ts", "VelabodyPieza", str(render), "--log=error"]
-    if a.props:
-        cmd.append(f"--props={a.props}")
-    correr(cmd, cwd=COMPOSITOR, shell=sys.platform == "win32")
-    final = render.with_name(render.stem + "_norm.mp4")
-    previa = loudnorm(render, final)
-    informe = {"plan": str(plan_path), "armado": str(armado), "render": str(render), "entrega": str(final),
-               "cuadros_timeline": tl["duracion"], "duracion_timeline_s": tl["duracion"] / tl["fps"],
-               "antes_de_normalizar": {"lufs": float(previa["input_i"]), "true_peak": float(previa["input_tp"])},
-               "entrega_medida": medir(final)}
-    correr(["ffmpeg", "-v", "error", "-y", "-i", str(final), "-vf", "fps=2,scale=216:384,tile=12x2", "-frames:v", "1",
-            str(final.with_suffix(".hoja.jpg"))])
-    final.with_suffix(".informe.json").write_text(json.dumps(informe, ensure_ascii=False, indent=1), encoding="utf-8")
-    m = informe["entrega_medida"]
-    print(f"\nEntrega: {final}\n  {m['duracion_s']:.3f} s (timeline {informe['duracion_timeline_s']:.3f} s) · "
-          f"{m['lufs_integrado']} LUFS · true peak {m['true_peak_dbtp']} dBTP · L {m['rms_izq_db']} / R {m['rms_der_db']} dB")
+    piezas = piezas_de(plan, edicion)
+    if a.piezas:
+        pedidas = {f"_{x.strip()}" for x in a.piezas.split(",")}
+        piezas = [p for p in piezas if p[0] in pedidas]
+    correr([PY, "-I", str(AQUI / "preparar_medios.py"), *[str(x) for _, x in piezas], str(publico)])
+    base = a.nombre or re.sub(r"\W+", "_", plan.get("titulo") or plan["nombre"]).strip("_")
+    resumen = []
+    for sufijo, armado in piezas:
+        nombre_tl = f"timeline{sufijo or ''}.json"
+        correr([PY, "-I", str(AQUI / "adaptar_armado.py"), str(armado), str(publico), nombre_tl])
+        tl = json.loads((publico / nombre_tl).read_text(encoding="utf-8"))
+        props = a.props
+        if not props:
+            props = str(velabody.RAIZ / "_COMPOSITOR_CACHE" / f"props{sufijo}.json")
+            pathlib.Path(props).write_text(json.dumps({"timeline": tl}, ensure_ascii=False), encoding="utf-8")
+        render = siguiente_version(salidas, base + sufijo)
+        correr(["npx", "remotion", "render", "src/index.ts", "VelabodyPieza", str(render), "--log=error", f"--props={props}"],
+               cwd=COMPOSITOR, shell=sys.platform == "win32")
+        final = render.with_name(render.stem + "_norm.mp4")
+        previa = loudnorm(render, final)
+        informe = {"plan": str(plan_path), "armado": str(armado), "render": str(render), "entrega": str(final),
+                   "cuadros_timeline": tl["duracion"], "duracion_timeline_s": tl["duracion"] / tl["fps"],
+                   "antes_de_normalizar": {"lufs": float(previa["input_i"]), "true_peak": float(previa["input_tp"])},
+                   "entrega_medida": medir(final)}
+        fps_hoja = 24 / informe["duracion_timeline_s"]
+        correr(["ffmpeg", "-v", "error", "-y", "-i", str(final), "-vf", f"fps={fps_hoja:.4f},scale=216:384,tile=12x2", "-frames:v", "1",
+                str(final.with_suffix(".hoja.jpg"))])
+        final.with_suffix(".informe.json").write_text(json.dumps(informe, ensure_ascii=False, indent=1), encoding="utf-8")
+        # una falla de la verificación se informa pero no frena las piezas que faltan
+        verif = subprocess.run([PY, "-I", str(AQUI / "verificar_entrega.py"), str(final), str(publico),
+                                str(final.with_suffix(".verificacion.json")), nombre_tl], stdout=subprocess.DEVNULL)
+        m = informe["entrega_medida"]
+        resumen.append(f"{final.name}: {m['duracion_s']:.2f} s (timeline {informe['duracion_timeline_s']:.2f} s) · "
+                       f"{m['lufs_integrado']} LUFS · TP {m['true_peak_dbtp']} dBTP · L {m['rms_izq_db']:.2f} / R {m['rms_der_db']:.2f} dB"
+                       + ("" if verif.returncode == 0 else " · ⚠ la verificación falló"))
+    print(f"\nEntregas en {salidas}:")
+    for r in resumen:
+        print("  " + r)
 
 
 if __name__ == "__main__":

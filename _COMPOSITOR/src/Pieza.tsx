@@ -34,7 +34,7 @@ export const Pieza: React.FC<PiezaProps> = ({ timeline, zonaSegura }) => {
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
       <ConPanLeft trs={timeline.transiciones}>
-        {timeline.videos.filter((v) => v.capa === "aroll").map((v, i) => <ClipEnLinea key={`a${i}`} {...v} muted={false} />)}
+        {timeline.videos.filter((v) => v.capa === "aroll").map((v, i) => <ClipEnLinea key={`a${i}`} {...v} muted />)}
         {timeline.videos.filter((v) => v.capa === "broll").map((v, i) => <ClipEnLinea key={`b${i}`} {...v} muted />)}
         {pastillas.map((g, i) => <GraficoEnLinea key={`p${i}`} g={g} terminaEnCorte={terminaEnCorte(g.hasta)} />)}
         {timeline.sandwich.map((s, i) => <ClipEnLinea key={`s${i}`} {...s} muted alfa />)}

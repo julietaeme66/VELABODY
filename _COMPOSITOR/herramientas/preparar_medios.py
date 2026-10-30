@@ -5,13 +5,14 @@
   10 bits original), con el color de la capa Lumetri horneado.
 - Color: un LUT 3D que combina el LUT Alexa v3 → Rec709 de Premiere con la exposición y el contraste
   calibrados (config_velabody.json › compositor.color; ver calibrar_color.py, misma fórmula).
-- Voz: la ganancia que calculó velabody.py, en mono centrada (el Video 1 salió cargado a la izquierda).
+- Voz: aparte del video, un WAV por toma y ganancia (la que calculó velabody.py para cada pieza), en mono
+  centrada (el Video 1 salió cargado a la izquierda).
 - Copia fuentes, click, música y SFX, y escribe medios.json (clip → proxy, inicio, tamaño original).
 
 Los originales no se tocan. Lo ya generado con los mismos parámetros no se rehace.
 
 Uso:
-    python preparar_medios.py <armado.json> <carpeta_publica>
+    python preparar_medios.py <armado.json> [<armado.json> ...] <carpeta_publica>
 """
 import hashlib
 import json
@@ -82,32 +83,51 @@ def ruta_ffmpeg_filtro(p: pathlib.Path) -> str:
     return p.as_posix().replace(":", "\\:")
 
 
-def proxy(medio: dict, ini: float, fin: float, destino: pathlib.Path, lut: pathlib.Path, ganancia_db: float | None) -> None:
-    pc = COMP["proxy"]
-    params = {"version": 2, "ruta": medio["ruta"], "ini": ini, "fin": fin, "lut": lut.name, "ganancia": ganancia_db, "proxy": pc}
+def al_dia(destino: pathlib.Path, params: dict) -> tuple[bool, pathlib.Path, str]:
+    """¿Ya existe con los mismos parámetros? (así no se rehace un proxy entre corridas)."""
     firma = hashlib.sha1(json.dumps(params, sort_keys=True).encode()).hexdigest()[:12]
-    marca = destino.with_suffix(".json")
-    if destino.exists() and marca.exists() and json.loads(marca.read_text())["firma"] == firma:
+    marca = destino.with_suffix(destino.suffix + ".json")
+    ok = destino.exists() and marca.exists() and json.loads(marca.read_text())["firma"] == firma
+    return ok, marca, firma
+
+
+def proxy(medio: dict, ini: float, fin: float, destino: pathlib.Path, lut: pathlib.Path) -> None:
+    """Video sin audio (la voz va aparte, porque cada pieza puede llevar otra ganancia)."""
+    pc = COMP["proxy"]
+    params = {"version": 3, "ruta": medio["ruta"], "ini": ini, "fin": fin, "lut": lut.name, "proxy": pc}
+    ok, marca, firma = al_dia(destino, params)
+    if ok:
         return
     vf = (f"scale={pc['ancho']}:{pc['alto']}:flags=lanczos,fps={FPS},format=rgb48le,"
           f"lut3d='{ruta_ffmpeg_filtro(lut)}',scale=out_range=tv,format=yuv420p")
-    cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{ini:.3f}", "-to", f"{fin:.3f}", "-i", medio["ruta"], "-vf", vf,
-           "-c:v", "libx264", "-preset", "medium", "-crf", str(pc["crf"]), "-g", "15", "-bf", "0",
-           "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709", "-color_range", "tv", "-movflags", "+faststart"]
-    if ganancia_db is None:
-        cmd += ["-an"]
-    else:
-        cmd += ["-af", f"pan=mono|c0=0.5*c0+0.5*c1,volume={ganancia_db}dB,aformat=channel_layouts=stereo",
-                "-c:a", "pcm_s16le", "-ar", "48000"]
-        destino = destino.with_suffix(".mov")
-    cmd.append(str(destino))
-    subprocess.run(cmd, check=True)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{ini:.3f}", "-to", f"{fin:.3f}", "-i", medio["ruta"], "-vf", vf,
+                    "-c:v", "libx264", "-preset", "medium", "-crf", str(pc["crf"]), "-g", "15", "-bf", "0",
+                    "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709", "-color_range", "tv",
+                    "-movflags", "+faststart", "-an", str(destino)], check=True)
     marca.write_text(json.dumps({"firma": firma, **params}, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
-def main(armado_path: pathlib.Path, publico: pathlib.Path) -> None:
+def voz(medio: dict, ini: float, fin: float, destino: pathlib.Path, ganancia_db: float) -> None:
+    """Voz del mismo tramo que el proxy, con la ganancia de velabody.py, en mono centrada."""
+    params = {"version": 1, "ruta": medio["ruta"], "ini": ini, "fin": fin, "ganancia": ganancia_db}
+    ok, marca, firma = al_dia(destino, params)
+    if ok:
+        return
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{ini:.3f}", "-to", f"{fin:.3f}", "-i", medio["ruta"], "-vn",
+                    "-af", f"pan=mono|c0=0.5*c0+0.5*c1,volume={ganancia_db}dB,aformat=channel_layouts=stereo",
+                    "-c:a", "pcm_s16le", "-ar", "48000", str(destino)], check=True)
+    marca.write_text(json.dumps({"firma": firma, **params}, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def clave_voz(clip: str, ganancia_db: float) -> str:
+    return f"{clip}|{ganancia_db:+.1f}"
+
+
+def main(armados: list[pathlib.Path], publico: pathlib.Path) -> None:
+    """Un solo juego de proxies para todas las piezas (por ejemplo H1, H2 y H3 de un anuncio)."""
     sys.stdout.reconfigure(encoding="utf-8")
-    a = json.loads(armado_path.read_text(encoding="utf-8"))
+    piezas = [json.loads(p.read_text(encoding="utf-8")) for p in armados]
+    a = piezas[0]
     cache = velabody.RAIZ / "_COMPOSITOR_CACHE"
     (publico / "medios").mkdir(parents=True, exist_ok=True)
     (publico / "fuentes").mkdir(exist_ok=True)
@@ -115,27 +135,26 @@ def main(armado_path: pathlib.Path, publico: pathlib.Path) -> None:
     lut = lut_combinado(cache)
 
     usos: dict[str, dict] = {}
-    for capa in ("aroll", "broll"):
-        for x in a[capa]:
-            u = usos.setdefault(x["clip"], {"capa": capa, "ini": x["in"], "fin": x["out"], "ganancias": set()})
-            u["ini"], u["fin"] = min(u["ini"], x["in"]), max(u["fin"], x["out"])
-            if capa == "aroll":
-                u["ganancias"].add(x["ganancia_db"])
-    manifiesto = {}
+    for pieza in piezas:
+        for capa in ("aroll", "broll"):
+            for x in pieza[capa]:
+                u = usos.setdefault(x["clip"], {"ini": x["in"], "fin": x["out"], "ganancias": set(), "medio": pieza["medios"][x["clip"]]})
+                u["ini"], u["fin"] = min(u["ini"], x["in"]), max(u["fin"], x["out"])
+                if capa == "aroll":
+                    u["ganancias"].add(x["ganancia_db"])
+    manifiesto, voces = {}, {}
     for clip, u in usos.items():
-        if len(u["ganancias"]) > 1:
-            raise ValueError(f"{clip}: varias ganancias de voz en la misma toma ({u['ganancias']}), no soportado")
-        m = a["medios"][clip]
+        m = u["medio"]
         ini = max(0.0, round(u["ini"] - MARGEN_S, 3))
         fin = min(m["duracion"], round(u["fin"] + MARGEN_S, 3))
         nombre = pathlib.Path(clip).name
-        ganancia = next(iter(u["ganancias"])) if u["capa"] == "aroll" else None
-        destino = publico / "medios" / f"{nombre}.mp4"
-        print(f"proxy {clip} [{ini:.2f}–{fin:.2f}] {'voz %+.1f dB' % ganancia if ganancia is not None else 'sin audio'}")
-        proxy(m, ini, fin, destino, lut, ganancia)
-        ext = ".mov" if ganancia is not None else ".mp4"
-        manifiesto[clip] = {"src": f"medios/{nombre}{ext}", "inicio": ini, "fin": fin,
-                            "ancho": m["ancho"], "alto": m["alto"], "audio": ganancia is not None}
+        print(f"proxy {clip} [{ini:.2f}–{fin:.2f}]" + (f" · voz {sorted(u['ganancias'])} dB" if u["ganancias"] else ""))
+        proxy(m, ini, fin, publico / "medios" / f"{nombre}.mp4", lut)
+        manifiesto[clip] = {"src": f"medios/{nombre}.mp4", "inicio": ini, "fin": fin, "ancho": m["ancho"], "alto": m["alto"]}
+        for g in sorted(u["ganancias"]):
+            destino = publico / "medios" / f"voz_{nombre}_{g:+.1f}dB.wav"
+            voz(m, ini, fin, destino, g)
+            voces[clave_voz(clip, g)] = {"src": f"medios/{destino.name}", "inicio": ini}
 
     fuentes_dir = velabody.RAIZ / "_RECURSOS" / "fuentes"
     for f in {COMP["titulo"]["fuente"], COMP["pastilla"]["fuente"], COMP["subtitulos"]["fondo"]["fuente"],
@@ -161,10 +180,11 @@ def main(armado_path: pathlib.Path, publico: pathlib.Path) -> None:
         audio["sfx_transicion"] = "audio/sfx_transicion" + sfx.suffix.lower()
     else:
         print(f"⚠ Falta el SFX de transición ({sfx}): el Pan Left queda sin sonido")
-    (publico / "medios.json").write_text(json.dumps({"medios": manifiesto, "audio": audio, "lut": lut.name}, ensure_ascii=False, indent=1),
+    (publico / "medios.json").write_text(json.dumps({"medios": manifiesto, "voces": voces, "audio": audio, "lut": lut.name},
+                                                    ensure_ascii=False, indent=1),
                                          encoding="utf-8")
-    print(f"medios.json · {len(manifiesto)} proxies · LUT {lut.name}")
+    print(f"medios.json · {len(manifiesto)} proxies · {len(voces)} pistas de voz · LUT {lut.name}")
 
 
 if __name__ == "__main__":
-    main(pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2]))
+    main([pathlib.Path(x) for x in sys.argv[1:-1]], pathlib.Path(sys.argv[-1]))

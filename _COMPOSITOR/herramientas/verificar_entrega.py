@@ -10,7 +10,7 @@
 - Márgenes: caja de cada gráfico y subtítulo contra la zona segura de IG (aprox.; sin el PNG oficial).
 
 Uso:
-    python verificar_entrega.py <video.mp4> <carpeta_publica> <salida.json>
+    python verificar_entrega.py <video.mp4> <carpeta_publica> <salida.json> [timeline_X.json]
 """
 import json
 import pathlib
@@ -55,7 +55,7 @@ def cuadro_rgb(path: pathlib.Path, t: float, w=1080, h=1920) -> np.ndarray:
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     video, publico, salida = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2]), pathlib.Path(sys.argv[3])
-    tl = json.loads((publico / "timeline.json").read_text(encoding="utf-8"))
+    tl = json.loads((publico / (sys.argv[4] if len(sys.argv) > 4 else "timeline.json")).read_text(encoding="utf-8"))
     fps = tl["fps"]
     inf: dict = {"video": str(video)}
 
@@ -79,7 +79,7 @@ def main() -> None:
     inf["click_silencio_inicial_s"] = round(arranque / SR, 3)
     filas = []
     for g, vis in zip(tl["graficos"], visibles):
-        c0 = int((g["desde"] / fps - 0.3) * SR)
+        c0 = max(0, int((g["desde"] / fps - 0.3) * SR))
         tramo = a_hp[c0: c0 + int(0.6 * SR)]
         corr = np.correlate(tramo, click, mode="valid") / (np.linalg.norm(click) * (np.sqrt(np.convolve(tramo ** 2, np.ones(len(click)), "valid")) + 1e-9))
         t_click = (c0 + int(np.nanargmax(corr))) / SR
