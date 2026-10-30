@@ -181,9 +181,10 @@
       "fondo": {"fuente": "Montserrat-Medium.otf", "px": 58, "tracking_em": -0.009, "base_dy": 17, "alto_caja": 112, "margen_x": 28, "radio": 16},
       "camara": {"fuente": "Gotham Book.otf", "px": 49, "tracking_em": -0.022, "base_dy": 11, "brillo": [{"desvio_px": 22, "opacidad": 1}, {"desvio_px": 12, "opacidad": 1}, {"desvio_px": 3, "opacidad": 0.6}]}
     },
-    "pan_left": {"_medido": "Video 1 FINAL, cortes de 1,5 y 6,6 s: desplazamiento horizontal por cuadro respecto del corte (px, negativo = a la izquierda)",
-      "desplazamiento_px": {"-3": -10, "-2": -28, "-1": -76, "0": 496, "1": 320, "2": 192, "3": 112, "4": 66, "5": 40, "6": 22, "7": 12, "8": 6},
-      "desenfoque_px": {"-3": 3, "-2": 8, "-1": 14, "0": 90, "1": 60, "2": 30, "3": 18, "4": 11, "5": 7, "6": 4, "7": 2, "8": 1}},
+    "pan_left": {"_fuente": "Keyframes del Pan Left de Mister Horse en el proyecto validado (VELABODY_EDICION.prproj, Video 1, corte de 1,5 s), evaluados por cuadro. Cuadro relativo al corte: desplazamiento horizontal en px (V12, Transformar) y largo del desenfoque direccional en px (V13).",
+      "desplazamiento_px": {"-4": 0, "-3": -6, "-2": -31, "-1": -81, "0": 471, "1": 308, "2": 169, "3": 87, "4": 47, "5": 26, "6": 14, "7": 7, "8": 3, "9": 1, "10": 0, "11": 0},
+      "desenfoque_px": {"-4": 0, "-3": 1.5, "-2": 8.2, "-1": 20.9, "0": 96.3, "1": 68.5, "2": 32.8, "3": 17.0, "4": 9.6, "5": 5.5, "6": 3.1, "7": 1.7, "8": 0.8, "9": 0.3, "10": 0.0, "11": 0},
+      "sigma_por_px_direccional": 0.577},
     "color": {"lut": "AlexaV3_K1S1_LogC2Video_Rec709_EE.cube", "exposicion_pasos": 0.3, "contraste_s": 0.5},
     "sandwich": {"halo_px": 6, "calado_px": 6},
     "sombra_fondo_cargado": {"opacidad": 0.4, "dy": 5, "desenfoque": 8, "color": "#000000"},

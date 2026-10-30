@@ -18,13 +18,10 @@
   "ritmo": {
     "_medido": "Video 1 FINAL: planos a cámara de 1,3–2,6 s, zoom lento ±4–9 %/s, saltos de escala ×1,25–1,4",
     "min_plano_s": 3.0,
-    "plano_s": 2.4,
-    "plano_min_s": 1.8,
-    "plano_max_s": 3.2,
-    "punch": 1.3,
-    "zoom_lento_por_s": 0.05,
+    "zoom_lento_por_s": 0.03,
     "min_plano_entre_broll_s": 3.0,
-    "_pedido": "30/10: la presentadora a cámara 3 s o más, o nada (va directo el B-roll); cola final de 1 s"
+    "_pedido": "30/10: a cámara 3 s o más o nada; nunca jump cut de la misma toma (zoom lento continuo, sin punch-ins); cola final de 1 s",
+    "zoom_max": 1.12
   },
   "aroll": [],
   "caras": {

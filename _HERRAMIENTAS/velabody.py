@@ -143,10 +143,12 @@ def envolvente(path: pathlib.Path) -> list[float]:
     return _envolventes[clave_env]
 
 
-def recorte_dinamico(tramos: list[list[float]], env: list[float], cc: dict) -> list[list[float]]:
+def recorte_dinamico(tramos: list[list[float]], env: list[float], cc: dict,
+                     conservar: list[tuple[float, float]] = ()) -> list[list[float]]:
     """Modo "dinamico" (plan › corte): achica cada tramo hasta donde de verdad hay voz y saca las pausas
     internas largas. El umbral es relativo a la voz de la toma (percentil 95 + umbral_db), no al pico: en
-    tomas muy bajas el umbral por pico queda pegado al ruido de sala y deja segundos muertos. Solo achica
+    tomas muy bajas el umbral por pico queda pegado al ruido de sala y deja segundos muertos. Las pausas que
+    toquen algún intervalo de "conservar" no se cortan (el corte se vería como jump cut). Solo achica
     o parte tramos, nunca los agranda: no puede meter habla nueva. Deja voz_pad_inicio antes de la voz y
     voz_pad_fin después (para las colas: "s" finales, vocales que se arrastran). Los tramos de entrada
     salen de la búsqueda de siempre, con los márgenes generosos de la regla general: así un inicio que
@@ -159,6 +161,8 @@ def recorte_dinamico(tramos: list[list[float]], env: list[float], cc: dict) -> l
         return tramos
     umbral = max(np.percentile(todos, 95) + cc.get("umbral_db", -30), np.percentile(todos, 10) + 6)
     min_voz = 3                                     # 30 ms seguidos sobre el umbral cuentan como voz
+    # se parte de un solo tramo continuo: las pausas las decide este recorte (y "conservar"), no la búsqueda de antes
+    tramos = [[min(a for a, _ in tramos), max(b for _, b in tramos)]]
     salida = []
     for a, b in tramos:
         i0, i1 = int(a / v), int(b / v)
@@ -181,7 +185,8 @@ def recorte_dinamico(tramos: list[list[float]], env: list[float], cc: dict) -> l
         # se unen las corridas separadas por pausas cortas; las pausas largas se cortan
         unidas = [corridas[0]]
         for c in corridas[1:]:
-            if (c[0] - unidas[-1][1]) * v <= cc["voz_pausa_max"]:
+            g0, g1 = (i0 + unidas[-1][1]) * v, (i0 + c[0]) * v
+            if (c[0] - unidas[-1][1]) * v <= cc["voz_pausa_max"] or any(x0 - 0.3 <= g1 and x1 + 0.3 >= g0 for x0, x1 in conservar):
                 unidas[-1][1] = c[1]
             else:
                 unidas.append(c)
@@ -481,10 +486,11 @@ def ritmo_automatico(rt: dict, aroll: list[dict], broll: list[dict], palabras: l
     1. Sin planos de la presentadora pegados a un B-roll que duren menos de min_plano_s o en los que diga
        una sola palabra o nada (p. ej. "Primero" y enseguida el insert, o quedarse callada antes de la
        transición): el B-roll se estira para cubrirlos y la voz sigue en off. El arranque del hook y la
-       cola final a cámara del último bloque no se tocan. Los inserts que quedan largos se parten.
-    2. Los tramos largos a cámara se parten en planos de plano_min_s a plano_max_s, en límites de palabra
-       (mejor después de una coma o una pausa), alternando encuadre normal y punch-in, cada uno con un
-       zoom lento que va hacia adentro o hacia afuera. Reemplaza los zooms del plan."""
+       cola final a cámara del último bloque no se tocan.
+    2. Nunca un jump cut dentro de la misma toma: B-roll seguido de la misma toma va de corrido, cada
+       tramo a cámara es un solo plano con zoom lento continuo (reemplaza los zooms del plan), y los cortes
+       de pausa que quedarían a la vista se devuelven para conservar esa pausa al volver a armar.
+    Devuelve (zooms, saltos_visibles)."""
     cuadro = lambda v: round(round(v * fps) / fps, 4)
     min_plano = rt.get("min_plano_s", 1.2)
     fin_de = lambda x: x["t"] + x["out"] - x["in"]
@@ -524,68 +530,46 @@ def ritmo_automatico(rt: dict, aroll: list[dict], broll: list[dict], palabras: l
             notas.append(f"- Ritmo: el B-roll {bs[-1]['clip']} sigue {b1 - fin_de(bs[-1]):.2f} s más (cubre el final del bloque {nb}).")
             cubrir(bs[-1], bs[-1]["t"], b1)
 
-    # inserts largos (sobre todo los que se estiraron) se parten en planos de ~broll_plano_s tomando otros
-    # momentos de la misma toma: en el aprobado ningún B-roll pasa de 2,2 s
-    bmax, bplano, salto = rt.get("broll_max_s", 2.5), rt.get("broll_plano_s", 2.0), rt.get("broll_salto_s", 0.5)
-    partidos = []
+    # nunca un jump cut dentro de la misma toma (pedido del 30/10): dos B-roll seguidos de la misma toma
+    # se unen en un solo plano continuo (el segundo sigue desde donde termina el primero)
+    unidos = []
     for b in sorted(broll, key=lambda b: b["t"]):
-        dur = b["out"] - b["in"]
-        n = max(2, round(dur / bplano)) if dur > bmax else 1
-        if n <= 1:
-            partidos.append(b)
-            continue
-        largo, pieza = medio(b["clip"])["duracion"], cuadro(dur / n)
-        paso = pieza + salto
-        # momentos de la toma: hacia adelante desde el in original y, si no alcanza, hacia atrás
-        adelante = [b["in"] + k * paso for k in range(n) if b["in"] + k * paso + pieza + 0.05 <= largo]
-        atras = [b["in"] - k * paso for k in range(1, n + 1) if b["in"] - k * paso >= 0]
-        momentos = (adelante + atras)[:n]
-        if len(momentos) < n:                       # toma corta: se deja entera
-            partidos.append(b)
-            continue
-        t0 = b["t"]
-        for k, ini in enumerate(momentos):
-            d = pieza if k < n - 1 else cuadro(b["t"] + dur - t0)
-            partidos.append({**b, "t": cuadro(t0), "in": round(ini, 3), "out": round(min(largo, ini + d), 3)})
-            t0 += d
-        notas.append(f"- Ritmo: {b['clip']} ({dur:.1f} s) se parte en {n} planos de ~{pieza:.1f} s.")
-    broll[:] = partidos
+        a = unidos[-1] if unidos else None
+        if a and a["clip"] == b["clip"] and abs(b["t"] - fin_de(a)) < 1.5 / fps:
+            extra = b["out"] - b["in"]
+            if a["out"] + extra <= medio(a["clip"])["duracion"]:
+                a["out"] = round(a["out"] + extra, 3)
+                notas.append(f"- Ritmo: {b['clip']} sigue de corrido (sin jump cut entre dos tramos de la misma toma).")
+                continue
+        unidos.append(b)
+    broll[:] = unidos
 
-    # tramos a cámara: lo que no tapa ningún B-roll
+    # tramos a cámara: lo que no tapa ningún B-roll. Cada uno es un solo plano con un zoom lento continuo
+    # (hacia adentro y hacia afuera, alternando entre tramos): el dinamismo no va por cortar la misma toma
     tapados = sorted((b["t"], fin_de(b)) for b in broll)
     tramos, cursor = [], 0.0
     for a0, a1 in tapados + [(duracion, duracion)]:
         if a0 - cursor > 0.05:
             tramos.append((cursor, a0))
         cursor = max(cursor, a1)
-    objetivo, pmin, pmax = rt.get("plano_s", 1.8), rt.get("plano_min_s", 1.2), rt.get("plano_max_s", 2.6)
-    punch, vel = rt.get("punch", 1.3), rt.get("zoom_lento_por_s", 0.05)
-    pal = sorted(palabras, key=lambda p: p["i"])
+    vel, zmax = rt.get("zoom_lento_por_s", 0.03), rt.get("zoom_max", 1.12)
     nuevos = []
-    for p0, p1 in tramos:
-        limites = []
-        for w, nx in zip(pal, pal[1:]):
-            m = (w["f"] + nx["i"]) / 2
-            if p0 + pmin <= m <= p1 - pmin:
-                pausa = nx["i"] - w["f"] > 0.12 or re.search(r"[,.;:?!]$", w["w"])
-                limites.append((m, bool(pausa)))
-        cortes, cur = [], p0
-        while p1 - cur > pmax:
-            cand = [(m, pz) for m, pz in limites if cur + pmin <= m <= min(cur + pmax, p1 - pmin)]
-            if not cand:
-                break
-            m = min(cand, key=lambda c: abs(c[0] - (cur + objetivo)) - (0.4 if c[1] else 0))[0]
-            cortes.append(cuadro(m))
-            cur = m
-        bordes = [cuadro(p0)] + cortes + [cuadro(p1)]
-        for k, (s0, s1) in enumerate(zip(bordes, bordes[1:])):
-            z0 = 1.0 if k % 2 == 0 else punch
-            z1 = z0 * (1 + vel * (s1 - s0)) if k % 2 == 0 else max(1.0, z0 * (1 - vel * (s1 - s0)))
-            nuevos.append({"tipo": "lento", "de": round(z0, 3), "a": round(z1, 3), "t": s0, "fin": s1, "auto": True})
-    if nuevos:
-        notas.append(f"- Ritmo: {len(nuevos)} planos a cámara con encuadre alternado (normal / ×{punch}) y zoom lento "
-                     f"(los zooms del plan se reemplazan).")
-    return nuevos
+    for k, (p0, p1) in enumerate(tramos):
+        z = min(zmax, 1.0 + vel * (p1 - p0))
+        de, a = (1.0, z) if k % 2 == 0 else (z, 1.0)
+        nuevos.append({"tipo": "lento", "de": round(de, 3), "a": round(a, 3), "t": cuadro(p0), "fin": cuadro(p1), "auto": True})
+
+    # jump cuts que quedarían a la vista: dos tramos seguidos de la misma toma con un salto en el medio (una
+    # pausa recortada) y sin un B-roll que tape ese corte. Se devuelven para volver a armar conservando esa pausa
+    saltos = []
+    ar = sorted((a for a in aroll if not a.get("solo_audio")), key=lambda a: a["t"])
+    for x, y in zip(ar, ar[1:]):
+        if x["clip"] != y["clip"] or abs(y["in"] - x["out"]) < 0.02:
+            continue
+        tapado = any(b["t"] - 0.5 / fps <= y["t"] <= fin_de(b) + 0.5 / fps for b in broll)
+        if not tapado:
+            saltos.append((x["clip"], round(x["out"], 3), round(y["in"], 3)))
+    return nuevos, saltos
 
 
 # ------------------------------------------------------------------ armado
@@ -620,12 +604,31 @@ def armar(plan_path: pathlib.Path) -> None:
             solo = plan.get("solo_hook_desde") and k >= plan["solo_hook_desde"]
             pieza = {**plan, "bloques": [hook] + ([] if solo else plan["bloques"]), "nombre": f"{plan['bandeja']}_H{k}",
                      "solo_hook": bool(solo)}
-            armar_pieza(pieza, f"_Hook{k}")
+            armar_sin_saltos(pieza, f"_Hook{k}")
     else:
-        armar_pieza({**plan, "nombre": plan["bandeja"]}, "")
+        armar_sin_saltos({**plan, "nombre": plan["bandeja"]}, "")
 
 
-def armar_pieza(plan: dict, sufijo: str) -> None:
+def armar_sin_saltos(pieza: dict, sufijo: str, vueltas: int = 5) -> None:
+    """Arma la pieza y, si quedó algún jump cut a la vista (pausa recortada dentro de la misma toma, sin B-roll
+    que la tape), la vuelve a armar conservando esa pausa. Al conservarla se corre todo lo que sigue, así que
+    puede aparecer otro: se repite hasta que no quede ninguno."""
+    conservar: dict[str, list] = {}
+    for _ in range(vueltas):
+        saltos = armar_pieza(pieza, sufijo, conservar)
+        if not saltos:
+            return
+        for clip, fin, ini in saltos:
+            conservar.setdefault(clip, []).append((min(fin, ini), max(fin, ini)))
+        print(f"↺ {pieza['nombre']}: se conservan {len(saltos)} pausa(s) para no dejar jump cuts a la vista")
+    print(f"⚠ {pieza['nombre']}: quedan jump cuts después de {vueltas} vueltas")
+
+
+def armar_pieza(plan: dict, sufijo: str, conservar: dict | None = None) -> list:
+    """Arma una pieza. "conservar" (toma → [(fin, inicio)] en segundos de la toma) son pausas que no se
+    recortan porque el corte quedaría a la vista como jump cut. Devuelve los jump cuts que todavía se ven."""
+    conservar = conservar or {}
+    saltos: list = []
     carpeta = carpeta_plan(plan)
     salida = carpeta / "_EDICION"
     salida.mkdir(exist_ok=True)
@@ -711,7 +714,7 @@ def armar_pieza(plan: dict, sufijo: str) -> None:
                 tramos[-1] = [x, corte_a]
                 tramos.append([corte_b, y])
         if cc.get("modo") == "dinamico":
-            tramos = recorte_dinamico(tramos, envolvente(pathlib.Path(medio(clip)["ruta"])), cc)
+            tramos = recorte_dinamico(tramos, envolvente(pathlib.Path(medio(clip)["ruta"])), cc, conservar.get(clip, []))
             # control: ninguna palabra del guion puede dejar voz afuera. Se mira la energía dentro del intervalo
             # de Whisper (que a veces estira una palabra sobre el silencio) con un umbral 10 dB más bajo que el
             # del recorte, para que una sílaba suave tampoco pase
@@ -877,7 +880,7 @@ def armar_pieza(plan: dict, sufijo: str) -> None:
     if plan.get("solo_hook") and plan["bloques"][0].get("pan_left_al_final", True):
         transiciones.append({"t": round(t, 4), "tipo": "Pan Left"})   # corte hook → body pegado a mano
     if plan.get("ritmo"):
-        zooms = ritmo_automatico(plan["ritmo"], aroll, broll, palabras_tl, zooms, duracion, medio, fps, notas)
+        zooms, saltos = ritmo_automatico(plan["ritmo"], aroll, broll, palabras_tl, zooms, duracion, medio, fps, notas)
     aroll = aplicar_zooms(aroll, zooms, medio, plan.get("caras", {}), fps)
 
     # ---- subtítulos: bloques de 2-3 palabras, una sola línea
@@ -1039,6 +1042,7 @@ def armar_pieza(plan: dict, sufijo: str) -> None:
         notas += zoom_txt
     (salida / f"notas_revision{sufijo}.md").write_text("\n".join(notas) + "\n", encoding="utf-8")
     print("\n".join(notas))
+    return saltos
 
 
 # --------------------------------------------------------- XML de respaldo

@@ -160,6 +160,41 @@ def subir_titulos_sobre_cabeza(graficos: list[dict], originales: list[dict], vid
         print(f"  Título {nombre}: sube {dy:.0f} px y se achica al {f:.0%} para no tocar la cabeza")
 
 
+MIN_GRAFICO_CUADROS = 24      # un gráfico se ve al menos 0,8 s antes de cortarse con la toma
+
+
+def cortes_visibles(videos: list[dict]) -> list[int]:
+    """Cuadros donde cambia la imagen: bordes de B-roll y cambios de toma (o saltos dentro de la toma) del
+    A-roll que no tapa ningún B-roll."""
+    brolls = [(v["desde"], v["desde"] + v["dur"]) for v in videos if v["capa"] == "broll"]
+    tapado = lambda f: any(b0 < f < b1 for b0, b1 in brolls)
+    cortes = {f for b in brolls for f in b}
+    ar = sorted((v for v in videos if v["capa"] == "aroll"), key=lambda v: v["desde"])
+    for x, y in zip(ar, ar[1:]):
+        continuo = x["clip"] == y["clip"] and x["trim"] + x["dur"] == y["trim"]
+        if not continuo and not tapado(y["desde"]):
+            cortes.add(y["desde"])
+    return sorted(cortes)
+
+
+def cortar_graficos_con_la_toma(graficos: list[dict], originales: list[dict], videos: list[dict]) -> None:
+    """Si se corta la toma, el gráfico se corta en el mismo cuadro (pedido del 30/10): no queda un segundo,
+    casi invisible, sobre la toma siguiente. Cada gráfico (todas las líneas de un título juntas) termina en el
+    primer corte que llegue después de MIN_GRAFICO_CUADROS de pantalla, sin fundido."""
+    cortes = cortes_visibles(videos)
+    grupos: dict[tuple, list[dict]] = {}
+    for g, o in zip(graficos, originales):
+        clave = (o["bloque"], g["hasta"]) if g["tipo"] == "titulo" else ("pastilla", g["desde"])
+        grupos.setdefault(clave, []).append(g)
+    for gs in grupos.values():
+        desde, hasta = min(g["desde"] for g in gs), max(g["hasta"] for g in gs)
+        c = next((c for c in cortes if desde + MIN_GRAFICO_CUADROS <= c < hasta + 6), None)
+        if c is None:
+            continue
+        for g in gs:
+            g["hasta"], g["corta_con_toma"] = c, True
+
+
 SOLAPE_PASTILLA = 0.25        # parte del alto de la pastilla que queda detrás del pelo (Video 1: ~0,2–0,3)
 PISO_PASTILLA_CY = 620
 
@@ -284,6 +319,7 @@ def adaptar(a: dict, medios: dict) -> dict:
                 raise ArmadoNoSoportado(f"Gráfico {k}: fondo_cargado {g['fondo_cargado']!r} desconocido (sombra o desenfoque)")
             graficos[-1][g["fondo_cargado"]] = True
 
+    cortar_graficos_con_la_toma(graficos, a["graficos"], videos)
     subir_titulos_sobre_cabeza(graficos, a["graficos"], videos, medios, fps)
     pastillas_detras_de_la_cabeza(graficos, videos)
 
@@ -333,8 +369,9 @@ def adaptar(a: dict, medios: dict) -> dict:
     if medios["audio"].get("sfx_transicion"):
         e2 = a["estilo_v2"]
         for tr in transiciones:
+            # como en el proyecto validado: arranca 0,1 s antes del corte y dura 0,4 s
             audio.append({"src": medios["audio"]["sfx_transicion"], "desde": max(0, tr["cuadro"] - cuadro(e2["sfx_adelanto"], fps)),
-                          "volumen": db(e2["sfx_transicion_db"])})
+                          "dur": cuadro(0.4, fps), "volumen": db(e2["sfx_transicion_db"])})
     if a.get("musica"):
         fade = 0 if a.get("solo_hook") else cuadro(a["estilo_v2"]["musica_fade"], fps)
         audio.append({"src": medios["audio"]["musica"], "desde": 0, "dur": total, "volumen": db(a["musica"]["db"]),

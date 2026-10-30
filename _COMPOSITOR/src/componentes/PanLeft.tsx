@@ -2,18 +2,19 @@ import { useCurrentFrame } from "remotion";
 import { COMP } from "../estilo";
 import type { Transicion } from "../tipos";
 
-// Equivalente del Pan Left de Mister Horse, medido cuadro a cuadro en los dos cortes del Video 1 FINAL
-// (config › compositor.pan_left): la toma que sale apenas se corre a la izquierda en los 3 cuadros previos
-// al corte; la que entra aparece ~500 px a la derecha y frena en 9 cuadros. El desenfoque es solo
-// horizontal y sigue la velocidad. El hueco que deja el desplazamiento se rellena en espejo. Afecta video
-// y gráficos, no los subtítulos (que en Premiere van en su propia pista, arriba).
+// Pan Left de Mister Horse, con los keyframes del proyecto validado (config › compositor.pan_left): dos capas
+// de ajuste, 4 cuadros antes y 11 después del corte. V12 corre la imagen (la que sale acelera hacia la
+// izquierda; la que entra aparece ~470 px a la derecha y frena) y rellena el hueco en espejo; V13 le aplica
+// un desenfoque direccional horizontal (acá, gaussiano solo en x con σ ≈ 0,58 × el largo). Afecta video y
+// gráficos, no los subtítulos (que en Premiere van en su propia pista, arriba).
 const DESPLAZAMIENTO: Record<string, number> = COMP.pan_left.desplazamiento_px;
 const DESENFOQUE: Record<string, number> = COMP.pan_left.desenfoque_px;
+const SIGMA = COMP.pan_left.sigma_por_px_direccional;
 
 export const estadoPanLeft = (frame: number, trs: Transicion[]) => {
   for (const tr of trs) {
     const k = String(frame - tr.cuadro);
-    if (k in DESPLAZAMIENTO) return { desplazamiento: DESPLAZAMIENTO[k], blur: DESENFOQUE[k] ?? 0 };
+    if (k in DESPLAZAMIENTO) return { desplazamiento: DESPLAZAMIENTO[k], blur: (DESENFOQUE[k] ?? 0) * SIGMA };
   }
   return null;
 };

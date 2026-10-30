@@ -7,7 +7,7 @@ import { Desenfoques } from "./componentes/Desenfoque";
 import { ConPanLeft } from "./componentes/PanLeft";
 import { Subtitulos } from "./componentes/Subtitulos";
 import { cargarFuentes } from "./estilo";
-import type { PistaAudio, Timeline } from "./tipos";
+import type { Grafico, PistaAudio, Timeline } from "./tipos";
 
 export type PiezaProps = { timeline: Timeline | null; zonaSegura?: boolean };
 
@@ -29,7 +29,8 @@ export const Pieza: React.FC<PiezaProps> = ({ timeline, zonaSegura }) => {
   }, [fuentes]);
   if (!timeline) return <AbsoluteFill style={{ backgroundColor: "black" }} />;
   const cortes = new Set(timeline.transiciones.map((t) => t.cuadro));
-  const terminaEnCorte = (hasta: number) => cortes.has(hasta) || hasta >= timeline.duracion;
+  // sin fundido si el gráfico termina con un corte de toma o una transición (se corta en el mismo cuadro)
+  const terminaEnCorte = (g: Grafico) => Boolean(g.corta_con_toma) || cortes.has(g.hasta) || g.hasta >= timeline.duracion;
   const pastillas = timeline.graficos.filter((g) => g.tipo === "pastilla");
   const titulos = timeline.graficos.filter((g) => g.tipo === "titulo");
   return (
@@ -38,9 +39,9 @@ export const Pieza: React.FC<PiezaProps> = ({ timeline, zonaSegura }) => {
         {timeline.videos.filter((v) => v.capa === "aroll").map((v, i) => <ClipEnLinea key={`a${i}`} {...v} muted />)}
         {timeline.videos.filter((v) => v.capa === "broll").map((v, i) => <ClipEnLinea key={`b${i}`} {...v} muted />)}
         <Desenfoques zonas={timeline.desenfoques ?? []} />
-        {pastillas.map((g, i) => <GraficoEnLinea key={`p${i}`} g={g} terminaEnCorte={terminaEnCorte(g.hasta)} />)}
+        {pastillas.map((g, i) => <GraficoEnLinea key={`p${i}`} g={g} terminaEnCorte={terminaEnCorte(g)} />)}
         {timeline.sandwich.map((s, i) => <ClipEnLinea key={`s${i}`} {...s} muted alfa />)}
-        {titulos.map((g, i) => <GraficoEnLinea key={`t${i}`} g={g} terminaEnCorte={terminaEnCorte(g.hasta)} />)}
+        {titulos.map((g, i) => <GraficoEnLinea key={`t${i}`} g={g} terminaEnCorte={terminaEnCorte(g)} />)}
       </ConPanLeft>
       <Subtitulos subs={timeline.subtitulos} />
       {zonaSegura ? <AbsoluteFill style={{ backgroundImage: `url(${staticFile("zona-segura.png")})`, opacity: 0.5 }} /> : null}

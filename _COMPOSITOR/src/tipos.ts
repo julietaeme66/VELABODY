@@ -14,7 +14,7 @@ export type ClipVideo = {
   kf?: CajaKf[];
 };
 
-export type Titulo = { tipo: "titulo"; texto: string; desde: number; hasta: number; fontPx: number; x: number; base: number; sombra?: boolean; desenfoque?: boolean };
+export type Titulo = { tipo: "titulo"; texto: string; desde: number; hasta: number; fontPx: number; x: number; base: number; sombra?: boolean; desenfoque?: boolean; corta_con_toma?: boolean };
 export type Pastilla = {
   tipo: "pastilla";
   texto: string;
@@ -28,6 +28,8 @@ export type Pastilla = {
   h: number;
   sombra?: boolean;
   desenfoque?: boolean;
+  corta_con_toma?: boolean;
+  detras?: boolean;
 };
 export type Grafico = Titulo | Pastilla;
 

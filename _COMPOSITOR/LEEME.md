@@ -18,6 +18,7 @@ python -m venv .venv
 |---|---|
 | Armar, renderizar, normalizar y verificar el ADS14 completo (H1, H2 y H3) | `npm run ads14` |
 | Solo algunos hooks | `npm run ads14 -- --piezas H2` |
+| Una prueba rápida para revisar (810x1440, cuadros JPEG) | `npm run ads14 -- --piezas H1 --calidad media` |
 | El piloto corto (Hook 2 + bloque 1) | `npm run piloto` |
 | Abrir el preview interactivo (Remotion Studio) | `npm run studio` |
 | Renderizar a mano lo que haya en `timeline.json` | `npx remotion render src/index.ts VelabodyPieza <salida.mp4>` |
@@ -33,7 +34,7 @@ python -m venv .venv
 5. Normalización a −14 LUFS y −1 dBTP.
 6. Informe, hoja de contactos y `verificar_entrega.py`.
 
-Cada corrida guarda `_COMPOSITOR_SALIDAS/<nombre>_HN_vNNN.mp4` (render) y `_vNNN_norm.mp4` (entrega), con el número siguiente. **Nunca pisa un exportado.**
+Cada corrida guarda `_COMPOSITOR_SALIDAS/<nombre>_HN_vNNN.mp4` (render) y `_vNNN_norm.mp4` (entrega), con el número siguiente; en calidad media, `<nombre>_HN_media_vNNN`. **Nunca pisa un exportado.** Las pruebas se renderizan de a una pieza y en calidad media.
 
 **Hooks:** en Premiere, `solo_hook_desde` armaba el cuerpo una vez y se pegaba a mano en los demás hooks. Acá cada hook sale completo (hook + cuerpo) del mismo plan, así que esa clave no va. Si el plan la trae, `piloto.py` frena y avisa.
 
@@ -62,7 +63,7 @@ Cada corrida guarda `_COMPOSITOR_SALIDAS/<nombre>_HN_vNNN.mp4` (render) y `_vNNN
 | MOGRT *Ease Position & Mask Y - Bottom* | `Titulo` (SVG): sube desde una máscara con borde en la línea de base; ease-out *quint*, 30 cuadros. |
 | MOGRT *1-Line Fill Text Box - Up* | `Pastilla` (SVG): la caja crece desde abajo y el texto sube con el borde superior; ease-out cúbica, 19 cuadros. |
 | Estilos de pista `VELABODY SUBS C FONDO` / `CAMARA` | `Subtitulos` quemados: caja `#6F04BA` con Montserrat Medium 58, o Gotham Book 49 con halo violeta. |
-| Pan Left (Mister Horse) | `ConPanLeft`: tabla de desplazamiento medida cuadro a cuadro en los dos cortes del Video 1 FINAL (−3 a +8 cuadros: la toma que sale apenas se corre y la que entra llega ~500 px desde la derecha y frena), con desenfoque horizontal según la velocidad y espejo solo del lado que queda vacío. Se verifica con `medir_transicion.py`. No toca los subtítulos. |
+| Pan Left (Mister Horse) | `ConPanLeft`, con **los keyframes de las dos capas de ajuste de Mister Horse del proyecto validado** (`VELABODY_EDICION.prproj`, leídos con `leer_prproj.py`): Transformar mueve la imagen de −4 a +11 cuadros del corte (la que sale acelera hacia la izquierda, la que entra aparece 471 px a la derecha y frena), Espejo rellena el lado vacío y Desenfoque direccional a 90° llega a 96 px en el corte. Los valores están en `config_velabody.json › compositor.pan_left`. Lleva el SFX `Transition Complex 14.wav` desde 0,1 s antes del corte. Se mide con `medir_transicion.py`. No toca los subtítulos. |
 | Objeto máscara (sándwich) | `mascara_persona.py --detras`: mate de RobustVideoMatting + halo y calado, como video con alfa encima de la pastilla. El adaptador ubica cada pastilla sobre la presentadora para que el pelo le tape ~25 % del alto (sale "por detrás de la cabeza", como en el Video 1). |
 | Desenfoque gaussiano con máscara de calado (fondo cargado) | `Desenfoques`: `backdrop-filter` solo en la zona del título, con borde elíptico suave; entra y sale con el gráfico. |
 | Mover el título a mano si toca la cabeza | El adaptador mide el borde del pelo (máscara de persona) bajo cada título y lo sube; si no entra bajo la zona segura, achica el bloque entero. |
@@ -105,10 +106,12 @@ Las medidas están en `config_velabody.json › compositor` y se pueden repetir:
 
 Las tres piezas salen del mismo plan (`pilotos/ads14/plan.json`, copiado de `plan_v2.json`; las diferencias están en su `_nota`) y comparten el mismo cuerpo de 6 bloques. Esta versión aplica los criterios de la revisión del 30/10, que quedaron en la wiki (`07_decisiones.md`):
 
-- **Títulos:** siempre dos palabras en dos líneas justificadas, nunca tocando la cabeza, con desenfoque detrás.
+- **Títulos:** siempre dos palabras en dos líneas justificadas, nunca tocando la cabeza, con desenfoque detrás. **Si se corta la toma, el gráfico se corta en el mismo cuadro**, sin fundido (`cortar_graficos_con_la_toma`).
+- **Cantidad de gráficos:** la del plan, aunque la wiki recomiende 2 a 4.
 - **Pastilla:** sale por detrás de la cabeza.
-- **Ritmo:** sin silencios; a cámara 3 s o más o nada; B-roll partido en planos cortos; zooms alternados; cola final de 1 s.
-- **Pan Left:** medida en el aprobado.
+- **Ritmo:** sin silencios; a cámara 3 s o más o nada; cola final de 1 s.
+- **Nunca un jump cut de la misma toma.** Si dos tramos seguidos de la misma toma quedarían a la vista, `velabody.py` vuelve a armar la pieza conservando la pausa entre ellos (`armar_sin_saltos`), y dos insertos seguidos del mismo clip se unen en un solo plano. La imagen puede quedarse más de 3 s; se mueve con un zoom lento continuo (entra o sale), nunca con un salto de escala.
+- **Pan Left:** los keyframes del proyecto validado, con su SFX.
 - **Subtítulos:** de 2 o 3 palabras.
 
 | Pieza | Duración | Sonoridad | Tramos a cámara | Avisos de palabras cortadas |
@@ -130,10 +133,23 @@ Las versiones anteriores quedan en `_COMPOSITOR_SALIDAS` (no se pisan). El conte
 
 **Para revisar (decisiones creativas):**
 
-- El plan trae **7 u 8 gráficos por pieza**; la wiki dice **2 a 4** por video.
-- Los inserts siguen siendo el doble de largos que en el aprobado. Se ajusta con `ritmo.broll_plano_s` / `broll_max_s`.
+- Los insertos son más largos que en el aprobado (plano mediano de B-roll 0,95 s), porque ya no se parten: partirlos dentro del mismo clip sería un jump cut.
 - En H3, ANALIZADOR / FACIAL sube 48 px para no tocar la cabeza.
 - La pastilla reutilizada del cierre queda más abajo que la guía (545/350), porque se ubica detrás de la cabeza.
+
+### Segunda revisión: `ADS14_H1_media_v001_norm.mp4`
+
+Prueba de una sola pieza en calidad media (810x1440), como se pidió. 58,1 s, 1742 cuadros, −14,0 LUFS, −1,0 dBTP, L/R iguales.
+
+| Qué | Resultado |
+|---|---|
+| Jump cuts de la misma toma | Ninguno a la vista. A cámara quedan el hook (2,4 s), el bloque 4 (3,7 s) y el cierre (5,9 s), cada uno con un zoom lento continuo. |
+| B-roll | Ningún inserto pegado a otro del mismo clip. |
+| Gráficos y cortes | Los 6 títulos que llegaban a un corte terminan en ese cuadro (CINCO COSAS 71, RECOMENDACIÓN 253, PROTECTOR 1038, REPORTE 1471…). COMPARA / EL PROGRESO y CORTE / 3D se apagan dentro de su propio plano. |
+| Pan Left (`medir_transicion.py`, toma que entra, en px a 1080) | Corte 1292: 500, 316, 164, 84, 44, 28, 16. Aprobado (corte 45): 496, 316, 200, 116, 72, 44, 24. La que sale: −8, −36, −88 contra −12, −40, −92. |
+| SFX de la transición | Sí, en los 3 cortes. |
+| Zona segura (PNG de la clienta) | Ningún gráfico afuera. |
+| Color de la cadena | ΔE2000 1,56. |
 
 ## Hallazgos que también afectan al flujo de Premiere
 
@@ -146,9 +162,7 @@ Las versiones anteriores quedan en `_COMPOSITOR_SALIDAS` (no se pisan). El conte
 ## Diferencias pendientes frente al aprobado
 
 - **Montserrat:** se usó la versión oficial (OFL). En la pastilla, las letras D, M, R y N del aprobado son 6–7 px más angostas, y el acento de la Ó está corrido. Se compensa con tracking para que la caja mida lo mismo. Hace falta la `.otf` de la clienta.
-- **SFX del Pan Left** (`Transition Complex 14.wav`): no estaba entre los recursos, así que el piloto no lo tiene.
-- **Zona segura:** se verificó con una zona aproximada; falta el PNG de la clienta.
-- **Pan Left:** el desplazamiento de la toma que entra coincide con el aprobado a ±20 px por cuadro (`medir_transicion.py`). El desenfoque se calibró con la nitidez cuadro a cuadro.
+- **Pan Left:** los valores son los keyframes del `.prproj`. El efecto de Mister Horse interpola entre ellos con su propia curva, y el compositor, linealmente cuadro a cuadro. La diferencia queda medida con `medir_transicion.py` (ver la verificación de abajo).
 - **Halo del subtítulo de cámara:** ajustado visualmente.
 - **Sándwich:** el halo se comparó a ojo con el aprobado; no hay comparación numérica.
 - **Descendentes en los títulos:** la máscara del MOGRT corta en la línea de base. En el compositor el borde baja con la entrada para no cortar la cola de la Q ("QUE", "QR"). En el aprobado no había letras con descendente para comparar.

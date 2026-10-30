@@ -2,6 +2,8 @@
 
 Lo más nuevo va arriba. Formato: **fecha · decisión** · por qué · fuente.
 
+- **30/10/2026** · Segunda revisión del ADS14: **nunca un jump cut de la misma toma** (reemplaza los punch-ins y el B-roll partido de la revisión anterior); **el gráfico se corta con la toma**; **la cantidad de gráficos la decide el plan**; la Pan Left se toma de los keyframes del proyecto validado (`VELABODY_EDICION.prproj`); los renders de prueba van de a uno y en calidad media · pedido en la revisión del piloto.
+
 - **30/10/2026** · Criterios de la revisión del ADS14 armado en Remotion (H1, H2 y H3):
   - **gráficos**: siempre dos palabras en dos líneas justificadas (nunca una sola ni dos en una línea); nunca tocan la cabeza; desenfoque detrás cuando caen sobre el cartel "velabody"; la pastilla sale por detrás de la cabeza (sándwich);
   - **ritmo**: sin silencios muertos; la presentadora a cámara 3 s o más o nada (si no, sigue el B-roll con la voz en off); nunca volver a cámara un segundo entre dos B-roll; B-roll en planos cortos; zooms y punch-ins como en el Video 1 FINAL; cola final de 1 s;

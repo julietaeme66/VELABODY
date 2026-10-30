@@ -14,8 +14,9 @@
 
 - **Sin silencios muertos.** Las pausas largas dentro de una toma y entre bloques se recortan; la voz arranca casi en el corte, como en el Video 1 FINAL. Sigue valiendo no cortar palabras.
 - **A cámara, 3 segundos o más, o nada.** Si la presentadora va a aparecer solo un momento antes o después de un B-roll ("Primero" y enseguida el insert, o callada antes de la transición), no se la muestra: el B-roll se estira y la voz sigue en off. Entre dos B-roll nunca se vuelve a cámara por un segundo. El hook abre siempre a cámara.
-- **B-roll en planos cortos** (hasta ~2,5 s; en el Video 1 FINAL ninguno pasa de 2,2 s). Si un insert tiene que cubrir más, se parte en planos de ~2 s de distintos momentos de la toma.
-- **Zooms como en el Video 1 FINAL:** los tramos a cámara se parten en planos de ~2 s, alternando encuadre normal y punch-in (×1,25–1,4), con un zoom lento hacia adentro o hacia afuera en cada uno (±4–9 % por segundo).
+- Cuando un mismo clip se usa en varios videos, conviene recorrerlo y usar otras partes para variar (no en todos los casos). *(pedido del 30/10)*
+- **Nunca un jump cut que muestre la misma toma.** No se corta y se vuelve a la misma toma (ni con otro encuadre ni saltando un pedazo), ni en la presentadora ni en el B-roll. Una imagen se puede quedar más de 3 s: el dinamismo no va por ahí. Si una pausa recortada dejaría un salto a la vista, se conserva la pausa; dos tramos seguidos del mismo B-roll van de corrido. *(pedido del 30/10)*
+- **Zoom lento continuo** en los tramos a cámara (hacia adentro o hacia afuera, ~3 % por segundo), sin cortes.
 
 ## Final del video
 

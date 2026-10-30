@@ -7,7 +7,8 @@
   (un corte en mitad de una palabra deja energía alta justo en el corte).
 - Música: nivel en el arranque, antes de la primera palabra, frente al nivel de la voz.
 - Color de la cadena Remotion: ΔE2000 entre un cuadro del render y el mismo cuadro del proxy.
-- Márgenes: caja de cada gráfico y subtítulo contra la zona segura de IG (aprox.; sin el PNG oficial).
+- Márgenes: caja de cada gráfico contra la zona segura de IG (el PNG de la clienta, `recursos.zona_segura`;
+  sin él, una zona aproximada).
 
 Uso:
     python verificar_entrega.py <video.mp4> <carpeta_publica> <salida.json> [timeline_X.json]
@@ -26,8 +27,19 @@ from calibrar_color import ciede2000  # noqa: E402
 from medir_referencia import bandas_violeta, cuadros  # noqa: E402
 
 SR = 48000
-# zona segura de Reels aproximada (sin el PNG de la clienta): 250 px arriba, 420 abajo, 60 a los costados
+# zona segura de Reels aproximada, solo si falta el PNG de la clienta: 250 px arriba, 420 abajo, 60 a los costados
 ZONA = {"x0": 60, "x1": 1020, "y0": 250, "y1": 1500}
+
+
+def zona_png() -> tuple[np.ndarray, str] | None:
+    """Lo que tapa la interfaz de IG según el PNG de la clienta (recursos.zona_segura), llevado a 1080x1920."""
+    sys.path.insert(0, str(AQUI.parents[1] / "_HERRAMIENTAS"))
+    import velabody  # noqa: E402
+    ruta = velabody.CONFIG.get("recursos", {}).get("zona_segura")
+    if not ruta or not pathlib.Path(ruta).exists():
+        return None
+    png = cv2.imread(ruta, cv2.IMREAD_UNCHANGED)
+    return cv2.resize(png[..., 3], (1080, 1920), interpolation=cv2.INTER_AREA) > 30, ruta
 
 
 def audio(path: pathlib.Path, pasaaltos: bool = False) -> np.ndarray:
@@ -125,15 +137,20 @@ def main() -> None:
                                     "por_desfase": [{"desfase": x[2], "dE2000_medio": round(x[0], 2)} for x in mejores]}
 
     # márgenes
-    fuera = []
+    fuera, png = [], zona_png()
     for g in tl["graficos"]:
         if g["tipo"] == "pastilla":
             caja = [g["cx"] - g["w"] / 2, g["cy"] - g["h"] / 2, g["cx"] + g["w"] / 2, g["cy"] + g["h"] / 2]
         else:
             caja = [g["x"] - 426, g["base"] - 0.7 * g["fontPx"], g["x"] + 426, g["base"]]
-        if caja[0] < ZONA["x0"] or caja[2] > ZONA["x1"] or caja[1] < ZONA["y0"] or caja[3] > ZONA["y1"]:
-            fuera.append({"grafico": g["texto"], "caja": caja})
-    inf["zona_segura_aprox"] = {"zona": ZONA, "fuera": fuera}
+        x0, y0, x1, y1 = (int(round(v)) for v in caja)
+        if png:
+            tapa = png[0][max(0, y0):max(0, y1), max(0, x0):max(0, x1)].any() or x0 < 0 or y0 < 0 or x1 > 1080 or y1 > 1920
+        else:
+            tapa = x0 < ZONA["x0"] or x1 > ZONA["x1"] or y0 < ZONA["y0"] or y1 > ZONA["y1"]
+        if tapa:
+            fuera.append({"grafico": g["texto"], "caja": [x0, y0, x1, y1]})
+    inf["zona_segura"] = {"fuente": png[1] if png else "aproximada", "fuera": fuera}
 
     salida.write_text(json.dumps(inf, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps(inf, ensure_ascii=False, indent=1))

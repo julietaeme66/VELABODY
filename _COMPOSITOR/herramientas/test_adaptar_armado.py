@@ -141,6 +141,23 @@ class TestAdaptador(unittest.TestCase):
         self.assertAlmostEqual(g["w"], 873, delta=3)
         self.assertAlmostEqual(g["h"], 166, delta=1)
 
+    def test_grafico_se_corta_con_la_toma(self):
+        # el título sigue 1 s más allá del borde del B-roll: se corta en ese cuadro, todas sus líneas juntas
+        videos = [{"capa": "aroll", "clip": "A", "desde": 0, "dur": 200, "trim": 0},
+                  {"capa": "broll", "clip": "B", "desde": 40, "dur": 60, "trim": 0}]
+        graficos = [{"tipo": "titulo", "desde": 45, "hasta": 130}, {"tipo": "titulo", "desde": 54, "hasta": 130}]
+        ad.cortar_graficos_con_la_toma(graficos, [{"bloque": 1}] * 2, videos)
+        self.assertEqual([g["hasta"] for g in graficos], [100, 100])
+        self.assertTrue(all(g["corta_con_toma"] for g in graficos))
+
+    def test_cortes_visibles_ignora_lo_continuo_y_lo_tapado(self):
+        videos = [{"capa": "aroll", "clip": "A", "desde": 0, "dur": 50, "trim": 0},
+                  {"capa": "aroll", "clip": "A", "desde": 50, "dur": 50, "trim": 50},     # continuo: no es corte
+                  {"capa": "aroll", "clip": "A", "desde": 100, "dur": 50, "trim": 300},   # salto tapado por B-roll
+                  {"capa": "aroll", "clip": "C", "desde": 150, "dur": 50, "trim": 0},
+                  {"capa": "broll", "clip": "B", "desde": 90, "dur": 30, "trim": 0}]
+        self.assertEqual(ad.cortes_visibles(videos), [90, 120, 150])
+
 
 if __name__ == "__main__":
     unittest.main()

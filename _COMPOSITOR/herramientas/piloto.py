@@ -9,7 +9,7 @@ número siguiente al último que exista: nunca se pisa un exportado. Junto al MP
 las mediciones del archivo final y una hoja de contactos.
 
 Uso:
-    python piloto.py <plan.json> [--nombre NOMBRE] [--piezas H1,H3] [--props props.json]
+    python piloto.py <plan.json> [--nombre NOMBRE] [--piezas H1,H3] [--calidad media] [--props props.json]
 """
 import argparse
 import json
@@ -82,6 +82,8 @@ def main() -> None:
     ap.add_argument("--nombre")
     ap.add_argument("--piezas", help="solo estas piezas, por ejemplo H1,H3")
     ap.add_argument("--props", help="props de Remotion ya armadas (por ejemplo, la prueba de sándwich)")
+    ap.add_argument("--calidad", choices=["final", "media"], default="final",
+                    help="media: 810x1440 y cuadros JPEG, para revisar rápido (las pruebas, de a una pieza)")
     a = ap.parse_args()
     plan_path = pathlib.Path(a.plan).resolve()
     plan = json.loads(plan_path.read_text(encoding="utf-8"))
@@ -112,8 +114,9 @@ def main() -> None:
         if not props:
             props = str(velabody.RAIZ / "_COMPOSITOR_CACHE" / f"props{sufijo}.json")
             pathlib.Path(props).write_text(json.dumps({"timeline": tl}, ensure_ascii=False), encoding="utf-8")
-        render = siguiente_version(salidas, base + sufijo)
-        correr(["npx", "remotion", "render", "src/index.ts", "VelabodyPieza", str(render), "--log=error", f"--props={props}"],
+        render = siguiente_version(salidas, base + sufijo + ("_media" if a.calidad == "media" else ""))
+        extra = ["--scale=0.75", "--image-format=jpeg", "--jpeg-quality=85", "--crf=23"] if a.calidad == "media" else []
+        correr(["npx", "remotion", "render", "src/index.ts", "VelabodyPieza", str(render), "--log=error", f"--props={props}", *extra],
                cwd=COMPOSITOR, shell=sys.platform == "win32")
         final = render.with_name(render.stem + "_norm.mp4")
         previa = loudnorm(render, final)

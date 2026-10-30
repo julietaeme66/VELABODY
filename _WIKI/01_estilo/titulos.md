@@ -8,7 +8,7 @@ Vigente desde el **28/10/2026** (estilo v2). Fuentes: las medidas tomadas del `.
 
 Lo que muestran los [ejemplos aprobados](../04_ejemplos/README.md) (Videos 1 a 4):
 
-- **De 2 a 4 gráficos por video**, no más. Un gráfico es para una **idea clave** o para el **producto**, no para cualquier frase.
+- **De 2 a 4 gráficos por video**, no más. Un gráfico es para una **idea clave** o para el **producto**, no para cualquier frase. **Si el plan del video pide otra cantidad, manda el plan.** *(pedido del 30/10)*
 - **El primero en el primer segundo**, con el gancho del video ("ANÁLISIS FACIAL", "4 PASOS", "FOTOTIPO").
 - **El producto en pastilla**, muchas veces repetido en el cierre.
 - Un video puede llevar **solo pastillas** (Videos 3 y 4). El paquetito se usa cuando la idea pide dos palabras (Video 2: "HERRAMIENTA / CLAVE").
@@ -19,6 +19,7 @@ Lo que muestran los [ejemplos aprobados](../04_ejemplos/README.md) (Videos 1 a 4
 - **Siempre en MAYÚSCULAS**: títulos, pastillas y nombres de producto, sin excepción. Los subtítulos no: esos van como se habla.
 - **Siempre con margen justificado**, como en los ejemplos: todas las líneas tienen el mismo ancho, y la más larga toca los dos bordes de la guía. La línea corta se agranda (Video 2: "ANÁLISIS / FACIAL").
 - **Siempre dos palabras, en dos líneas** (paquetito). Nunca una palabra sola ("RECOMENDACIÓN" → "RECOMENDACIÓN / CONCRETA", tomando la palabra que sigue en lo que dice) y nunca dos palabras en una sola línea ("ANALIZADOR FACIAL" → "ANALIZADOR / FACIAL", "PROTECTOR / SOLAR", "REPORTE / POR QR"). La palabra más corta se agranda hasta el mismo ancho. *(pedido del 30/10, revisión del ADS14)*
+- **Si se corta la toma, el gráfico se corta en el mismo cuadro**: no queda un segundo, casi invisible, sobre la toma siguiente. *(pedido del 30/10)*
 - **El título nunca toca la cabeza de la presentadora.** Si la toca, se sube el bloque (sin salir de la zona segura); si aun así no entra, se achica entero. *(pedido del 30/10)*
 - **Cada gráfico entra con un click** (`Mouse Click.mp3`): títulos, pastillas, cada línea y cada vez que aparece, también si se reutiliza.
 - **Fondo cargado** (cartelería, logos o texto detrás que dificultan la lectura). Se usa una de estas dos opciones:

@@ -6,13 +6,13 @@
 - Cada una lleva el SFX **`Transition Complex 14.wav`** **0,1 s antes** del corte, a −12 dB.
 - **No usamos light leaks** (desde el feedback del 27/10, que pidió algo más tranquilo).
 - La clienta pidió que en los videos ORG sean sutiles y en los ADS un poco más juguetonas.
-- **Siempre la misma Pan Left**, con el mismo aspecto en todos los cortes *(pedido del 30/10)*. Medida en el Video 1 FINAL: la toma que sale apenas se corre a la izquierda en los 3 cuadros previos; la que entra aparece ~500 px a la derecha y frena en 9 cuadros, con desenfoque horizontal. Nunca se ve la imagen duplicada.
+- **Siempre la misma Pan Left**, con el mismo aspecto en todos los cortes *(pedido del 30/10)*. En el proyecto validado (Video 1) son dos capas de ajuste de Mister Horse, de **4 cuadros antes y 11 después** del corte: una mueve la imagen (la que sale acelera hacia la izquierda; la que entra aparece ~470 px a la derecha y frena) y rellena en espejo, y la otra le pone un desenfoque direccional horizontal (hasta ~100 px en el corte). El SFX va desde 0,1 s antes del corte y dura 0,4 s.
 
 ## A-roll (presentadora)
 
 - Los clips vienen grabados **en vertical**. El archivo dice 3840x2160, pero trae `rotation=90`, así que el cuadro real es 2160x3840 y la escala base es **50**.
 - **Zoom lento:** dos keyframes **lineales** (sin curvas automáticas) en Escala y Posición, de 50 a 56–60.
-- **Punch-in** (~65) en los cortes por salto, para disimularlos.
+- ~~**Punch-in** (~65) en los cortes por salto, para disimularlos.~~ Ya no hay cortes por salto: nunca un jump cut de la misma toma (ver [cortes y ritmo](cortes_y_ritmo.md)). *(30/10)*
 
 ## Sándwich de capas (pastilla detrás de la persona)
 
