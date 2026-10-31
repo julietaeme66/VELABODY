@@ -4,10 +4,14 @@
   "description": "Compositor Remotion de VELABODY: arma el reel desde el armado.json de velabody.py, sin Premiere.",
   "scripts": {
     "studio": "remotion studio src/index.ts",
-    "piloto": ".venv\\Scripts\\python -I herramientas/piloto.py pilotos/ads14_h2/plan.json --nombre ADS14_H2_piloto",
-    "ads14": ".venv\\Scripts\\python -I herramientas/piloto.py pilotos/ads14/plan.json --nombre ADS14",
+    "brief": ".venv\\Scripts\\python -I ../_HERRAMIENTAS/preparar_brief.py",
+    "baja": ".venv\\Scripts\\python -I herramientas/lote.py --calidad baja",
+    "alta": ".venv\\Scripts\\python -I herramientas/lote.py --calidad alta",
+    "entregar": ".venv\\Scripts\\python -I herramientas/lote.py --solo-entregar",
+    "limpiar": ".venv\\Scripts\\python -I herramientas/limpiar_salidas.py",
+    "pieza": ".venv\\Scripts\\python -I herramientas/piloto.py",
     "verificar": ".venv\\Scripts\\python -I herramientas/verificar_entrega.py",
-    "pruebas": ".venv\\Scripts\\python -I herramientas/test_adaptar_armado.py && tsc --noEmit",
+    "pruebas": ".venv\\Scripts\\python -I -m unittest discover -s herramientas -p test_*.py && tsc --noEmit",
     "tipos": "tsc --noEmit"
   },
   "dependencies": {

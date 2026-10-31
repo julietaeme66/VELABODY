@@ -1,12 +1,13 @@
-"""Lee el brief de edición (.docx con tablas por video y links de Drive), baja el material
+"""Lee el brief de edición (.pdf o .docx, con una tabla por video y links de Drive), baja el material
 y arma una carpeta por video con lo que le corresponde.
 
 Uso:
-    python preparar_brief.py <brief.docx> [--videos 6,7,8] [--solo-carpetas]
+    python preparar_brief.py <brief.pdf|brief.docx> [--videos 6,7,8] [--solo-carpetas]
 
---videos: solo los videos indicados (los demás los edita otra persona)
+--videos: solo los videos indicados
+--solo-carpetas: arma las carpetas y las fichas sin bajar nada
 
-Estructura que crea en E:\\VELABODY:
+La raíz es la de velabody.py (config_local.json › raiz o VELABODY_RAIZ). Estructura que crea:
     _MATERIAL_BRUTO\\                      cada archivo de Drive, una sola vez
     Video N — CODIGO · Equipo tema\\
         PRESENTADORA\\  B02_Clip_C3868.MP4  (tomas a cámara, con el bloque al que van)
@@ -29,7 +30,10 @@ import sys
 import docx
 from docx.oxml.ns import qn
 
-RAIZ = pathlib.Path(r"E:\VELABODY")
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))     # con python -I no está
+import velabody  # noqa: E402  (raíz de esta compu: config_local.json)
+
+RAIZ = velabody.RAIZ
 BRUTO = RAIZ / "_MATERIAL_BRUTO"
 URL = "https://drive.usercontent.google.com/download?id={}&export=download&confirm=t"
 
@@ -72,6 +76,69 @@ def leer_brief(ruta: pathlib.Path) -> list[dict]:
     return videos
 
 
+def leer_brief_pdf(ruta: pathlib.Path) -> tuple[list[dict], str]:
+    """El mismo brief en PDF (como el de los Videos 6 a 16). Devuelve (videos, lineamientos):
+    - videos: igual que leer_brief(); el título es la línea "Video N — …" (y la siguiente si se partió);
+      las tablas siguen al último título, aunque continúen en la página siguiente (con el encabezado
+      repetido o con una fila partida); cada link de Drive va a la celda que lo contiene (por coordenadas);
+      los links fuera de las tablas son extras ("Más inserts disponibles…").
+    - lineamientos: el texto general del brief antes de las fichas (duración, B-roll, nombres de archivo…)."""
+    import pdfplumber
+    videos, actual, lineamientos = [], None, []
+    drive_id = lambda uri: (re.search(r"/d/([^/]+)", uri or "") or [None, None])[1]
+    with pdfplumber.open(str(ruta)) as pdf:
+        for pg in pdf.pages:
+            tablas = pg.find_tables()
+            dentro = lambda y: any(t.bbox[1] - 2 <= y <= t.bbox[3] + 2 for t in tablas)
+            links = [{"id": drive_id(h.get("uri")), "x": (h["x0"] + h["x1"]) / 2, "y": (h["top"] + h["bottom"]) / 2,
+                      "texto": (pg.crop((h["x0"] - 1, h["top"] - 1, h["x1"] + 1, h["bottom"] + 1)).extract_text() or "").strip()}
+                     for h in pg.hyperlinks if drive_id(h.get("uri"))]
+            # títulos, extras y tablas, en el orden en que aparecen en la página
+            eventos = [("tabla", t.bbox[1], t) for t in tablas]
+            lineas = [l for l in pg.extract_text_lines() if not dentro(l["top"])]
+            for k, l in enumerate(lineas):
+                eventos.append(("linea", l["top"], (l, lineas[k + 1] if k + 1 < len(lineas) else None)))
+            for tipo, _, x in sorted(eventos, key=lambda e: e[1]):
+                if tipo == "linea":
+                    l, siguiente = x
+                    m = re.match(r"Video (\d+) — (.+)", l["text"])
+                    if m:
+                        titulo = l["text"]
+                        # título partido en dos renglones: la línea siguiente, si está pegada y no es otra cosa
+                        if siguiente and siguiente["top"] - l["bottom"] < 6 and not re.match(r"Video \d+ —", siguiente["text"]):
+                            titulo += " " + siguiente["text"]
+                        actual = {"video": int(m.group(1)), "titulo": titulo, "bloques": [], "extras": []}
+                        videos.append(actual)
+                    elif actual is None:
+                        lineamientos.append(l["text"])
+                    else:
+                        propios = [{"texto": e["texto"], "id": e["id"]} for e in links if l["top"] - 2 <= e["y"] <= l["bottom"] + 2]
+                        if propios:
+                            actual["extras"].append({"texto": l["text"], "links": propios})
+                    continue
+                if actual is None:
+                    continue
+                for fila, celdas in zip(x.extract(), x.rows):
+                    fila = [(c or "").replace("\n", " ").strip() for c in fila]
+                    if fila[0] == "#" or len(fila) < 5:            # encabezado (se repite en cada página)
+                        continue
+                    def en(c):
+                        bb = celdas.cells[c]
+                        return [{"texto": e["texto"], "id": e["id"]} for e in links
+                                if bb and bb[0] <= e["x"] <= bb[2] and bb[1] <= e["y"] <= bb[3]]
+                    if not fila[0] and actual["bloques"]:          # fila partida entre dos páginas
+                        b = actual["bloques"][-1]
+                        for clave, c in (("inserts_sug", 1), ("texto", 2), ("clip", 3), ("indicacion", 4)):
+                            b[clave] = (b[clave] + " " + fila[c]).strip()
+                        b["links_insert"] += en(1)
+                        b["links_clip"] += en(3)
+                        continue
+                    actual["bloques"].append({"bloque": fila[0], "inserts_sug": fila[1], "texto": fila[2],
+                                              "clip": fila[3], "indicacion": fila[4],
+                                              "links_insert": en(1), "links_clip": en(3)})
+    return videos, "\n".join(lineamientos)
+
+
 def nombre_carpeta(titulo: str) -> str:
     # "Video 6 — ADS12 · Derma Scan: por qué incorporar Derma Scan" -> sin ":" (no válido en Windows)
     return re.sub(r'[:<>"/\\|?*]', "", titulo).strip()
@@ -89,9 +156,18 @@ REMOTO = "gdrive:"   # remoto de rclone con la cuenta de Google del editor
 
 def bajar(i: str, destino: pathlib.Path, total: int) -> str:
     """Descarga autenticada con rclone (la descarga anónima de Drive se queda sin cuota
-    enseguida con archivos 4K: 'Google Drive - Quota exceeded')."""
+    enseguida con archivos 4K: 'Google Drive - Quota exceeded'). Sin rclone, con curl (anónima)."""
     if destino.exists() and destino.stat().st_size == total:
         return f"ya estaba  {destino.name}"
+    if not shutil.which("rclone"):
+        tmp = destino.parent / f".bajando_{i}"
+        for _ in range(3):
+            subprocess.run(["curl", "-sL", "-m", "3600", "-o", str(tmp), URL.format(i)], capture_output=True)
+            if tmp.exists() and (total is None or tmp.stat().st_size == total):
+                tmp.replace(destino)
+                return f"OK  {destino.name}  ({destino.stat().st_size / 1e6:.0f} MB)"
+        tmp.unlink(missing_ok=True)
+        return f"✖ FALLÓ {destino.name} (sin rclone; Drive puede haber cortado la descarga anónima por cuota)"
     tmp = destino.parent / f".bajando_{i}"
     tmp.mkdir(exist_ok=True)
     for _ in range(3):
@@ -111,12 +187,17 @@ def bajar(i: str, destino: pathlib.Path, total: int) -> str:
 def main() -> None:
     brief = pathlib.Path(sys.argv[1])
     solo_carpetas = "--solo-carpetas" in sys.argv
-    videos = leer_brief(brief)
+    if brief.suffix.lower() == ".pdf":
+        videos, lineamientos = leer_brief_pdf(brief)
+    else:
+        videos, lineamientos = leer_brief(brief), ""
     if "--videos" in sys.argv:
         elegidos = {int(x) for x in sys.argv[sys.argv.index("--videos") + 1].split(",")}
         videos = [v for v in videos if v["video"] in elegidos]
     BRUTO.mkdir(exist_ok=True)
     (BRUTO / "brief.json").write_text(json.dumps(videos, ensure_ascii=False, indent=1), encoding="utf-8")
+    if lineamientos:      # lo general del brief (duración, B-roll, nombres de archivo, portada…), para revisar cada video
+        (BRUTO / "brief_lineamientos.md").write_text(lineamientos + "\n", encoding="utf-8")
 
     ids = sorted({l["id"] for v in videos for b in v["bloques"] for l in b["links_insert"] + b["links_clip"]}
                  | {l["id"] for v in videos for e in v["extras"] for l in e["links"]})

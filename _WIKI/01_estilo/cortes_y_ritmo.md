@@ -32,7 +32,7 @@
 
 Desde la versión 2.1 (30/10), el builder corta con márgenes de 0,15 s antes y 0,35 s después de la voz real (medida en la forma de onda, no solo con Whisper). Solo quita pausas de más de 0,8 s y suma una cola final de 1,5 s. Los márgenes viejos (0,08 / 0,18 / 0,45) eran los que se comían las colas. Ver [herramientas](../06_herramientas.md).
 
-Para el ritmo de arriba, el plan activa `"corte": {"modo": "dinamico", ...}` y `"ritmo": {...}` (ver `_COMPOSITOR/pilotos/ads14/plan.json`):
+Para el ritmo de arriba, el plan activa `"corte": {"modo": "dinamico", ...}` y `"ritmo": {...}` (ver `Video 8 — ADS14 · Derma Scan las funciones de Derma Scan/_EDICION/plan.json`):
 
 - **Recorte dinámico:** mide la voz de cada toma con un umbral relativo a esa voz, no al pico. En tomas muy bajas el umbral por pico queda pegado al ruido de sala y deja segundos muertos. Deja 0,06 s antes y 0,15 s después de la voz, y saca pausas de más de 0,3 s. Solo achica tramos, nunca los agranda.
 - **B-roll sin movimientos bruscos:** `config_velabody.json › broll_estable.brusco_max` (30). `broll_visual.py` mide cuánto se corre la imagen cada 0,1 s (en px de un cuadro de 1080, multiplicado por el zoom del plano) y toma el pico que dura al menos 0,2 s, hasta el último cuadro del plano: un tirón justo antes del corte también cuenta: ~10 es un paneo lento, 50 un barrido rápido y 200 un cambio de plano. Vale para todos los planes, también para el armado de Premiere. Los planos del B-roll largo partido pasan el mismo control, y el plano cerrado se busca a menos de 3 s del momento original para que siga mostrando lo mismo.

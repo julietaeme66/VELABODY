@@ -9,7 +9,8 @@ import { Subtitulos } from "./componentes/Subtitulos";
 import { cargarFuentes } from "./estilo";
 import type { Grafico, PistaAudio, Timeline } from "./tipos";
 
-export type PiezaProps = { timeline: Timeline | null; zonaSegura?: boolean };
+// sinTextos: sin títulos, pastillas ni subtítulos (la portada de cada pieza, que el brief pide sin texto)
+export type PiezaProps = { timeline: Timeline | null; zonaSegura?: boolean; sinTextos?: boolean };
 
 const Pista: React.FC<{ a: PistaAudio }> = ({ a }) => {
   const frame = useCurrentFrame();
@@ -22,7 +23,7 @@ const Pista: React.FC<{ a: PistaAudio }> = ({ a }) => {
 // Orden de capas, como la secuencia v2 de Premiere: A-roll, B-roll, (fondo desenfocado detrás de gráficos), pastilla, (persona recortada para el
 // sándwich), títulos; todo eso pasa por el Pan Left. Arriba, los subtítulos. La zona segura solo se ve en
 // Studio (prop zonaSegura), nunca en el render.
-export const Pieza: React.FC<PiezaProps> = ({ timeline, zonaSegura }) => {
+export const Pieza: React.FC<PiezaProps> = ({ timeline, zonaSegura, sinTextos }) => {
   const [fuentes] = useState(() => delayRender("Cargando fuentes VELABODY"));
   useEffect(() => {
     cargarFuentes().then(() => continueRender(fuentes));
@@ -31,19 +32,20 @@ export const Pieza: React.FC<PiezaProps> = ({ timeline, zonaSegura }) => {
   const cortes = new Set(timeline.transiciones.map((t) => t.cuadro));
   // sin fundido si el gráfico termina con un corte de toma o una transición (se corta en el mismo cuadro)
   const terminaEnCorte = (g: Grafico) => Boolean(g.corta_con_toma) || cortes.has(g.hasta) || g.hasta >= timeline.duracion;
-  const pastillas = timeline.graficos.filter((g) => g.tipo === "pastilla");
-  const titulos = timeline.graficos.filter((g) => g.tipo === "titulo");
+  const graficos = sinTextos ? [] : timeline.graficos;
+  const pastillas = graficos.filter((g) => g.tipo === "pastilla");
+  const titulos = graficos.filter((g) => g.tipo === "titulo");
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
       <ConPanLeft trs={timeline.transiciones}>
         {timeline.videos.filter((v) => v.capa === "aroll").map((v, i) => <ClipEnLinea key={`a${i}`} {...v} muted />)}
         {timeline.videos.filter((v) => v.capa === "broll").map((v, i) => <ClipEnLinea key={`b${i}`} {...v} muted />)}
-        <Desenfoques zonas={timeline.desenfoques ?? []} />
+        <Desenfoques zonas={sinTextos ? [] : timeline.desenfoques ?? []} />
         {pastillas.map((g, i) => <GraficoEnLinea key={`p${i}`} g={g} terminaEnCorte={terminaEnCorte(g)} />)}
-        {timeline.sandwich.map((s, i) => <ClipEnLinea key={`s${i}`} {...s} muted alfa />)}
+        {sinTextos ? null : timeline.sandwich.map((s, i) => <ClipEnLinea key={`s${i}`} {...s} muted alfa />)}
         {titulos.map((g, i) => <GraficoEnLinea key={`t${i}`} g={g} terminaEnCorte={terminaEnCorte(g)} />)}
       </ConPanLeft>
-      <Subtitulos subs={timeline.subtitulos} />
+      {sinTextos ? null : <Subtitulos subs={timeline.subtitulos} />}
       {zonaSegura ? <AbsoluteFill style={{ backgroundImage: `url(${staticFile("zona-segura.png")})`, opacity: 0.5 }} /> : null}
       {timeline.voces.map((v, i) => (
         <Sequence key={`v${i}`} from={v.desde} durationInFrames={v.dur}>

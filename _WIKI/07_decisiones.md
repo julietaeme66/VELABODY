@@ -2,6 +2,13 @@
 
 Lo más nuevo va arriba. Formato: **fecha · decisión** · por qué · fuente.
 
+- **30/10/2026** · **El compositor pasa a ser el flujo oficial** (Premiere queda como alternativa):
+  - **pasos:** brief en PDF → Claude baja todo, arma los planes y hace una sola ronda de preguntas → todas las piezas en baja → feedback → correcciones en baja → todo en alta, en `_ENTREGAS/<código>/`, con los nombres del brief (`ADS12_Hook1.mp4`) y una portada sin texto;
+  - **gráficos:** los que marca el brief; si no marca ninguno, Claude los propone para cada video;
+  - **renders:** Claude sí renderiza, en baja para validar y en alta una sola vez; las versiones de prueba se mandan a la Papelera;
+  - **git:** commits locales, sin push.
+
+  El ADS14 (H1, H2 y H3) queda entregado así · el ADS14 se validó con este circuito · pedido del equipo.
 - **30/10/2026** · **Los números van en cifras en los gráficos** ("5 COSAS"), y con letras en los subtítulos. El ADS14 cierra sin cola final (~57 s). El tirón de cámara justo antes de un corte también cuenta como movimiento brusco · pedido en la revisión del piloto.
 - **30/10/2026** · **Regla general del B-roll:** se usa la parte que mejor acompaña el guion, pero nunca un tramo con movimientos o cambios de cámara bruscos; si lo tiene, el tramo estable más cercano del mismo clip. Con este ajuste, el H1 del ADS14 queda terminado · pedido en la revisión del piloto.
 - **30/10/2026** · Tercera revisión del ADS14 (H1 aprobado como camino): **el B-roll largo se corta cada 3–4 s**, con otra parte del mismo clip que muestre otra cosa o un plano más cerrado; **la pastilla entra una sola vez y se mantiene**; la Pan Left se ajusta a lo medido en el export aprobado · pedido en la revisión del piloto.

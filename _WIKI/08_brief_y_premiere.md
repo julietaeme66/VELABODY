@@ -2,7 +2,7 @@
 
 ## Cómo viene el brief
 
-Cada semana llega un **.docx** que siempre tiene la misma estructura. `preparar_brief.py` lo lee solo y lo vuelca en `_MATERIAL_BRUTO\brief.json`.
+Cada semana llega un brief en **PDF** o en **.docx**, siempre con la misma estructura. `preparar_brief.py` lee cualquiera de los dos y lo vuelca en `_MATERIAL_BRUTO\brief.json`. Del PDF también guarda los lineamientos generales (duración, B-roll, nombres de archivo, portada) en `_MATERIAL_BRUTO\brief_lineamientos.md`.
 
 Por cada video trae:
 
@@ -21,7 +21,19 @@ Por cada video trae:
 
 3. A veces trae **extras** debajo de la tabla: más inserts o fotos con una indicación de uso. Por ejemplo, "Fotos de las fases del vello, para sumar en chico…".
 
-El brief también dice qué videos son de cada editor: filtrar siempre con `--videos`. Ver [flujo de trabajo](03_flujo_de_trabajo.md).
+Con `--videos` se elige qué videos del brief bajar y armar. Ver [flujo de trabajo](03_flujo_de_trabajo.md).
+
+## Nombres de entrega (compositor)
+
+Como pide el brief, cada archivo lleva **el código del video** y, en los anuncios, **el número de hook**:
+
+| Caso | Archivo en `_ENTREGAS/<código>/` |
+|---|---|
+| ADS con hooks | `ADS12_Hook1.mp4`, `ADS12_Hook2.mp4`, `ADS12_Hook3.mp4` |
+| ORG sin hooks | `ORG7.mp4` |
+| Portada (un cuadro sin texto, con la presentadora a cámara) | `ADS12_Hook1_portada.png`, … |
+
+Si el código tiene espacios (`ADS RF Cavi Pro 1`), van con guion bajo: `ADS_RF_Cavi_Pro_1_Hook1.mp4`.
 
 ## Nombres en Premiere
 
