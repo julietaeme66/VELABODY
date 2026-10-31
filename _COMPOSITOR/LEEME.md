@@ -19,6 +19,7 @@ python -m venv .venv
 | Armar, renderizar, normalizar y verificar el ADS14 completo (H1, H2 y H3) | `npm run ads14` |
 | Solo algunos hooks | `npm run ads14 -- --piezas H2` |
 | Una prueba rápida para revisar (810x1440, cuadros JPEG) | `npm run ads14 -- --piezas H1 --calidad media` |
+| Para validar el armado (540x960, la más rápida) | `npm run ads14 -- --piezas H1 --calidad baja` |
 | El piloto corto (Hook 2 + bloque 1) | `npm run piloto` |
 | Abrir el preview interactivo (Remotion Studio) | `npm run studio` |
 | Renderizar a mano lo que haya en `timeline.json` | `npx remotion render src/index.ts VelabodyPieza <salida.mp4>` |
@@ -164,7 +165,7 @@ El H1 de la segunda revisión quedó aprobado como camino. Sobre esa versión:
 | Pan Left (corte 1292 contra el aprobado) | La toma que sale: −12, −40, −92 contra −12, −40, −92. La que entra: 500, 328, 192, 108, 64, 40, 24, 16 contra 496, 316, 200, 116, 72, 44, 24, 16 (≤ 12 px). |
 | Sonoridad, zona segura y color | −14,0 LUFS, −1,0 dBTP; ningún gráfico afuera; ΔE2000 1,56. |
 
-### Versión final del H1: `ADS14_H1_media_v004_norm.mp4`
+### H1 v004: `ADS14_H1_media_v004_norm.mp4`
 
 Sobre la v003, solo cambia el B-roll con movimientos bruscos. La medida es cuánto se corre la imagen cada 0,1 s, en px a 1080 y multiplicado por el zoom: ~10 es un paneo lento, 50 un barrido y 200 un cambio de plano.
 
@@ -176,6 +177,15 @@ Sobre la v003, solo cambia el B-roll con movimientos bruscos. La medida es cuán
 | C3829 (hook) y C3838 | 50 y 51 | 30 y 31–45 |
 
 El resto queda igual que en la v003: −14,0 LUFS, −1,0 dBTP, ningún gráfico fuera de la zona segura y ΔE2000 1,55.
+
+### Versión para validar del H1: `ADS14_H1_baja_v001_norm.mp4` (540x960)
+
+En la v004, el plano de C3829 que termina a los 30,9 s tenía un tirón de cámara en sus últimos 0,2 s. La medida anterior (percentil 95 de todo el plano) no lo detectaba. Ahora se mide **el pico que dura al menos 0,2 s, hasta el último cuadro del plano**, con umbral 30.
+
+- Todos los planos del H1 quedan en 25 o menos, corridos como mucho 1,5 s respecto de lo que eligió el plan.
+- La excepción es el reporte (C3835: 36, y 73 en el plano cerrado). Es un paneo en mano y no tiene 3 s quietos seguidos en ninguna parte.
+- El plano de los 30,9 s ahora termina quieto.
+- −14,0 LUFS, −1,0 dBTP; ningún gráfico fuera de la zona segura.
 
 ## Hallazgos que también afectan al flujo de Premiere
 

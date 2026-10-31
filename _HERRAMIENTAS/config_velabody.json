@@ -128,8 +128,8 @@
   },
   "broll_estable": {
     "_regla": "30/10, regla general: de cada B-roll se usa la parte que eligió el plan por el guion, pero nunca un tramo con movimientos o cambios de cámara bruscos; si lo tiene, se corre al tramo más cercano sin sacudidas del mismo clip (broll_visual.py).",
-    "brusco_max": 45,
-    "_brusco_max": "percentil 95 de cuánto se corre la imagen cada 0,1 s, en px de un cuadro de 1080 de ancho, multiplicado por el zoom del plano. ~10 es un paneo lento; 50, un barrido rápido; 200, un cambio de plano."
+    "brusco_max": 30,
+    "_brusco_max": "pico sostenido (al menos 0,2 s, hasta el último cuadro del plano) de cuánto se corre la imagen cada 0,1 s, en px de un cuadro de 1080 de ancho, multiplicado por el zoom del plano. ~10 es un paneo lento; 50, un barrido rápido; 200, un cambio de plano."
   },
   "pastilla_v2": {
     "escala": 80,

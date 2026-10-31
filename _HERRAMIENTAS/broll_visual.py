@@ -80,10 +80,15 @@ def movimiento(ruta: str, carpeta_cache: pathlib.Path | None = None) -> tuple[np
 
 
 def brusco(ruta: str, t0: float, t1: float, carpeta_cache: pathlib.Path | None = None) -> float:
-    """Lo más brusco del tramo: el percentil 95 de la velocidad de cámara (px por PASO_MOV en 1080)."""
+    """Lo más brusco del tramo, hasta el último cuadro: el pico de velocidad de cámara (px por PASO_MOV en
+    1080) que dura al menos dos pasos seguidos (0,2 s). Así cuenta un tirón corto al final de la toma
+    (pedido del 30/10: "ese medio segundo es importante que no esté"), pero no un cuadro suelto con ruido."""
     t, v = movimiento(ruta, carpeta_cache)
-    k = (t >= t0) & (t <= t1)
-    return float(np.percentile(v[k], 95)) if k.any() else 0.0
+    k = np.where((t >= t0 - PASO_MOV / 2) & (t <= t1 + PASO_MOV / 2))[0]
+    if len(k) == 0:
+        return 0.0
+    w = v[k]
+    return float(np.minimum(w[:-1], w[1:]).max()) if len(w) > 1 else float(w[0])
 
 
 def parte_sin_sacudidas(ruta: str, preferido: float, dur: float, largo: float, umbral: float,

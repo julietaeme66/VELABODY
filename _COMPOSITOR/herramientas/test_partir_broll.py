@@ -126,6 +126,18 @@ class TestSinSacudidas(unittest.TestCase):
         self.assertTrue(s + 3.0 <= 5.5 or s >= 10.0)
         self.assertLess(broll_visual.brusco(self.RUTA, s, s + 3.0), 35)
 
+    def test_tiron_al_final_del_plano_cuenta(self):
+        # quieto y, en los últimos 0,2 s, un tirón (como C3829 al final, en el H1 v004)
+        t, v = broll_visual._mov[self.RUTA]
+        broll_visual._mov[self.RUTA] = (t, np.where((t > 9.75) & (t < 10.05), 260.0, 5.0))
+        self.assertGreaterEqual(broll_visual.brusco(self.RUTA, 7.0, 10.0), 45)
+        self.assertLess(broll_visual.brusco(self.RUTA, 6.0, 9.5), 45)
+
+    def test_cuadro_suelto_con_ruido_no_cuenta(self):
+        t, v = broll_visual._mov[self.RUTA]
+        broll_visual._mov[self.RUTA] = (t, np.where(np.isclose(t, 8.0), 60.0, 5.0))
+        self.assertLess(broll_visual.brusco(self.RUTA, 7.0, 10.0), 45)
+
     def test_builder_mueve_el_broll_y_avisa(self):
         broll = [{"clip": "B", "in": 4.5, "out": 7.5, "t": 2.0, "zoom": 1.0}]
         notas = []
