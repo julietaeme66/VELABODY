@@ -2,6 +2,7 @@
 
 Lo más nuevo va arriba. Formato: **fecha · decisión** · por qué · fuente.
 
+- **30/10/2026** · **Regla general del B-roll:** se usa la parte que mejor acompaña el guion, pero nunca un tramo con movimientos o cambios de cámara bruscos; si lo tiene, el tramo estable más cercano del mismo clip. Con este ajuste, el H1 del ADS14 queda terminado · pedido en la revisión del piloto.
 - **30/10/2026** · Tercera revisión del ADS14 (H1 aprobado como camino): **el B-roll largo se corta cada 3–4 s**, con otra parte del mismo clip que muestre otra cosa o un plano más cerrado; **la pastilla entra una sola vez y se mantiene**; la Pan Left se ajusta a lo medido en el export aprobado · pedido en la revisión del piloto.
 - **30/10/2026** · Segunda revisión del ADS14: **nunca un jump cut de la misma toma** (reemplaza los punch-ins y el B-roll partido de la revisión anterior); **el gráfico se corta con la toma**; **la cantidad de gráficos la decide el plan**; la Pan Left se toma de los keyframes del proyecto validado (`VELABODY_EDICION.prproj`); los renders de prueba van de a uno y en calidad media · pedido en la revisión del piloto.
 

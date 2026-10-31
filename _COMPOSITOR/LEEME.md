@@ -109,6 +109,7 @@ Las tres piezas salen del mismo plan (`pilotos/ads14/plan.json`, copiado de `pla
 - **Títulos:** siempre dos palabras en dos líneas justificadas, nunca tocando la cabeza, con desenfoque detrás. **Si se corta la toma, el gráfico se corta en el mismo cuadro**, sin fundido (`cortar_graficos_con_la_toma`).
 - **Cantidad de gráficos:** la del plan, aunque la wiki recomiende 2 a 4.
 - **Pastilla:** sale por detrás de la cabeza y **entra una sola vez**: si el plan la repite enseguida con el mismo texto, sigue la primera.
+- **B-roll sin movimientos bruscos (regla general):** de cada B-roll va la parte que eligió el plan por el guion, salvo que tenga un movimiento o un cambio de cámara brusco; en ese caso se usa el tramo estable más cercano del mismo clip (`broll_sin_sacudidas` en `velabody.py`, umbral en `config_velabody.json › broll_estable`). Vale también para el armado de Premiere.
 - **B-roll largo:** se corta cada 3–4 s (`partir_broll_largo` en `velabody.py`, con `broll_visual.py`). El plano siguiente sale del mismo archivo: primero el mismo momento en un plano ×1,5 más cerrado, centrado en lo que tiene detalle, y después otra parte del clip que se vea distinta. Los cortes caen al empezar una palabra y nunca a mitad de un gráfico. Usa `zoom`/`foco` del B-roll, igual que el panel de Premiere.
 - **Ritmo:** sin silencios; a cámara 3 s o más o nada; cola final de 1 s.
 - **Nunca un jump cut de la misma toma.** Si dos tramos seguidos de la misma toma quedarían a la vista, `velabody.py` vuelve a armar la pieza conservando la pausa entre ellos (`armar_sin_saltos`), y dos insertos seguidos del mismo clip se unen en un solo plano. La imagen puede quedarse más de 3 s; se mueve con un zoom lento continuo (entra o sale), nunca con un salto de escala.
@@ -162,6 +163,19 @@ El H1 de la segunda revisión quedó aprobado como camino. Sobre esa versión:
 | Pastilla DERMA SCAN | Una sola entrada, de 1573 a 1712, con un solo click. |
 | Pan Left (corte 1292 contra el aprobado) | La toma que sale: −12, −40, −92 contra −12, −40, −92. La que entra: 500, 328, 192, 108, 64, 40, 24, 16 contra 496, 316, 200, 116, 72, 44, 24, 16 (≤ 12 px). |
 | Sonoridad, zona segura y color | −14,0 LUFS, −1,0 dBTP; ningún gráfico afuera; ΔE2000 1,56. |
+
+### Versión final del H1: `ADS14_H1_media_v004_norm.mp4`
+
+Sobre la v003, solo cambia el B-roll con movimientos bruscos. La medida es cuánto se corre la imagen cada 0,1 s, en px a 1080 y multiplicado por el zoom: ~10 es un paneo lento, 50 un barrido y 200 un cambio de plano.
+
+| Plano | v003 | v004 |
+|---|---|---|
+| C3829, plano general (27,8 s) | 143: la cámara pasa a otra escena | 35: otra parte quieta del clip |
+| C3835, reporte (43 s y 46 s) | 132 y 300 | 54 y 81: el clip es un paneo en mano en todo su largo y solo tiene ~1,5 s quietos seguidos, así que va lo menos brusco |
+| C3829, 3D (21–28 s) | 8 y 47 a ×1,5 | 8 y 20: arranca 0,7 s antes, donde la tablet está quieta |
+| C3829 (hook) y C3838 | 50 y 51 | 30 y 31–45 |
+
+El resto queda igual que en la v003: −14,0 LUFS, −1,0 dBTP, ningún gráfico fuera de la zona segura y ΔE2000 1,55.
 
 ## Hallazgos que también afectan al flujo de Premiere
 

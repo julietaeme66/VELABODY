@@ -572,6 +572,47 @@ def ritmo_automatico(rt: dict, aroll: list[dict], broll: list[dict], palabras: l
     return nuevos, saltos
 
 
+def broll_sin_sacudidas(broll: list[dict], medio, notas: list[str], carpeta_cache: pathlib.Path,
+                        plano: float | None = None) -> None:
+    """Regla general (30/10): de cada B-roll se usa la parte que eligió el plan por el guion, pero nunca un
+    tramo con movimientos o cambios de cámara bruscos. Si lo tiene, el B-roll se corre al tramo más cercano
+    del mismo clip sin sacudidas, mejor sin pisar lo que ya muestra otro B-roll de ese clip (si no hay otra
+    forma, se repite antes que sacudirse). Con plano (el B-roll largo se parte después), se busca primero
+    un arranque con los dos primeros planos quietos (el segundo es el plano cerrado que sigue de corrido) y,
+    si no hay, con el primero; los demás los controla partir_broll_largo plano por plano."""
+    sys.path.insert(0, str(AQUI))     # con python -I la carpeta del script no está en sys.path
+    import broll_visual
+    maximo = CONFIG["broll_estable"]["brusco_max"]
+    for b in sorted(broll, key=lambda b: b["t"]):
+        if "pantalla_dividida" in pathlib.Path(b["clip"]).name:
+            continue
+        m = medio(b["clip"])
+        dur = b["out"] - b["in"]
+        usados = [(x["in"], x["out"]) for x in broll if x is not b and x["clip"] == b["clip"]]
+        umbral = maximo / (b.get("zoom") or 1.0)
+        miras = sorted({min(dur, 2 * plano), min(dur, plano)}, reverse=True) if plano else [dur]
+        nuevo, mira = None, miras[-1]
+        for mira_k in miras:
+            for us in (usados, []):
+                s = broll_visual.parte_sin_sacudidas(m["ruta"], b["in"], mira_k, m["duracion"] - (dur - mira_k), umbral,
+                                                     us, carpeta_cache)
+                if broll_visual.brusco(m["ruta"], s, s + mira_k, carpeta_cache) < umbral:
+                    nuevo, mira = s, mira_k
+                    break
+            if nuevo is not None:
+                break
+        if nuevo is None:      # ningún tramo quieto: el menos brusco
+            nuevo = broll_visual.parte_sin_sacudidas(m["ruta"], b["in"], mira, m["duracion"] - (dur - mira), umbral,
+                                                     usados, carpeta_cache)
+        antes = broll_visual.brusco(m["ruta"], b["in"], b["in"] + mira, carpeta_cache)
+        if nuevo != b["in"]:
+            despues = broll_visual.brusco(m["ruta"], nuevo, nuevo + mira, carpeta_cache)
+            aviso = "" if despues < umbral else " ⚠️ el clip no tiene un tramo quieto de ese largo: queda el menos brusco"
+            notas.append(f"- B-roll {b['clip']} en {b['t']:.2f} s: el tramo {b['in']:.1f} s tiene un movimiento brusco "
+                         f"({antes:.0f}); pasa a {nuevo:.1f} s ({despues:.0f}).{aviso}")
+            b["in"], b["out"] = round(nuevo, 3), round(nuevo + dur, 3)
+
+
 def partir_broll_largo(rt: dict, broll: list[dict], palabras: list[dict], graficos: list[dict], transiciones: list[dict],
                        medio, fps: int, notas: list[str], carpeta_cache: pathlib.Path) -> None:
     """B-roll largo (pedido del 30/10): un inserto de más de broll_max_s se corta en planos de ~broll_plano_s.
@@ -579,10 +620,14 @@ def partir_broll_largo(rt: dict, broll: list[dict], palabras: list[dict], grafic
     distinta (broll_visual.otra_parte), o bien el mismo momento en un plano más cerrado (broll_cerrado_zoom,
     centrado en lo que tiene detalle). Se alternan, empezando por el plano cerrado (sigue mostrando lo
     mismo de lo que se habla, p. ej. el 3D bajo el título "CORTE 3D"). Los cortes caen al empezar
-    una palabra, nunca a mitad de un gráfico ni encima de una transición."""
+    una palabra, nunca a mitad de un gráfico ni encima de una transición. Ningún plano nuevo puede tener
+    movimientos de cámara bruscos (broll_estable; el plano cerrado los agranda por su zoom)."""
     sys.path.insert(0, str(AQUI))     # con python -I la carpeta del script no está en sys.path
     import broll_visual
+    brusco_max = CONFIG["broll_estable"]["brusco_max"]
+    quieto = lambda ruta, t0, t1, zoom=1.0: broll_visual.brusco(ruta, t0, t1, carpeta_cache) * zoom < brusco_max
     maximo, plano = rt["broll_max_s"], rt.get("broll_plano_s", 3.5)
+    radio_cerrado = rt.get("broll_cerrado_radio_s", 3.0)    # el plano cerrado sigue mostrando lo mismo
     zoom_cerrado, umbral = rt.get("broll_cerrado_zoom", 1.5), rt.get("broll_distinto", 0.6)
     minimo = rt.get("broll_plano_min_s", 2.0)
     cuadro = lambda v: round(round(v * fps) / fps, 4)
@@ -617,24 +662,61 @@ def partir_broll_largo(rt: dict, broll: list[dict], palabras: list[dict], grafic
         piezas = [prev]
         for k in range(1, len(bordes) - 1):
             d = round(bordes[k + 1] - bordes[k], 3)
-            otra = broll_visual.otra_parte(ruta, d, largo, (prev["in"], prev["out"]), usados[b["clip"]], umbral, carpeta_cache)
+            otra = broll_visual.otra_parte(ruta, d, largo, (prev["in"], prev["out"]), usados[b["clip"]], umbral, carpeta_cache,
+                                           brusco_max / (b.get("zoom") or 1.0))
             sigue = prev["out"] if prev["out"] + d <= largo - 0.05 else None
-            cerrado = prev.get("zoom", 1.0) < zoom_cerrado and sigue is not None
-            quiere_otra = k % 2 == 0 or not cerrado
+            # plano cerrado: el mismo momento más cerca; si lo que sigue se mueve, el arranque quieto más cercano
+            # (el cambio de escala ya lo hace otro plano). Sin pisar otros B-roll de este clip
+            cerrado = None
+            if prev.get("zoom", 1.0) < zoom_cerrado and sigue is not None:
+                otros = [u for u in usados[b["clip"]] if u != (b["in"], b["out"])] + [(x["in"], x["out"]) for x in piezas]
+                cerrado = broll_visual.parte_sin_sacudidas(ruta, sigue, d, largo, brusco_max / zoom_cerrado, otros,
+                                                           carpeta_cache, radio=radio_cerrado)
+                if not quieto(ruta, cerrado, cerrado + d, zoom_cerrado):
+                    cerrado = None
+            quiere_otra = k % 2 == 0 or cerrado is None
             if otra is not None and quiere_otra:
                 pieza = {**b, "in": round(otra, 3), "out": round(otra + d, 3)}
                 como = f"otra parte del clip ({otra:.1f} s)"
-            elif cerrado:
-                fx, fy = broll_visual.foco_cercano(ruta, sigue, sigue + d, zoom_cerrado, carpeta_cache)
-                pieza = {**b, "in": round(sigue, 3), "out": round(sigue + d, 3), "zoom": zoom_cerrado, "foco_x": fx, "foco_y": fy}
-                como = f"plano más cerrado (×{zoom_cerrado}, foco {fx:.2f}/{fy:.2f})"
-            elif sigue is not None and prev.get("zoom", 1.0) != b.get("zoom", 1.0):
+            elif cerrado is not None:
+                fx, fy = broll_visual.foco_cercano(ruta, cerrado, cerrado + d, zoom_cerrado, carpeta_cache)
+                pieza = {**b, "in": round(cerrado, 3), "out": round(cerrado + d, 3), "zoom": zoom_cerrado, "foco_x": fx, "foco_y": fy}
+                como = f"plano más cerrado (×{zoom_cerrado}, foco {fx:.2f}/{fy:.2f}" + ("" if cerrado == sigue else f", desde {cerrado:.1f} s") + ")"
+            elif (sigue is not None and prev.get("zoom", 1.0) != b.get("zoom", 1.0)
+                  and quieto(ruta, sigue, sigue + d, b.get("zoom") or 1.0)):
                 pieza = {**b, "in": round(sigue, 3), "out": round(sigue + d, 3)}
                 como = "vuelve al plano abierto"
             else:
-                prev["out"] = round(prev["out"] + d, 3)       # no hay cómo variar: el plano anterior sigue
-                notas.append(f"- ⚠️ B-roll {b['clip']}: no encuentro otra parte distinta ni un plano cerrado; sigue de corrido.")
-                continue
+                # el clip no tiene nada quieto: gana lo menos brusco entre otra parte distinta, un plano cerrado en
+                # cualquier momento del clip (el cambio de escala ya lo hace otro plano) y seguir de corrido
+                z_b, z_prev = b.get("zoom") or 1.0, prev.get("zoom") or 1.0
+                opciones = []
+                otra = broll_visual.otra_parte(ruta, d, largo, (prev["in"], prev["out"]), usados[b["clip"]], umbral,
+                                               carpeta_cache, brusco_max / z_b, menos_brusco=True)
+                if otra is not None:
+                    opciones.append((broll_visual.brusco(ruta, otra, otra + d, carpeta_cache) * z_b, "otra", otra))
+                if z_prev < zoom_cerrado:
+                    otros = [u for u in usados[b["clip"]] if u != (b["in"], b["out"])] + [(x["in"], x["out"]) for x in piezas]
+                    c = broll_visual.parte_sin_sacudidas(ruta, sigue if sigue is not None else prev["in"], d, largo,
+                                                         brusco_max / zoom_cerrado, otros, carpeta_cache)
+                    if not any(c < u1 and c + d > u0 for u0, u1 in otros):
+                        opciones.append((broll_visual.brusco(ruta, c, c + d, carpeta_cache) * zoom_cerrado, "cerrado", c))
+                if sigue is not None:
+                    opciones.append((broll_visual.brusco(ruta, prev["in"], prev["out"] + d, carpeta_cache) * z_prev, "corrido", None))
+                # a igual sacudida, mejor no cortar
+                valor, tipo, s = min(opciones, key=lambda o: (o[0], o[1] != "corrido")) if opciones else (0, "corrido", None)
+                if tipo == "corrido":
+                    prev["out"] = round(prev["out"] + d, 3)       # no hay cómo variar sin sacudirse más: el plano anterior sigue
+                    notas.append(f"- ⚠️ B-roll {b['clip']}: no encuentro otra parte distinta ni un plano cerrado; sigue de corrido.")
+                    continue
+                if tipo == "otra":
+                    pieza = {**b, "in": round(s, 3), "out": round(s + d, 3)}
+                    como = f"otra parte del clip ({s:.1f} s)"
+                else:
+                    fx, fy = broll_visual.foco_cercano(ruta, s, s + d, zoom_cerrado, carpeta_cache)
+                    pieza = {**b, "in": round(s, 3), "out": round(s + d, 3), "zoom": zoom_cerrado, "foco_x": fx, "foco_y": fy}
+                    como = f"plano más cerrado (×{zoom_cerrado}, foco {fx:.2f}/{fy:.2f}, desde {s:.1f} s)"
+                como += f" ⚠️ lo menos brusco ({valor:.0f}): el clip se mueve en todo su largo"
             pieza["t"] = cuadro(bordes[k])
             usados[b["clip"]].append((pieza["in"], pieza["out"]))
             piezas.append(pieza)
@@ -960,8 +1042,12 @@ def armar_pieza(plan: dict, sufijo: str, conservar: dict | None = None) -> list:
         transiciones.append({"t": round(t, 4), "tipo": "Pan Left"})   # corte hook → body pegado a mano
     if plan.get("ritmo"):
         zooms, saltos = ritmo_automatico(plan["ritmo"], aroll, broll, palabras_tl, zooms, duracion, medio, fps, notas)
-        if plan["ritmo"].get("broll_max_s"):
-            partir_broll_largo(plan["ritmo"], broll, palabras_tl, graficos, transiciones, medio, fps, notas, salida / "_claves")
+    partir = (plan.get("ritmo") or {}).get("broll_max_s")
+    if CONFIG.get("broll_estable") and broll:
+        broll_sin_sacudidas(broll, medio, notas, salida / "_claves",
+                            plan["ritmo"].get("broll_plano_s", 3.5) if partir else None)
+    if partir:
+        partir_broll_largo(plan["ritmo"], broll, palabras_tl, graficos, transiciones, medio, fps, notas, salida / "_claves")
     aroll = aplicar_zooms(aroll, zooms, medio, plan.get("caras", {}), fps)
 
     # ---- subtítulos: bloques de 2-3 palabras, una sola línea
