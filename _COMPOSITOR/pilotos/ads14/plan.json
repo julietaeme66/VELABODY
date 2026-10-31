@@ -13,7 +13,9 @@
     "voz_pad_fin": 0.15,
     "voz_pausa_max": 0.3,
     "umbral_db": -30,
-    "cola_final": 1.0
+    "cola_final": 0.0,
+    "cola_minima": 0.0,
+    "_cola": "30/10: en este video el cierre no necesita cola; termina con la última palabra (~57 s)"
   },
   "ritmo": {
     "_medido": "Video 1 FINAL: planos a cámara de 1,3–2,6 s, zoom lento ±4–9 %/s, saltos de escala ×1,25–1,4",

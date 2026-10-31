@@ -17,6 +17,7 @@ Lo que muestran los [ejemplos aprobados](../04_ejemplos/README.md) (Videos 1 a 4
 ## Reglas para todos los gráficos
 
 - **Siempre en MAYÚSCULAS**: títulos, pastillas y nombres de producto, sin excepción. Los subtítulos no: esos van como se habla.
+- **Los números van en cifras** en los gráficos: "CINCO COSAS" → "5 COSAS / QUE NO SABÍAS". En los subtítulos el número sigue escrito con letras ("cinco"). El builder lo convierte solo (`numeros_en_cifras`; "un", "uno" y "una" no se tocan porque casi siempre son artículos). *(pedido del 30/10, regla general)*
 - **Siempre con margen justificado**, como en los ejemplos: todas las líneas tienen el mismo ancho, y la más larga toca los dos bordes de la guía. La línea corta se agranda (Video 2: "ANÁLISIS / FACIAL").
 - **Siempre dos palabras, en dos líneas** (paquetito). Nunca una palabra sola ("RECOMENDACIÓN" → "RECOMENDACIÓN / CONCRETA", tomando la palabra que sigue en lo que dice) y nunca dos palabras en una sola línea ("ANALIZADOR FACIAL" → "ANALIZADOR / FACIAL", "PROTECTOR / SOLAR", "REPORTE / POR QR"). La palabra más corta se agranda hasta el mismo ancho. *(pedido del 30/10, revisión del ADS14)*
 - **Si se corta la toma, el gráfico se corta en el mismo cuadro**: no queda un segundo, casi invisible, sobre la toma siguiente. *(pedido del 30/10)*

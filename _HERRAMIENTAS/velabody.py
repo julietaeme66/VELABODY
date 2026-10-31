@@ -61,6 +61,33 @@ def normalizar(palabra: str) -> str:
     return re.sub(r"[^a-z0-9ñ]", "", s)
 
 
+# en los gráficos los números van en cifras ("CINCO COSAS" → "5 COSAS"; pedido del 30/10, regla general);
+# en los subtítulos siguen con letras. "Un", "uno" y "una" no se tocan: casi siempre son artículos
+_UNIDADES = ["cero", "", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce",
+             "trece", "catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte"]
+_DECENAS = {"treinta": 30, "cuarenta": 40, "cincuenta": 50, "sesenta": 60, "setenta": 70, "ochenta": 80, "noventa": 90}
+NUMEROS = {**{w: n for n, w in enumerate(_UNIDADES) if w}, **_DECENAS, "cien": 100, "mil": 1000,
+           **{"veinti" + w: 20 + n for n, w in enumerate(_UNIDADES) if 2 <= n <= 9}, "veintiuno": 21, "veintiun": 21}
+_UNO = {"uno", "un", "una"}
+
+
+def numeros_en_cifras(texto: str) -> str:
+    """Los números escritos con letras pasan a cifras, también "treinta y cinco" → "35". Mantiene el resto."""
+    palabras = texto.split()
+    salida, k = [], 0
+    while k < len(palabras):
+        n = NUMEROS.get(normalizar(palabras[k]))
+        u = normalizar(palabras[k + 2]) if k + 2 < len(palabras) else ""
+        u = 1 if u in _UNO else NUMEROS.get(u, 0)
+        if n in _DECENAS.values() and k + 2 < len(palabras) and normalizar(palabras[k + 1]) == "y" and 1 <= u <= 9:
+            salida.append(str(n + u))
+            k += 3
+            continue
+        salida.append(str(n) if n is not None else palabras[k])
+        k += 1
+    return " ".join(salida)
+
+
 def similitud(a: str, b: str) -> float:
     if a == b:
         return 1.0
@@ -996,16 +1023,16 @@ def armar_pieza(plan: dict, sufijo: str, conservar: dict | None = None) -> list:
                 # la pastilla entra y sale una sola vez y se mantiene (pedido del 30/10): si el plan la repite
                 # enseguida con el mismo texto (p. ej. la reutilizada del cierre), sigue la primera
                 prev = next((x for x in reversed(graficos) if x["tipo"] == "pastilla"), None)
-                if prev and prev["texto"] == g["pastilla"].upper() and ini - prev["fin"] <= 1.0:
+                if prev and prev["texto"] == numeros_en_cifras(g["pastilla"]).upper() and ini - prev["fin"] <= 1.0:
                     notas.append(f"- Pastilla {prev['texto']}: la del plan en {ini:.2f} s sigue la anterior (entra una sola vez).")
                     prev["fin"] = max(prev["fin"], fin)
                     continue
-                graficos.append({"tipo": "pastilla", "t": ini, "fin": fin, "texto": g["pastilla"].upper(),
+                graficos.append({"tipo": "pastilla", "t": ini, "fin": fin, "texto": numeros_en_cifras(g["pastilla"]).upper(),
                                  "escala": g.get("escala", cp["escala"]), "pos": g.get("pos", cp["pos"]), "bloque": nb, **extra})
                 continue
             # un gráfico va siempre en dos líneas justificadas (paquetito): ni una línea de varias palabras ni
             # una palabra sola (pedidos del 30/10: "ANALIZADOR / FACIAL", "PROTECTOR / SOLAR", "REPORTE / POR QR")
-            lineas = g["lineas"]
+            lineas = [numeros_en_cifras(x) for x in g["lineas"]]
             if len(lineas) == 1 and len(lineas[0].split()) >= 2:
                 lineas = lineas[0].split(maxsplit=1)
             elif len(lineas) == 1:

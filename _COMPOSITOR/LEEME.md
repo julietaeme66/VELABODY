@@ -187,6 +187,20 @@ En la v004, el plano de C3829 que termina a los 30,9 s tenía un tirón de cáma
 - El plano de los 30,9 s ahora termina quieto.
 - −14,0 LUFS, −1,0 dBTP; ningún gráfico fuera de la zona segura.
 
+### Entrega: H1 en calidad final, H2 y H3 para validar
+
+Con el H1 validado en baja, se sumaron dos cambios:
+- **Los números van en cifras en los gráficos** ("5 COSAS / QUE NO SABÍAS"), y con letras en los subtítulos.
+- **El ADS14 cierra sin cola** (`"cola_final": 0` en el plan): termina con la última palabra, a los ~57 s.
+
+| Pieza | Archivo | Duración | Sonoridad |
+|---|---|---|---|
+| H1, calidad final (1080x1920) | `ADS14_H1_v005_norm.mp4` | 57,1 s | −14,0 LUFS · −1,0 dBTP |
+| H2, baja (540x960) | `ADS14_H2_baja_v001_norm.mp4` | 55,4 s | −14,0 LUFS · −0,9 dBTP |
+| H3, baja (540x960) | `ADS14_H3_baja_v001_norm.mp4` | 56,3 s | −14,0 LUFS · −1,0 dBTP |
+
+En las tres, ningún gráfico queda fuera de la zona segura. El true peak de −0,9 del H2 en baja queda 0,1 dB por encima del objetivo; se vuelve a medir en el render final del H2.
+
 ## Hallazgos que también afectan al flujo de Premiere
 
 1. **`Mouse Click.mp3` arranca con 0,26 s de silencio.** El builder pone el click al inicio del gráfico, así que suena unos 8 cuadros tarde; en el aprobado, Juli lo compensó a mano. El compositor ya lo corrige (`click_silencio_inicial_s`).

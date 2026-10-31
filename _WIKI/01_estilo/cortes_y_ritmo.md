@@ -25,6 +25,7 @@
 **Se deja 1 segundo de la presentadora mirando a cámara** después de la última palabra, para que termine bien la oración y se la vea sonriendo. Con eso basta. *(Juli, 30/10/2026; ajustado el 30/10 en la revisión del ADS14: ~~1 o 2 segundos~~)*
 
 - La toma sigue después de terminar de hablar, sin cortar en la última sílaba.
+- Si el cierre no lo necesita, la cola puede no estar: el plan lo pide con `"corte": {"cola_final": 0}` y el video termina con la última palabra, sin cortarla. *(ADS14, 30/10: "podría terminar en el 0:57 y nos ahorramos 2 segundos")*
 - La música sigue sonando y hace el fade en esos segundos finales.
 
 ## En el builder
